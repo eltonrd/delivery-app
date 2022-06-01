@@ -3,8 +3,8 @@ const { Router } = require('express');
 const { emailMiddleware, passwordMiddleware } = require('../middlewares/login');
 const loginController = require('../controllers/login');
 
-const logintRouter = Router();
+const loginRouter = Router();
 
-logintRouter.post('/', emailMiddleware, passwordMiddleware, loginController.login);
+loginRouter.post('/', emailMiddleware, passwordMiddleware, loginController.login);
 
-module.exports = logintRouter;
+module.exports = loginRouter;
