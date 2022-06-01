@@ -6,7 +6,7 @@ export default function Register() {
       <form>
         Cadastro:
         <label htmlFor="login-input">
-          Nome:
+          Nome
           <input
             type="text"
             name="login"
@@ -15,7 +15,7 @@ export default function Register() {
           />
         </label>
         <label htmlFor="password-input">
-          Email:
+          Email
           <input
             type="text"
             name="password"
@@ -24,7 +24,7 @@ export default function Register() {
           />
         </label>
         <label htmlFor="password-input">
-          Senha:
+          Senha
           <input
             type="password"
             name="password"
