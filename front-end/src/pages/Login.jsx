@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import login from '../utils/mocks/login';
-import RockGlass from '../images/rockGlass.svg'
-// import AppContext from '../context/AppContext';
+import login from '../utils/api/service';
+import RockGlass from '../images/rockGlass.svg';
+import AppContext from '../context/AppContext';
 
 export default function Login() {
-  // const { example, setExample } = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -24,13 +24,26 @@ export default function Login() {
     validateInputs();
   }, [password, email]);
 
+  const handleRole = (role) => {
+    switch(role) {
+      case 'administrator':
+        navigate('/admin/manage');
+      case 'customer':
+        navigate('/customer/products');
+      default:
+        navigate('/seller/orders');
+    }
+  }
+
   const sendLoginInfo = async () => {
     const user = await login(email, password);
 
     if (!user) {
       setIsLoginWrong(true);
     } else {
-      navigate('/register'); // exemplo
+      setUser(user.user);
+      localStorage.setItem('token', user.token);
+      handleRole(user.role)
     }
   };
 

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
-  const [example, setExample] = useState('example');
+  const [user, setUser] = useState({});
 
   const contextValue = {
-    example,
-    setExample,
+    user,
+    setUser
   };
 
   return (
