@@ -1,13 +1,17 @@
 const md5 = require('md5');
 const { User } = require('../database/models');
 
+const { generateToken } = require('../utils/jwt');
+
 const login = async (email, password) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (md5(password) !== user.password) {
       return { message: 'Incorrect email or password' };
     }
-    return user;
+    const { name, email: userEmail, role } = user;
+    const token = generateToken({ name, userEmail, role });
+    return { user: { name, email, role }, token };
   } catch (err) {
     return err;
   }
