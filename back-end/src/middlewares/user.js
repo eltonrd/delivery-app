@@ -1,4 +1,4 @@
-const { emailSchema, passwordSchema } = require('../utils/joiSchemas/loginSchemas');
+const { emailSchema, passwordSchema, nameSchema } = require('../utils/joiSchemas/userSchemas');
 
 const emailMiddleware = (req, res, next) => {
   const { email } = req.body;
@@ -20,4 +20,14 @@ const passwordMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = { emailMiddleware, passwordMiddleware };
+const nameMiddleware = (req, res, next) => {
+  const { name } = req.body;
+  const { error } = nameSchema.validate({ name });
+  if (error) {
+    const [status, message] = error.message.split('/');
+    return res.status(+status).json({ message });
+  }
+  next();
+};
+
+module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware };
