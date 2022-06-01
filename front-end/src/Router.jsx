@@ -20,8 +20,8 @@ export default function Router() {
       <Route path="/customer/checkout" element={ <Checkout /> } />
       <Route path="/customer/orders" element={ <CustomerOrders /> } />
       <Route path="/customer/orders/:id" element={ <CustomerOrderDetail /> } />
-      <Route path="/sellers/orders" element={ <SellerOrders /> } />
-      <Route path="/sellers/orders/:id" element={ <SellerOrderDetail /> } />
+      <Route path="/seller/orders" element={ <SellerOrders /> } />
+      <Route path="/seller/orders/:id" element={ <SellerOrderDetail /> } />
       <Route path="/admin/manage" element={ <AdminManage /> } />
     </Routes>
   );

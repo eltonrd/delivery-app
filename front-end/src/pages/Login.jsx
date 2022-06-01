@@ -15,7 +15,7 @@ export default function Login() {
 
   useEffect(() => {
     const validateInputs = () => {
-      const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/;
+      const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+\.?[a-z]+$/;
       const minPasswordLength = 6;
 
       setIsDisabled(password.length < minPasswordLength || !regex.test(email));
@@ -27,24 +27,21 @@ export default function Login() {
   const handleRole = (role) => {
     switch (role) {
     case 'administrator':
-      navigate('/admin/manage');
-      break;
+      return navigate('/admin/manage');
     case 'customer':
-      navigate('/customer/products');
-      break;
+      return navigate('/customer/products');
     default:
-      navigate('/seller/orders');
+      return navigate('/seller/orders');
     }
   };
 
   const sendLoginInfo = async () => {
-    const user = await login(email, password);
-
+    const { user, token } = await login(email, password);
     if (!user) {
       setIsLoginWrong(true);
     } else {
-      setUser(user.user);
-      localStorage.setItem('token', user.token);
+      setUser(user);
+      localStorage.setItem('token', token);
       handleRole(user.role);
     }
   };
