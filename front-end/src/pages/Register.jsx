@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-export default function register() {
+export default function Register() {
   return (
     <div>
-    <form>
-      Cadastro
+      <form>
+        Cadastro:
         <label htmlFor="login-input">
           Nome:
           <input
@@ -19,29 +19,26 @@ export default function register() {
           <input
             type="text"
             name="password"
-            id="password-input"
+            id="email-input"
             data-testid="common_register__input-email"
           />
         </label>
         <label htmlFor="password-input">
           Senha:
           <input
-            type="text"
+            type="password"
             name="password"
             id="password-input"
             data-testid="common_register__input-password"
           />
         </label>
-        <input
-          type="button"
-          value="Cadastrar"
-          data-testid="common_register__button-register"
-        />
+        <button type="button" data-testid="common_register__button-register">
+          Cadastrar
+        </button>
       </form>
-      <div>
+      <div data-testid="common_register__element-invalid_register">
         Menssagem de error
       </div>
-  </div>
-  )
+    </div>
+  );
 }
-
