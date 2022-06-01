@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import login from '../utils/mocks/login';
 // import AppContext from '../context/AppContext';
 
 export default function Login() {
@@ -6,6 +8,9 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoginWrong, setIsLoginWrong] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const validateInputs = () => {
@@ -17,6 +22,16 @@ export default function Login() {
 
     validateInputs();
   }, [password, email]);
+
+  const sendLoginInfo = async () => {
+    const user = await login(email, password);
+
+    if (!user) {
+      setIsLoginWrong(true);
+    } else {
+      navigate('/register'); // exemplo
+    }
+  };
 
   return (
     <div>
@@ -46,16 +61,26 @@ export default function Login() {
           type="button"
           data-testid="common_login__button-login"
           disabled={ isDisabled }
+          onClick={ sendLoginInfo }
         >
           Login
         </button>
-        <button type="button" data-testid="common_login__button-register">
+        <button
+          type="button"
+          data-testid="common_login__button-register"
+          onClick={ () => navigate('/register') }
+        >
           Não tenho conta
         </button>
       </form>
-      <div data-testid="common_login__element-invalid-email">
-        Email ou senha invalidos!
-      </div>
+      {
+        isLoginWrong
+        && (
+          <div data-testid="common_login__element-invalid-email">
+            Email ou senha invalidos!
+          </div>
+        )
+      }
     </div>
   );
 }
