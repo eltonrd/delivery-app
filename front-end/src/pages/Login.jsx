@@ -26,17 +26,16 @@ export default function Login() {
 
   const handleRole = (role) => {
     switch (role) {
-      case 'administrator':
-        navigate('/admin/manage');
-        break;
-      case 'customer':
-        navigate('/customer/products');
-        break;
-      default:
-        navigate('/seller/orders');
-        break;
+    case 'administrator':
+      navigate('/admin/manage');
+      break;
+    case 'customer':
+      navigate('/customer/products');
+      break;
+    default:
+      navigate('/seller/orders');
     }
-  }
+  };
 
   const sendLoginInfo = async () => {
     const user = await login(email, password);
