@@ -7,7 +7,7 @@ function Provider({ children }) {
 
   const contextValue = {
     user,
-    setUser
+    setUser,
   };
 
   return (

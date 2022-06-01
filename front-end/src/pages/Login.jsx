@@ -25,13 +25,16 @@ export default function Login() {
   }, [password, email]);
 
   const handleRole = (role) => {
-    switch(role) {
+    switch (role) {
       case 'administrator':
         navigate('/admin/manage');
+        break;
       case 'customer':
         navigate('/customer/products');
+        break;
       default:
         navigate('/seller/orders');
+        break;
     }
   }
 
@@ -43,7 +46,7 @@ export default function Login() {
     } else {
       setUser(user.user);
       localStorage.setItem('token', user.token);
-      handleRole(user.role)
+      handleRole(user.role);
     }
   };
 
