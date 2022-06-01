@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import login from '../utils/mocks/login';
+import RockGlass from '../images/rockGlass.svg'
 // import AppContext from '../context/AppContext';
 
 export default function Login() {
@@ -35,10 +36,11 @@ export default function Login() {
 
   return (
     <div>
+      <img alt="logo app delivery" src={ RockGlass } width="100px" />
       <h1>Delivery App</h1>
       <form>
         <label htmlFor="login-input">
-          Login:
+          Login
           <input
             data-testid="common_login__input-email"
             id="login-input"
@@ -48,7 +50,7 @@ export default function Login() {
           />
         </label>
         <label htmlFor="password-input">
-          Senha:
+          Senha
           <input
             data-testid="common_login__input-password"
             id="password-input"
