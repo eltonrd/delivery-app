@@ -1,7 +1,11 @@
 const express = require('express');
 
-const app = express();
+const loginRouter = require('../routes/login');
+const errorMidleware = require('../middlewares/error');
 
-app.get('/coffee', (_req, res) => res.status(418).end());
+const app = express();
+app.use(express.json());
+app.use('/login', loginRouter);
+app.use(errorMidleware);
 
 module.exports = app;
