@@ -20,7 +20,7 @@ export default function Register() {
       setIsDisabled(
         password.length < minPasswordLength
         || !regex.test(email)
-        || name.length < minNameLength
+        || name.length < minNameLength,
       );
     };
 
