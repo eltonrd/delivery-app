@@ -37,7 +37,7 @@ export default function Login() {
 
   const sendLoginInfo = async () => {
     const userInfo = await login(email, password);
-  
+
     if (!userInfo) {
       setIsLoginWrong(true);
     } else {
