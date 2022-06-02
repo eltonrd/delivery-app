@@ -36,10 +36,12 @@ export default function Login() {
   };
 
   const sendLoginInfo = async () => {
-    const { user, token } = await login(email, password);
-    if (!user) {
+    const userInfo = await login(email, password);
+  
+    if (!userInfo) {
       setIsLoginWrong(true);
     } else {
+      const { user, token } = userInfo;
       setUser(user);
       localStorage.setItem('token', token);
       handleRole(user.role);
