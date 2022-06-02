@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function login(email, password) {
+export async function login(email, password) {
   const user = await axios.post(
     'http://localhost:3001/login',
     {
@@ -14,4 +14,17 @@ async function login(email, password) {
   return user;
 }
 
-export default login;
+export async function register(name, email, password) {
+  const isCreated = await axios.post(
+    'http://localhost:3001/register',
+    {
+      name,
+      email,
+      password,
+    },
+  )
+    .then((result) => result)
+    .catch((error) => console.log(error));
+  console.log(isCreated);
+  return !!isCreated;
+}
