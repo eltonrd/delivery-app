@@ -1,4 +1,5 @@
 const { emailSchema, passwordSchema, nameSchema } = require('../utils/joiSchemas/userSchemas');
+const { verifyToken, decodeToken } = require('../utils/jwt');
 
 const emailMiddleware = (req, res, next) => {
   const { email } = req.body;
@@ -30,4 +31,13 @@ const nameMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware };
+const authMiddleware = (req, res, next) => {
+  const { authorization } = req.headers;
+  const verify = verifyToken(authorization);
+  const decode = decodeToken(authorization);
+  if (!verify) return res.status(401).json({ message: 'Invalid token' });
+  if (decode.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
+  next();
+};
+
+module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, authMiddleware };
