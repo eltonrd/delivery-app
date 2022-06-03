@@ -35,15 +35,23 @@ const nameMiddleware = (req, res, next) => {
 const getUser = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { email } = verifyToken(authorization);
-    const user = await getUserByParam(email, 'email');
+    const token = verifyToken(authorization);
+    if (token.message) return res.status(401).json({ message: token.message });
+    const user = await getUserByParam(token.email, 'email');
     if (!user) return res.status(404).json({ message: 'User does not exist' });
     req.body = { ...req.body, userId: user.id };
-    
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid token' });
+    next(err);
   }
 };
 
-module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, getUser };
+const authMiddleware = (req, res, next) => {
+  const { authorization } = req.headers;
+  const verify = verifyToken(authorization);
+  if (verify.message) return res.status(401).json({ message: verify.message });
+  if (verify.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
+  next();
+};
+
+module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, getUser, authMiddleware };

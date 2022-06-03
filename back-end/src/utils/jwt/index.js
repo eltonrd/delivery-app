@@ -6,6 +6,12 @@ const CONFIG = { expiresIn: '1h', algorithm: 'HS256' };
 
 const generateToken = ({ name, email, role }) => jwt.sign({ name, email, role }, SECRET, CONFIG);
 
-const verifyToken = (token) => jwt.verify(token, SECRET);
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, SECRET);
+  } catch (err) {
+    return { message: 'Invalid token' };
+  }
+};
 
 module.exports = { generateToken, verifyToken };
