@@ -14,8 +14,7 @@ const createSale = async (sales, id, transaction) => {
     }, { transaction });
     return sale.id;
   } catch (err) {
-    console.log(err.message);
-    return { message: 'Invalid Token' };
+    return { message: 'Cannot create sale' };
   }
 };
 
