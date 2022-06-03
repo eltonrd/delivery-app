@@ -34,7 +34,18 @@ const getUserOrders = async (req, res, next) => {
   }
 };
 
+const getSellerOrders = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const sellerOrders = await Sale.getSellerSales(email);
+    return res.status(200).json(sellerOrders);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
  createSale,
  getUserOrders,
+ getSellerOrders,
 };
