@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import login from '../utils/api/service';
+import { login } from '../utils/api/service';
 import RockGlass from '../images/rockGlass.svg';
 import AppContext from '../context/AppContext';
 
