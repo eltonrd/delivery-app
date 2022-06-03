@@ -33,8 +33,16 @@ const getSalesById = async (email) => {
   return sales;
 };
 
+const getSellerSales = async (email) => {
+  const seller = await getUserByParam(email, 'email');
+  if (!seller) return { message: 'User does not exist' };
+  const sales = await Sale.findAll({ where: { sellerId: seller.id } });
+  return sales;
+};
+
 module.exports = {
   createSaleProducts,
   createSale,
   getSalesById,
+  getSellerSales,
 };
