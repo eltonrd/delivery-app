@@ -14,10 +14,9 @@ const saleProductsMiddleware = (req, res, next) => {
   const { products } = req.body;
   const joiValidate = products.map((product) => saleProductSchema.validate(product));
 
-  const joiError = joiValidate.find((validation) => !!validation.error)
+  const joiError = joiValidate.find((validation) => !!validation.error);
 
   if (!joiError) {
-   
     return next();
   }
   
