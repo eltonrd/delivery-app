@@ -28,11 +28,13 @@ export default function Register() {
   }, [password, email, name]);
 
   const sendRegisterInfo = async () => {
-    const isCreated = await register(name, email, password);
+    const userInfo = await register(name, email, password);
 
-    if (!isCreated) {
+    if (!userInfo) {
       setIsRegisterWrong(true);
     } else {
+      const { user, token } = userInfo;
+      localStorage.setItem('user', JSON.stringify({ ...user, token }));
       navigate('/customer/products');
     }
   };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/api/service';
 import RockGlass from '../images/rockGlass.svg';
-import AppContext from '../context/AppContext';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -41,8 +40,7 @@ export default function Login() {
       setIsLoginWrong(true);
     } else {
       const { user, token } = userInfo;
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify({ ...user, token }));
       handleRole(user.role);
     }
   };
