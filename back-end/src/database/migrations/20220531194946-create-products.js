@@ -13,12 +13,13 @@ module.exports = {
         allowNull: false,
       },
       price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      url_image: {
+      urlImage: {
         type: Sequelize.STRING,
         allowNull: false,
+        field: 'url_image',
       },
     });
   },
