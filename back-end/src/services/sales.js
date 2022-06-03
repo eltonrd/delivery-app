@@ -26,7 +26,7 @@ const createSaleProducts = async (products, saleId, transaction) => {
     )));
 };
 
-const getSalesById = async (email) => {
+const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: 'User does not exist' };
   const sales = await Sale.findAll({ where: { userId: user.id } });
@@ -43,6 +43,6 @@ const getSellerSales = async (email) => {
 module.exports = {
   createSaleProducts,
   createSale,
-  getSalesById,
+  getUserSales,
   getSellerSales,
 };

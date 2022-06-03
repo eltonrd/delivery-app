@@ -27,7 +27,7 @@ const createSale = async (req, res, next) => {
 const getUserOrders = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const orders = await Sale.getSalesById(email);
+    const orders = await Sale.getUserSales(email);
     return res.status(200).json(orders);
   } catch (err) {
     next(err);
