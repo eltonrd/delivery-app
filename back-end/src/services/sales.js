@@ -1,5 +1,5 @@
 const { Sale } = require('../database/models');
-const { salesProduct } = require('../database/models');
+const { SaleProduct } = require('../database/models');
 
 const createSale = async (sales, id, transaction) => {
   try {
@@ -21,7 +21,7 @@ const createSale = async (sales, id, transaction) => {
 
 const createSaleProducts = async (products, saleId, transaction) => {
   await Promise.all(products
-    .map(({ id, quantity }) => salesProduct.create(
+    .map(({ id, quantity }) => SaleProduct.create(
       { saleId, productId: id, quantity }, { transaction },
     )));
 };
