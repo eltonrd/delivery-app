@@ -1,5 +1,6 @@
 const { Sale } = require('../database/models');
 const { SaleProduct } = require('../database/models');
+const { getUserByParam } = require('./user');
 
 const createSale = async (sales, id, transaction) => {
   try {
@@ -25,7 +26,15 @@ const createSaleProducts = async (products, saleId, transaction) => {
     )));
 };
 
+const getSalesById = async (email) => {
+  const user = await getUserByParam(email, 'email');
+  if (!user) return { message: 'User does not exist' };
+  const sales = await Sale.findAll({ where: { userId: user.id } });
+  return sales;
+};
+
 module.exports = {
   createSaleProducts,
   createSale,
+  getSalesById,
 };
