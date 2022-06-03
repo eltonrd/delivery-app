@@ -33,11 +33,13 @@ const nameMiddleware = (req, res, next) => {
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
-  const verify = verifyToken(authorization);
-  const decode = decodeToken(authorization);
-  if (!verify) return res.status(401).json({ message: 'Invalid token' });
-  if (decode.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
-  next();
+  try {
+    const verify = verifyToken(authorization);
+    if (verify.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
+    next();
+  } catch (_error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
 };
 
 module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, authMiddleware };
