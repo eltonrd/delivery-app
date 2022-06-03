@@ -24,6 +24,17 @@ const createSale = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+const getUserOrders = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const orders = await Sale.getSalesById(email);
+    return res.status(200).json(orders);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
-  createSale,
+ createSale,
+ getUserOrders,
 };
