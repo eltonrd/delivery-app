@@ -1,4 +1,4 @@
-const db = require('../services/admin');
+const db = require('../services/user');
 
 const getAllUsers = async (_req, res, next) => {
   try {
