@@ -33,6 +33,11 @@ const getUserSales = async (email) => {
   return sales;
 };
 
+const getUserSalesById = async (id) => {
+  const sale = await Sale.findOne({ where: { id } });
+  return sale;
+};
+
 const getSellerSales = async (email) => {
   const seller = await getUserByParam(email, 'email');
   if (!seller) return { message: 'User does not exist' };
@@ -44,5 +49,6 @@ module.exports = {
   createSaleProducts,
   createSale,
   getUserSales,
+  getUserSalesById,
   getSellerSales,
 };
