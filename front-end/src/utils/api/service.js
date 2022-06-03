@@ -25,6 +25,12 @@ export async function register(name, email, password) {
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  console.log(isCreated);
   return !!isCreated;
+}
+
+export async function getProducts() {
+  const fetchProducts = await axios.get(
+    'http://localhost:3001/customer/products'
+  ).then((result) => result.data).catch((error) => console.log(error));
+  return fetchProducts;
 }
