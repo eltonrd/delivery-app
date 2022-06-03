@@ -1,5 +1,5 @@
 const { emailSchema, passwordSchema, nameSchema } = require('../utils/joiSchemas/userSchemas');
-const { verifyToken, decodeToken } = require('../utils/jwt');
+const { verifyToken } = require('../utils/jwt');
 
 const emailMiddleware = (req, res, next) => {
   const { email } = req.body;
