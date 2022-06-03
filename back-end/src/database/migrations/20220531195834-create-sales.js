@@ -6,27 +6,44 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      total_price: {
-        type: Sequelize.DECIMAL
+      totalPrice: {
+        type: Sequelize.DECIMAL(10,2),
+        field: 'total_price',
       },
-      delivery_address: {
-        type: Sequelize.STRING
+      deliveryAddress: {
+        type: Sequelize.STRING,
+        field: 'delivery_address',
       },
-      delivery_number: {
-        type: Sequelize.STRING
+      deliveryNumber: {
+        type: Sequelize.STRING,
+        field: 'delivery_number',
       },
-      sale_date: {
-        type: Sequelize.DATE
+      saleDate: {
+        type: Sequelize.DATE,
+        field: 'sale_date',
+        defaultValue: Sequelize.fn('NOW'),
       },
       status: {
         type: Sequelize.STRING
       },
-      user_id: { type: Sequelize.INTEGER, allowNull: false, onUpdate: 'CASCADE', onDelete: 'CASCADE', 
-      references: { model: 'users', key: 'id', }, }, 
-      seller_id: { type: Sequelize.INTEGER, allowNull: false, onUpdate: 'CASCADE', onDelete: 'CASCADE', 
-      references: { model: 'users', key: 'id', }, }, 
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE', 
+        references: { model: 'users', key: 'id', },
+        field: 'user_id',
+      }, 
+      sellerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE', 
+        references: { model: 'users', key: 'id', },
+        field: 'seller_id',
+      }, 
     });
   },
   async down(queryInterface, Sequelize) {

@@ -1,4 +1,5 @@
 const { emailSchema, passwordSchema, nameSchema } = require('../utils/joiSchemas/userSchemas');
+const { getUserByParam } = require('../services/user');
 const { verifyToken } = require('../utils/jwt');
 
 const emailMiddleware = (req, res, next) => {
@@ -31,15 +32,26 @@ const nameMiddleware = (req, res, next) => {
   next();
 };
 
-const authMiddleware = (req, res, next) => {
-  const { authorization } = req.headers;
+const getUser = async (req, res, next) => {
   try {
-    const verify = verifyToken(authorization);
-    if (verify.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
+    const { authorization } = req.headers;
+    const token = verifyToken(authorization);
+    if (token.message) return res.status(401).json({ message: token.message });
+    const user = await getUserByParam(token.email, 'email');
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    req.body = { ...req.body, userId: user.id };
     next();
-  } catch (_error) {
-    return res.status(401).json({ message: 'Invalid token' });
+  } catch (err) {
+    next(err);
   }
 };
 
-module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, authMiddleware };
+const authMiddleware = (req, res, next) => {
+  const { authorization } = req.headers;
+  const verify = verifyToken(authorization);
+  if (verify.message) return res.status(401).json({ message: verify.message });
+  if (verify.role !== 'administrator') return res.status(403).json({ message: 'Access denied' });
+  next();
+};
+
+module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, getUser, authMiddleware };

@@ -10,8 +10,8 @@ const login = async (email, password) => {
     if (md5(password) !== user.password) {
       return { message: 'Incorrect email or password' };
     }
-    const { name, email: userEmail, role } = user;
-    const token = generateToken({ name, userEmail, role });
+    const { name, role } = user;
+    const token = generateToken({ name, email, role });
     return { user: { name, email, role }, token };
   } catch (err) {
     return err;
