@@ -10,10 +10,10 @@ authMiddleware,
 adminController.getAllUsers);
 
 adminRouter.post('/',
+authMiddleware,
 emailMiddleware,
 passwordMiddleware,
 nameMiddleware,
-authMiddleware,
 adminController.register);
 
 adminRouter.delete('/:id',

@@ -5,7 +5,6 @@ const { generateToken } = require('../utils/jwt');
 const getAllUsers = async () => {
   try {
     const allUsers = await User.findAll();
-    if (!allUsers) return false;
     return allUsers;
   } catch (err) {
     return err;
@@ -29,8 +28,7 @@ const register = async (name, email, password, role) => {
 const deleteUser = async (id) => {
   try {
     const deleted = await User.destroy({ where: { id } });
-    if (!deleted) return false;
-    return true;
+    return deleted;
   } catch (err) {
     return err;
   }
