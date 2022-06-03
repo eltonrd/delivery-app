@@ -1,12 +1,12 @@
-const Products = (sequelize, DataTypes) => {
-  const Products = sequelize.define("Product", {
+const Product = (sequelize, DataTypes) => {
+  const Product = sequelize.define("Product", {
     name: DataTypes.STRING,
-    price: DataTypes.DECIMAL,
+    price: DataTypes.DECIMAL(10,2),
     url_image: DataTypes.STRING,
   },{ tableName: 'products', timestamps: false }
   
   );
   
-  return Products;}
+  return Product;}
 
-module.exports = Products;
+module.exports = Product;

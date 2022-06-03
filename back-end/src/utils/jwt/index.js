@@ -8,4 +8,6 @@ const generateToken = ({ name, email, role }) => jwt.sign({ name, email, role },
 
 const verifyToken = (token) => jwt.verify(token, SECRET);
 
-module.exports = { generateToken, verifyToken };
+const decodeToken = (token) => jwt.decode(token);
+
+module.exports = { generateToken, verifyToken, decodeToken };
