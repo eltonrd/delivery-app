@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/api/service';
 import RockGlass from '../images/rockGlass.svg';
 import AppContext from '../context/AppContext';
 
 export default function Login() {
-  const { setUser } = useContext(AppContext);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -42,7 +41,7 @@ export default function Login() {
       setIsLoginWrong(true);
     } else {
       const { user, token } = userInfo;
-      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
       handleRole(user.role);
     }
