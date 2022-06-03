@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       totalPrice: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         field: 'total_price',
       },
       deliveryAddress: {
