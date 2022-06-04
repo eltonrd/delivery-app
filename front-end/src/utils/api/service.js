@@ -28,3 +28,20 @@ export async function register(name, email, password) {
   console.log(isCreated);
   return !!isCreated;
 }
+
+export async function addRegister(user, token) {
+  console.log(token);
+  const isCreated = await axios.post(
+    'http://localhost:3001/admin/manage',
+    {
+      ...user,
+    }, {
+      headers: {
+        Authorization: { token },
+      },
+    },
+  )
+    .then((result) => result)
+    .catch((error) => console.log(error));
+  return !!isCreated;
+}
