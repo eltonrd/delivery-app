@@ -51,10 +51,20 @@ const getSellerSales = async (email) => {
   return sales;
 };
 
+const getSellerSalesById = async (id, email) => {
+  const user = await getUserByParam(email, 'email');
+  if (!user) return { message: USER_NOT_FOUND };
+  const sale = await Sale.findOne({ where: { id } });
+  if (!sale) return { message: 'Order not found' };
+  if (user.id !== sale.sellerId) throw new Error();
+  return sale;
+};
+
 module.exports = {
   createSaleProducts,
   createSale,
   getUserSales,
   getUserSalesById,
   getSellerSales,
+  getSellerSalesById,
 };
