@@ -62,6 +62,13 @@ const getEmailFromToken = (req, res, next) => {
   next();
 };
 
+const validateToken = (req, res, next) => {
+  const { authorization } = req.headers;
+  const token = verifyToken(authorization);
+  if (token.message) return res.status(401).json({ message: token.message });
+  next();
+};
+
 module.exports = {
   emailMiddleware,
   passwordMiddleware,
@@ -69,4 +76,5 @@ module.exports = {
   getUser,
   authMiddleware,
   getEmailFromToken,
+  validateToken,
 };

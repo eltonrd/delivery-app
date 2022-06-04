@@ -68,10 +68,43 @@ const getsellerOrdersById = async (req, res, _next) => {
   }
 };
 
+const startingOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await Sale.startingOrder(id);
+    return res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
+const leavingForDelivery = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await Sale.leavingForDelivery(id);
+    return res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
+const orderDelivered = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await Sale.orderDelivered(id);
+    return res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createSale,
   getUserOrders,
   getUserOrdersById,
   getSellerOrders,
   getsellerOrdersById,
+  startingOrder,
+  leavingForDelivery,
+  orderDelivered,
 };

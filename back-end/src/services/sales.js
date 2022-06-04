@@ -60,6 +60,18 @@ const getSellerSalesById = async (id, email) => {
   return sale;
 };
 
+const startingOrder = async (id) => {
+  await Sale.update({ status: 'Preparando' }, { where: { id } });
+};
+
+const leavingForDelivery = async (id) => {
+  await Sale.update({ status: 'Em Trânsito' }, { where: { id } });
+};
+
+const orderDelivered = async (id) => {
+  await Sale.update({ status: 'Entregue' }, { where: { id } });
+};
+
 module.exports = {
   createSaleProducts,
   createSale,
@@ -67,4 +79,7 @@ module.exports = {
   getUserSalesById,
   getSellerSales,
   getSellerSalesById,
+  startingOrder,
+  leavingForDelivery,
+  orderDelivered,
 };
