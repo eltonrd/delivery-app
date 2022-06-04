@@ -34,6 +34,18 @@ const getUserOrders = async (req, res, next) => {
   }
 };
 
+const getUserOrdersById = async (req, res, _next) => {
+  try {
+    const { id } = req.params;
+    const { email } = req.body;
+    const order = await Sale.getUserSalesById(+id, email);
+    if (order.message) return res.status(404).json({ message: order.message });
+    return res.status(200).json(order);
+  } catch (err) {
+    return res.status(403).json({ message: 'Access denied' });
+  }
+};
+
 const getSellerOrders = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -47,5 +59,6 @@ const getSellerOrders = async (req, res, next) => {
 module.exports = {
  createSale,
  getUserOrders,
+ getUserOrdersById,
  getSellerOrders,
 };
