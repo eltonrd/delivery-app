@@ -7,7 +7,19 @@ export default function ProductCard({ product }) {
   const { cart, setCart } = useContext(CustomerContext);
 
   const addToCart = () => {
-    setCart([{ id, name, price, qty: 1 }]);
+    const item = { id, name, price }
+    if (cart.length === 0) {
+      setCart([{ ...item, qty: 1 }]);
+    } else {
+      const index = cart.findIndex((product) => product.id === id);
+
+      if (index === -1) {
+        setCart([...cart, { ...item, qty: 1 }]);
+      } else {
+        cart[index].qty += 1;
+        setCart([...cart]);
+      }
+    }
   }
 
   const removeFromCart = () => {

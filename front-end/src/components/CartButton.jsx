@@ -4,11 +4,11 @@ import CustomerContext from '../context/CustomerContext';
 
 export default function CartButton() {
   const { cart } = useContext(CustomerContext);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState('0,00');
 
   const getTotalPrice = () => {
-    const price = cart.reduce((acc, cur) => acc + ((cur.price * cur.qty).toFixed(2)), 0);
-    setTotal(price);
+    const price = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
+    setTotal(price.toFixed(2));
   }
 
   useEffect(() => {
