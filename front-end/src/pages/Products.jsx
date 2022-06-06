@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../utils/api/service';
 import { useLocalStorage } from '../utils/localStorage/localStorage';
 import ProductCard from '../components/ProductCard';
-import { useNavigate } from 'react-router-dom';
 
 export default function Products() {
-  const [user, setUser] = useLocalStorage('user', { name: 'Visitante' });
+  const [user] = useLocalStorage('user', { name: 'Visitante' });
   const [products, setProducts] = useState([]);
 
   const navigate = useNavigate();
 
-  useEffect(async () => {
-    const products = await getProducts(); 
+  useEffect(() => {
+    async function fetchData() {
+      const apiProducts = await getProducts();
 
-    if (!products) {
-    } else {
-      setProducts(products);
+      if (Array.isArray(apiProducts)) {
+        setProducts(apiProducts);
+      }
     }
+    fetchData();
   }, []);
 
   const logout = () => {
     localStorage.removeItem('user');
     navigate('/login');
   };
-  
+
   return (
     <div>
       <header>
@@ -36,18 +38,18 @@ export default function Products() {
             </li>
             <li
               data-testid="customer_products__element-navbar-link-orders"
-              onClick={() => navigate('/customer/orders')}
+              onClick={ () => navigate('/customer/orders') }
             >
               Pedidos
             </li>
             <li
               data-testid="customer_products__element-navbar-user-full-name"
             >
-              {user.name}
+              {user.name || 'Visitante'}
             </li>
             <li
               data-testid="customer_products__element-navbar-link-logout"
-              onClick={logout}
+              onClick={ logout }
             >
               Logout
             </li>
@@ -56,7 +58,7 @@ export default function Products() {
       </header>
       <section>
         { products.map((product) => (
-          <ProductCard product={product} key={`${product.name}-${product.id}`} />
+          <ProductCard product={ product } key={ `${product.name}-${product.id}` } />
         )) }
       </section>
     </div>
