@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../utils/api/service';
 import useLocalStorage from '../utils/localStorage/localStorage';
+import CartButton from '../components/CartButton';
 import ProductCard from '../components/ProductCard';
 
 export default function Products() {
@@ -62,6 +63,7 @@ export default function Products() {
           <ProductCard product={ product } key={ `${product.name}-${product.id}` } />
         )) }
       </section>
+      <CartButton />
     </div>
   );
 }
