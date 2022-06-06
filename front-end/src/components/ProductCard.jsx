@@ -52,11 +52,14 @@ export default function ProductCard({ product }) {
       >
         { name }
       </span>
-      <span
-        data-testid={ `customer_products__element-card-price-${id}` }
-      >
-        { `R$ ${price}` }
-      </span>
+      <p>
+        R$
+        <span
+          data-testid={ `customer_products__element-card-price-${id}` }
+        >
+          {`${price}`.replace('.', ',')}
+        </span>
+      </p>
       <button
         data-testid={ `customer_products__button-card-rm-item-${id}` }
         type="button"
@@ -68,7 +71,6 @@ export default function ProductCard({ product }) {
         data-testid={ `customer_products__input-card-quantity-${id}` }
         onChange={ ({ target }) => setQuantity(target.value) }
         placeholder="0"
-        readOnly
         type="number"
         value={ quantity }
       />

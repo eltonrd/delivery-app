@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CustomerContext from '../context/CustomerContext';
 
 export default function CartButton() {
   const { cart } = useContext(CustomerContext);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState('0');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTotalPrice = () => {
@@ -15,11 +18,18 @@ export default function CartButton() {
   }, [cart]);
 
   return (
-    <a
-      href="/customer/checkout"
-      data-testid="customer_products__checkout-bottom-value"
+    <button
+      data-testid="customer_products__button-cart"
+      disabled={ cart.length === 0 }
+      onClick={ () => navigate('/customer/checkout') }
+      type="button"
     >
-      { `Ver Carrinho: R$ ${total === 0 ? '0.00' : total}` }
-    </a>
+      Ver Carrinho: R$
+      <span
+        data-testid="customer_products__checkout-bottom-value"
+      >
+        { total.replace('.', ',') }
+      </span>
+    </button>
   );
 }
