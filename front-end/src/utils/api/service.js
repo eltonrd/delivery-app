@@ -15,7 +15,7 @@ export async function login(email, password) {
 }
 
 export async function register(name, email, password) {
-  const isCreated = await axios.post(
+  const user = await axios.post(
     'http://localhost:3001/register',
     {
       name,
@@ -23,14 +23,16 @@ export async function register(name, email, password) {
       password,
     },
   )
-    .then((result) => result)
+    .then((result) => result.data)
     .catch((error) => console.log(error));
-  return !!isCreated;
+
+  return user;
 }
 
 export async function getProducts() {
   const fetchProducts = await axios.get(
     'http://localhost:3001/customer/products',
   ).then((result) => result.data).catch((error) => console.log(error));
+
   return fetchProducts;
 }
