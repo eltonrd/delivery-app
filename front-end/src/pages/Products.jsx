@@ -36,23 +36,24 @@ export default function Products() {
             >
               Produtos
             </li>
-            <li
+            <a
               data-testid="customer_products__element-navbar-link-orders"
-              onClick={ () => navigate('/customer/orders') }
+              href="/customer/orders"
             >
               Pedidos
-            </li>
+            </a>
             <li
               data-testid="customer_products__element-navbar-user-full-name"
             >
               {user.name || 'Visitante'}
             </li>
-            <li
+            <button
               data-testid="customer_products__element-navbar-link-logout"
               onClick={ logout }
+              type="button"
             >
               Logout
-            </li>
+            </button>
           </ul>
         </nav>
       </header>
