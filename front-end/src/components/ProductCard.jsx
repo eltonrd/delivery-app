@@ -57,7 +57,7 @@ export default function ProductCard({ product }) {
         <span
           data-testid={ `customer_products__element-card-price-${id}` }
         >
-          {`${price}`.replace('.', ',')}
+          { `${price}`.replace('.', ',') }
         </span>
       </p>
       <button

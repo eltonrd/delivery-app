@@ -24,7 +24,7 @@ export default function Products() {
 
   const logout = () => {
     localStorage.removeItem('user');
-    navigate('/login');
+    // navigate('/login');
   };
 
   return (
