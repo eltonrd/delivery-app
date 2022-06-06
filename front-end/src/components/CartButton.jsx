@@ -17,6 +17,7 @@ export default function CartButton() {
   return (
     <a
       href="/customer/checkout"
+      data-testid="customer_products__checkout-bottom-value"
     >
       { `Ver Carrinho: R$ ${total === 0 ? '0.00' : total}` }
     </a>
