@@ -5,20 +5,20 @@ export default function CartButton() {
   const { cart } = useContext(CustomerContext);
   const [total, setTotal] = useState(0);
 
-  const getTotalPrice = () => {
-    const price = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
-    setTotal(price.toFixed(2));
-  };
-
   useEffect(() => {
-    getTotalPrice();
+    const getTotalPrice = () => {
+      const price = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
+      setTotal(price.toFixed(2));
+    };
 
-    if (typeof totalPrice === 'number') {
-      setTotal(totalPrice);
-    }
+    getTotalPrice();
   }, [cart]);
 
   return (
-    <a href="/customer/checkout">{ `Ver Carrinho: R$ ${total === 0 ? '0.00' : total}` }</a>
+    <a
+      href="/customer/checkout"
+    >
+      { `Ver Carrinho: R$ ${total === 0 ? '0.00' : total}` }
+    </a>
   );
 }

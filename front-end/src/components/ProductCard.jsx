@@ -15,15 +15,15 @@ export default function ProductCard({ product }) {
         setCart([{ ...item, qty: quantity }]);
       }
     } else {
-      const index = cart.findIndex((product) => product.id === id);
-
-      if (index === -1) {
+      const index = cart.findIndex((cartProduct) => cartProduct.id === id);
+      const notFound = -1;
+      if (index === notFound) {
         if (quantity > 0) {
-          setCart([ ...cart, { ...item, qty: quantity } ]);
+          setCart([...cart, { ...item, qty: quantity }]);
         }
       } else {
         cart[index].qty = quantity;
-        setCart([ ...cart ]);
+        setCart([...cart]);
       }
     }
   }, [quantity]);
