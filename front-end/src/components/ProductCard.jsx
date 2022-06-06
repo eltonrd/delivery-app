@@ -1,8 +1,19 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
+import CustomerContext from '../context/CustomerContext';
 
 export default function ProductCard({ product }) {
   const { id, name, urlImage, price } = product;
+  const { cart, setCart } = useContext(CustomerContext);
+
+  const addToCart = () => {
+    setCart([{ id, name, price, qty: 1 }]);
+  }
+
+  const removeFromCart = () => {
+    return null;
+  }
+
   return (
     <div>
       <img
@@ -29,11 +40,13 @@ export default function ProductCard({ product }) {
       </button>
       <input
         data-testid={ `customer_products__input-card-quantity-${id}` }
+        placeholder="0"
         type="text"
       />
       <button
         data-testid={ `customer_products__button-card-add-item-${id}` }
         type="button"
+        onClick={ addToCart }
       >
         +
       </button>
