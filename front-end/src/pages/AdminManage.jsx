@@ -7,12 +7,31 @@ export default function AdminManage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('customer');
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isRegisterWrong, setIsRegisterWrong] = useState(false);
+
+  useEffect(() => {
+    const validateInputs = () => {
+      const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+\.?[a-z]+$/;
+      const minPasswordLength = 6;
+      const minNameLength = 12;
+
+      setIsDisabled(
+        password.length < minPasswordLength
+        || !regex.test(email)
+        || name.length < minNameLength,
+      );
+    };
+
+    validateInputs();
+  }, [password, email, name]);
 
   const registerUser = async (nameU, emailU, passwordU, roleU) => {
     const t = localStorage.getItem('token');
     const user = { nameU, emailU, passwordU, roleU };
-    await addRegister(user, t);
+    const response = await addRegister(user, t);
+    setIsRegisterWrong( !!response );
   };
 
   return (
@@ -65,11 +84,20 @@ export default function AdminManage() {
         <button
           data-testid="admin_manage__button-register"
           type="button"
+          disabled={ isDisabled }
           onClick={ () => registerUser(name, email, password, role) }
         >
           CADASTRAR
         </button>
       </form>
+      {
+        isRegisterWrong
+        && (
+          <div data-testid="admin_manage__element-invalid-register">
+            Usuário já cadastrado!
+          </div>
+        )
+      }
       {/* <UserList /> */}
     </div>
   );
