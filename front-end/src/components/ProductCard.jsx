@@ -1,40 +1,43 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomerContext from '../context/CustomerContext';
 
 export default function ProductCard({ product }) {
   const { id, name, urlImage, price } = product;
   const { cart, setCart } = useContext(CustomerContext);
+  const [quantity, setQuantity] = useState(0);
 
-  const addToCart = () => {
-    const item = { id, name, price }
+  useEffect(() => {
+    const item = { id, name, price };
+
     if (cart.length === 0) {
-      setCart([{ ...item, qty: 1 }]);
+      if (quantity > 0) {
+        setCart([{ ...item, qty: quantity }]);
+      }
     } else {
       const index = cart.findIndex((product) => product.id === id);
 
       if (index === -1) {
-        setCart([...cart, { ...item, qty: 1 }]);
+        if (quantity > 0) {
+          setCart([ ...cart, { ...item, qty: quantity } ]);
+        }
       } else {
-        cart[index].qty += 1;
-        setCart([...cart]);
+        cart[index].qty = quantity;
+        setCart([ ...cart ]);
       }
     }
-  }
+  }, [quantity]);
+
+  const addToCart = () => {
+    setQuantity(quantity + 1);
+  };
 
   const removeFromCart = () => {
-    const item = { id, name, price }
-    if (cart.length > 0) {
-      const index = cart.findIndex((product) => product.id === id);
-      if (index !== -1) {
-        cart[index].qty -= 1;
-        if (cart[index].qty === 0) {
-          cart.splice(index, 1);
-        }
-        setCart([...cart]);
+    const newQuantity = quantity - 1;
+    if (newQuantity >= 0) {
+      setQuantity(newQuantity);
     }
-  } 
-}
+  };
 
   return (
     <div>
@@ -63,8 +66,11 @@ export default function ProductCard({ product }) {
       </button>
       <input
         data-testid={ `customer_products__input-card-quantity-${id}` }
+        onChange={ ({ target }) => setQuantity(target.value) }
         placeholder="0"
-        type="text"
+        readOnly
+        type="number"
+        value={ quantity }
       />
       <button
         data-testid={ `customer_products__button-card-add-item-${id}` }
