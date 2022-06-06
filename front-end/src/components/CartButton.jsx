@@ -1,18 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import useLocalStorage from '../utils/localStorage/localStorage';
 import CustomerContext from '../context/CustomerContext';
 
 export default function CartButton() {
   const { cart } = useContext(CustomerContext);
-  const [total, setTotal] = useState('0,00');
+  const [total, setTotal] = useState(0);
 
   const getTotalPrice = () => {
     const price = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
     setTotal(price.toFixed(2));
-  }
+  };
 
   useEffect(() => {
-    const totalPrice = getTotalPrice();
+    getTotalPrice();
 
     if (typeof totalPrice === 'number') {
       setTotal(totalPrice);
@@ -20,6 +19,6 @@ export default function CartButton() {
   }, [cart]);
 
   return (
-    <a href="/customer/checkout">{ `Ver Carrinho: R$ ${total === 0? '0.00' : total}` }</a>
+    <a href="/customer/checkout">{ `Ver Carrinho: R$ ${total === 0 ? '0.00' : total}` }</a>
   );
 }
