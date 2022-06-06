@@ -23,8 +23,18 @@ export default function ProductCard({ product }) {
   }
 
   const removeFromCart = () => {
-    return null;
-  }
+    const item = { id, name, price }
+    if (cart.length > 0) {
+      const index = cart.findIndex((product) => product.id === id);
+      if (index !== -1) {
+        cart[index].qty -= 1;
+        if (cart[index].qty === 0) {
+          cart.splice(index, 1);
+        }
+        setCart([...cart]);
+    }
+  } 
+}
 
   return (
     <div>
@@ -47,6 +57,7 @@ export default function ProductCard({ product }) {
       <button
         data-testid={ `customer_products__button-card-rm-item-${id}` }
         type="button"
+        onClick={ removeFromCart }
       >
         -
       </button>
