@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../utils/api/service';
 import useLocalStorage from '../utils/localStorage/localStorage';
 import CartButton from '../components/CartButton';
