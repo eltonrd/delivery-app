@@ -51,7 +51,7 @@ export default function Login() {
   return (
     <div>
       <img alt="logo app delivery" src={ RockGlass } width="100px" />
-      <h1>Delivery App6</h1>
+      <h1>Delivery App</h1>
       <form>
         <label htmlFor="login-input">
           Login
