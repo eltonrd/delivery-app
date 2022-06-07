@@ -30,7 +30,7 @@ export default function AdminManage() {
   const registerUser = async () => {
     const t = localStorage.getItem('token');
     const user = { name, email, password, role };
-    const response = await addRegister(user, t);
+    const response = await adminRegister(user, t);
     setIsRegisterWrong(response);
   };
 
