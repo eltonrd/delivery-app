@@ -3,12 +3,12 @@ import { getAllUsers } from '../utils/api/service';
 
 export default function UserList() {
   const [users, setUsers] = useState();
-  const tokenAdmin = localStorage.getItem('token')
+  const tokenAdmin = localStorage.getItem('token');
 
   useEffect(() => {
     const getUsers = async () => {
-    const users = await getAllUsers(token);
-    setUsers(users);
+      const apiUsers = await getAllUsers(token);
+      setUsers(apiUsers);
     };
     getUsers();
   }, [tokenAdmin]);
