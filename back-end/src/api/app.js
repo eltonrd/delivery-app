@@ -19,6 +19,7 @@ app.use('/admin/manage', adminRouter);
 app.use('/sales', salesRouter);
 app.use('/customer/orders', orderRouter);
 app.use('/seller/orders', sellerOrderRouter);
+app.use(express.static('public'));
 app.use(errorMidleware);
 
 module.exports = app;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../utils/api/service';
+import { setLocalStorageUser } from '../utils/localStorage/localStorage';
 
 export default function Register() {
   const [password, setPassword] = useState('');
@@ -28,11 +29,13 @@ export default function Register() {
   }, [password, email, name]);
 
   const sendRegisterInfo = async () => {
-    const isCreated = await register(name, email, password);
+    const userInfo = await register(name, email, password);
 
-    if (!isCreated) {
+    if (!userInfo) {
       setIsRegisterWrong(true);
     } else {
+      const { user, token } = userInfo;
+      setLocalStorageUser({ ...user, token });
       navigate('/customer/products');
     }
   };
