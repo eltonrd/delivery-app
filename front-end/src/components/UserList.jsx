@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getAllUsers } from '../utils/api/service';
 
 export default function UserList() {
-  const [load, setLoad] = useState(false);
-  const tokenAdmin = localStorage.getItem('token');
-  const getUsers = async (token) => {
-    const users = await getAllUsers(token);
-    setLoad(true);
-    return users;
-  };
+  const [users, setUsers] = useState();
+  const tokenAdmin = localStorage.getItem('token')
 
   useEffect(() => {
-    getUsers(tokenAdmin);
+    const getUsers = async () => {
+    const users = await getAllUsers(token);
+    setUsers(users);
+    };
+    getUsers();
   }, [tokenAdmin]);
 
   // const mockUsers = [
@@ -30,7 +29,7 @@ export default function UserList() {
   //   },
   // ];
   return (
-    load === 'true' ? (
+    users !== undefined ? (
       <table>
         <tr>
           <th>Item</th>
