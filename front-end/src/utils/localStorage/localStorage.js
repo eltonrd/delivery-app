@@ -1,19 +1,31 @@
-import { useState, useEffect } from 'react';
+function localStorageUser() {
+  const user = JSON.parse(localStorage.getItem('user'));
 
-function getStorageValue(key, defaultValue) {
-  const saved = localStorage.getItem(key);
-  const initial = JSON.parse(saved);
-  return initial || defaultValue;
+  return user;
 }
 
-const useLocalStorage = (key, defaultValue) => {
-  const [value, setValue] = useState(() => getStorageValue(key, defaultValue));
+function setLocalStorageUser(user) {
+  localStorage.setItem('user', JSON.stringify(user));
+}
 
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
+function localStorageCart() {
+  const cart = JSON.parse(localStorage.getItem('carrinho'));
 
-  return [value, setValue];
+  return cart;
+}
+
+function setLocalStorageCart(cart) {
+  localStorage.setItem('carrinho', JSON.stringify(cart));
+}
+
+function removeFromLocalStorage(key) {
+  localStorage.removeItem(key);
+}
+
+module.exports = {
+  localStorageUser,
+  setLocalStorageUser,
+  localStorageCart,
+  setLocalStorageCart,
+  removeFromLocalStorage,
 };
-
-export default useLocalStorage;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../utils/api/service';
-import useLocalStorage from '../utils/localStorage/localStorage';
+import {
+  localStorageUser,
+  removeFromLocalStorage,
+} from '../utils/localStorage/localStorage';
 import CartButton from '../components/CartButton';
 import ProductCard from '../components/ProductCard';
 
 export default function Products() {
-  const [user] = useLocalStorage('user', { name: 'Visitante' });
   const [products, setProducts] = useState([]);
 
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function Products() {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem('user');
+    removeFromLocalStorage('user');
     navigate('/login');
   };
 
@@ -31,32 +33,33 @@ export default function Products() {
     <div>
       <header>
         <nav>
-          <ul>
-            <li
-              data-testid="customer_products__element-navbar-link-products"
-            >
-              Produtos
-            </li>
-            <a
-              data-testid="customer_products__element-navbar-link-orders"
-              href="/customer/orders"
-            >
-              Pedidos
-            </a>
-            <li
-              data-testid="customer_products__element-navbar-user-full-name"
-            >
-              {user.name || 'Visitante'}
-            </li>
-            <button
-              data-testid="customer_products__element-navbar-link-logout"
-              onClick={ logout }
-              type="button"
-            >
-              Logout
-            </button>
-          </ul>
+          <a
+            data-testid="customer_products__element-navbar-link-products"
+            href="/customer/products"
+          >
+            Produtos
+          </a>
+          <a
+            data-testid="customer_products__element-navbar-link-orders"
+            href="/customer/orders"
+          >
+            Pedidos
+          </a>
         </nav>
+        <div>
+          <h1
+            data-testid="customer_products__element-navbar-user-full-name"
+          >
+            { localStorageUser().name }
+          </h1>
+          <button
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ logout }
+            type="button"
+          >
+            Sair
+          </button>
+        </div>
       </header>
       <section>
         { products.map((product) => (
