@@ -5,12 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './App';
 import Provider from './context/Provider';
+import CustomerProvider from './context/CustomerProvider';
 
 ReactDOM.render(
   <Provider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CustomerProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </CustomerProvider>
   </Provider>,
   document.getElementById('root'),
 );

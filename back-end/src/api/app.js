@@ -16,6 +16,7 @@ app.use('/register', registerRouter);
 app.use('/customer/products', productsRouter);
 app.use('/admin/manage', adminRouter);
 app.use('/sales', salesRouter);
+app.use(express.static('public'));
 app.use(errorMidleware);
 
 module.exports = app;
