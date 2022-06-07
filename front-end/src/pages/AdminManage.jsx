@@ -85,7 +85,7 @@ export default function AdminManage() {
           data-testid="admin_manage__button-register"
           type="button"
           disabled={ isDisabled }
-          onClick={ () => registerUser() }
+          onClick={ registerUser }
         >
           CADASTRAR
         </button>
