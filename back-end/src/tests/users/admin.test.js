@@ -18,7 +18,6 @@ describe('Test GET /admin/manage endpoint', () => {
     after(() => (User.findAll).restore());
     it('Should return status 200 and an array with all users on database', async () => {
       res = await chai.request(app).get(ADMIN_ROUTE).set({ authorization: token });
-      console.log(res.error);
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an('array').to.have.length(5);
       expect(res.body).to.not.have.own.property('password');

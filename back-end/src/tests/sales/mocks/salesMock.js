@@ -8,7 +8,7 @@ const createdSale = {
 	]
 };
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQ2xpZW50ZSBaw6kgQmlyaXRhIiwiZW1haWwiOiJ6ZWJpcml0YUBlbWFpbC5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2NTQ1Njc3MTAsImV4cCI6MTY1NDY1NDExMH0.NAuNHnC61jhAVDV1JCZ76AW5UsbnSKlWFegBjbCvl6c';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRnVsYW5hIFBlcmVpcmEiLCJlbWFpbCI6ImZ1bGFuYUBkZWxpdmVyeWFwcC5jb20iLCJyb2xlIjoic2VsbGVyIiwiaWF0IjoxNjU0NjQyNTc1LCJleHAiOjE2NjM0MjY1NzV9.udeFrYVoYA0lyc4CaogAhgSWOjtSuM3ObQ3oavpPli4';
 
 const validSale = {
 	"totalPrice": 89.07,
