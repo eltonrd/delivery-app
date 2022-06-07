@@ -1,7 +1,11 @@
 import React from 'react';
+import NavBar from '../components/NavBar';
 
 export default function Checkout() {
   return (
-    <div>Checkout</div>
+    <div>
+      <NavBar />
+      <h1>Checkout</h1>
+    </div>
   );
 }
