@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import CustomerContext from '../context/CustomerContext';
+import { setLocalStorageCart } from '../utils/localStorage/localStorage';
 
 export default function ProductCard({ product }) {
   const { id, name, urlImage, price } = product;
@@ -20,10 +21,12 @@ export default function ProductCard({ product }) {
       if (index === notFound) {
         if (quantity > 0) {
           setCart([...cart, { ...item, qty: quantity }]);
+          setLocalStorageCart([...cart, { ...item, qty: quantity }]);
         }
       } else {
         cart[index].qty = quantity;
         setCart([...cart]);
+        setLocalStorageCart([...cart]);
       }
     }
   }, [quantity]);

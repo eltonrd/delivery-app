@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CustomerContext from './CustomerContext';
-import { localStorageCart, setLocalStorageCart } from '../utils/localStorage/localStorage';
+import {
+  localStorageCart,
+} from '../utils/localStorage/localStorage';
 
 function CustomerProvider({ children }) {
   const [cart, setCart] = useState([]);
@@ -14,12 +16,10 @@ function CustomerProvider({ children }) {
   useEffect(() => {
     const localCart = localStorageCart();
 
-    if (cart.length === 0 && localCart.length !== 0) {
+    if (localCart !== null) {
       setCart(localCart);
-    } else {
-      setLocalStorageCart(cart);
     }
-  }, [cart]);
+  }, []);
 
   return (
     <CustomerContext.Provider value={ contextValue }>
