@@ -11,22 +11,29 @@ export default function ProductCard({ product }) {
   useEffect(() => {
     const item = { id, name, price };
 
+    const handleCartChange = (newCart) => {
+      setCart(newCart);
+      setLocalStorageCart(newCart);
+    };
+
     if (cart.length === 0) {
       if (quantity > 0) {
-        setCart([{ ...item, qty: quantity }]);
+        handleCartChange([{ ...item, qty: quantity }]);
       }
     } else {
       const index = cart.findIndex((cartProduct) => cartProduct.id === id);
       const notFound = -1;
       if (index === notFound) {
         if (quantity > 0) {
-          setCart([...cart, { ...item, qty: quantity }]);
-          setLocalStorageCart([...cart, { ...item, qty: quantity }]);
+          handleCartChange([...cart, { ...item, qty: quantity }]);
         }
+      } else if (quantity > 0) {
+        const newCart = [...cart];
+        newCart[index].qty = quantity;
+        handleCartChange(newCart);
       } else {
-        cart[index].qty = quantity;
-        setCart([...cart]);
-        setLocalStorageCart([...cart]);
+        const newCart = cart.filter((_value, i) => i !== index);
+        handleCartChange(newCart);
       }
     }
   }, [quantity]);
