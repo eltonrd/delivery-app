@@ -61,15 +61,18 @@ const getSellerSalesById = async (id, email) => {
 };
 
 const startingOrder = async (id) => {
-  await Sale.update({ status: 'Preparando' }, { where: { id } });
+  const order = await Sale.update({ status: 'Preparando' }, { where: { id } });
+  return order;
 };
 
 const leavingForDelivery = async (id) => {
-  await Sale.update({ status: 'Em Trânsito' }, { where: { id } });
+  const order = await Sale.update({ status: 'Em Trânsito' }, { where: { id } });
+  return order;
 };
 
 const orderDelivered = async (id) => {
-  await Sale.update({ status: 'Entregue' }, { where: { id } });
+  const order = await Sale.update({ status: 'Entregue' }, { where: { id } });
+  return order;
 };
 
 module.exports = {

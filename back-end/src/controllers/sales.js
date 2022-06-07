@@ -1,6 +1,8 @@
 const { sequelize } = require('../database/models');
 const Sale = require('../services/sales');
 
+const ORDER_NOT_FOUND = 'Order not found';
+
 const createSale = async (req, res, next) => {
   try {
     const {
@@ -28,6 +30,7 @@ const getUserOrders = async (req, res, next) => {
   try {
     const { email } = req.body;
     const orders = await Sale.getUserSales(email);
+    if (orders.message) return res.status(404).json({ message: orders.message });
     return res.status(200).json(orders);
   } catch (err) {
     next(err);
@@ -50,6 +53,7 @@ const getSellerOrders = async (req, res, next) => {
   try {
     const { email } = req.body;
     const sellerOrders = await Sale.getSellerSales(email);
+    if (sellerOrders.message) return res.status(404).json({ message: sellerOrders.message });
     return res.status(200).json(sellerOrders);
   } catch (err) {
     next(err);
@@ -71,7 +75,8 @@ const getsellerOrdersById = async (req, res, _next) => {
 const startingOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.startingOrder(id);
+    const orderId = await Sale.startingOrder(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
@@ -81,7 +86,8 @@ const startingOrder = async (req, res, next) => {
 const leavingForDelivery = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.leavingForDelivery(id);
+    const orderId = await Sale.leavingForDelivery(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
@@ -91,7 +97,8 @@ const leavingForDelivery = async (req, res, next) => {
 const orderDelivered = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.orderDelivered(id);
+    const orderId = await Sale.orderDelivered(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
