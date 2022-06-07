@@ -4,7 +4,14 @@ const sinon = require('sinon');
 
 const { User, Sale, SaleProduct } = require('../../database/models');
 const app = require('../../api/app');
-const { createdSale, validSale, token } = require('./mocks/salesMock');
+const {
+  createdSale,
+  validSale,
+  token,
+  saleWithoutTotalPrice,
+  saleWithoutProducts,
+  saleWithouProductsProperties,
+} = require('./mocks/salesMock');
 const { userDbResponse } = require('../users/mocks/loginMocks');
 
 chai.use(chaiHttp);
@@ -56,6 +63,41 @@ describe('Test POST /sales endpoint', () => {
         expect(res.status).to.be.equal(404);
         expect(res.body).to.be.an('object').to.have.own.property('message');
         expect(res.body.message).to.be.equal('User does not exist');
+      });
+    });
+
+    describe('Send an invalid sale request missing totalPrice field', () => {
+      before(async () => { sinon.stub(User, 'findOne').resolves(userDbResponse) });
+      after(() => (User.findOne).restore());
+
+      it('Should return http status 400 and an object with message property', async () => {
+        res = await chai.request(app).post(SALES_ROUTE)
+          .send(saleWithoutTotalPrice).set({ authorization: token });
+        expect(res.status).to.be.equal(400);
+        expect(res.body).to.be.an('object').to.have.own.property('message');
+        expect(res.body.message).to.be.equal('totalPrice must be filled');
+      });
+    });
+
+    describe('Send an invalid sale request missing products field', () => {
+      before(async () => { sinon.stub(User, 'findOne').resolves(userDbResponse) });
+      after(() => (User.findOne).restore());
+
+      it('Should return http status 400 and an object with message property', async () => {
+        res = await chai.request(app).post(SALES_ROUTE)
+          .send(saleWithoutProducts).set({ authorization: token });
+        expect(res.status).to.be.equal(400);
+        expect(res.body).to.be.an('object').to.have.own.property('message');
+        expect(res.body.message).to.be.equal('product must be in an array');
+      });
+
+      it('Should return http status 400 because products object is missing properties',
+        async() => {
+          res = await chai.request(app).post(SALES_ROUTE)
+            .send(saleWithouProductsProperties).set({ authorization: token });
+          expect(res.status).to.be.equal(400);
+          expect(res.body).to.be.an('object').to.have.own.property('message');
+          expect(res.body.message).to.be.equal('product id must be filled');
       });
     });
   });
