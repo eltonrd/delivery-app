@@ -39,6 +39,10 @@ export default function ProductCard({ product }) {
     }
   };
 
+  const handleQuantity = ({ target: { value } }) => {
+    setQuantity(value);
+  };
+
   return (
     <div>
       <img
@@ -69,7 +73,7 @@ export default function ProductCard({ product }) {
       </button>
       <input
         data-testid={ `customer_products__input-card-quantity-${id}` }
-        onChange={ ({ target }) => setQuantity(target.value) }
+        onChange={ handleQuantity }
         placeholder="0"
         type="number"
         value={ quantity }
