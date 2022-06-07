@@ -13,21 +13,6 @@ export default function UserList() {
     getUsers();
   }, [tokenAdmin]);
 
-  // const mockUsers = [
-  //   {
-  //     id: 1,
-  //     name: 'Delivery App Admin',
-  //     email: 'adm@deliveryapp.com',
-  //     passaword: 'a4c86edecc5aee06eff8fdeda69e0d04',
-  //     role: 'administrator',
-  //   }, {
-  //     id: 2,
-  //     name: 'Fulana Pereira',
-  //     email: 'afulana@deliveryapp.com',
-  //     passaword: '3c28d2b0881bf46457a853e0b07531c6',
-  //     role: 'seller',
-  //   },
-  // ];
   return (
     users !== undefined ? (
       <table>
