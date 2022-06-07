@@ -1,5 +1,8 @@
 const { Sale } = require('../database/models');
 const { SaleProduct } = require('../database/models');
+const { getUserByParam } = require('./user');
+
+const USER_NOT_FOUND = 'User does not exist';
 
 const createSale = async (sales, id, transaction) => {
   try {
@@ -25,7 +28,58 @@ const createSaleProducts = async (products, saleId, transaction) => {
     )));
 };
 
+const getUserSales = async (email) => {
+  const user = await getUserByParam(email, 'email');
+  if (!user) return { message: USER_NOT_FOUND };
+  const sales = await Sale.findAll({ where: { userId: user.id } });
+  return sales;
+};
+
+const getUserSalesById = async (id, email) => {
+  const user = await getUserByParam(email, 'email');
+  if (!user) return { message: USER_NOT_FOUND };
+  const sale = await Sale.findOne({ where: { id } });
+  if (!sale) return { message: 'Order not found' };
+  if (user.id !== sale.userId) throw new Error();
+  return sale;
+};
+
+const getSellerSales = async (email) => {
+  const seller = await getUserByParam(email, 'email');
+  if (!seller) return { message: USER_NOT_FOUND };
+  const sales = await Sale.findAll({ where: { sellerId: seller.id } });
+  return sales;
+};
+
+const getSellerSalesById = async (id, email) => {
+  const user = await getUserByParam(email, 'email');
+  if (!user) return { message: USER_NOT_FOUND };
+  const sale = await Sale.findOne({ where: { id } });
+  if (!sale) return { message: 'Order not found' };
+  if (user.id !== sale.sellerId) throw new Error();
+  return sale;
+};
+
+const startingOrder = async (id) => {
+  await Sale.update({ status: 'Preparando' }, { where: { id } });
+};
+
+const leavingForDelivery = async (id) => {
+  await Sale.update({ status: 'Em Trânsito' }, { where: { id } });
+};
+
+const orderDelivered = async (id) => {
+  await Sale.update({ status: 'Entregue' }, { where: { id } });
+};
+
 module.exports = {
   createSaleProducts,
   createSale,
+  getUserSales,
+  getUserSalesById,
+  getSellerSales,
+  getSellerSalesById,
+  startingOrder,
+  leavingForDelivery,
+  orderDelivered,
 };

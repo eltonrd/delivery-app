@@ -54,4 +54,27 @@ const authMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = { emailMiddleware, passwordMiddleware, nameMiddleware, getUser, authMiddleware };
+const getEmailFromToken = (req, res, next) => {
+  const { authorization } = req.headers;
+  const token = verifyToken(authorization);
+  if (token.message) return res.status(401).json({ message: token.message });
+  req.body = { email: token.email };
+  next();
+};
+
+const validateToken = (req, res, next) => {
+  const { authorization } = req.headers;
+  const token = verifyToken(authorization);
+  if (token.message) return res.status(401).json({ message: token.message });
+  next();
+};
+
+module.exports = {
+  emailMiddleware,
+  passwordMiddleware,
+  nameMiddleware,
+  getUser,
+  authMiddleware,
+  getEmailFromToken,
+  validateToken,
+};
