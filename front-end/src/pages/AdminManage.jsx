@@ -27,11 +27,11 @@ export default function AdminManage() {
     validateInputs();
   }, [password, email, name]);
 
-  const registerUser = async (nameU, emailU, passwordU, roleU) => {
+  const registerUser = async () => {
     const t = localStorage.getItem('token');
-    const user = { nameU, emailU, passwordU, roleU };
+    const user = { name, email, password, role };
     const response = await addRegister(user, t);
-    setIsRegisterWrong(!!response);
+    setIsRegisterWrong(response);
   };
 
   return (
@@ -85,7 +85,7 @@ export default function AdminManage() {
           data-testid="admin_manage__button-register"
           type="button"
           disabled={ isDisabled }
-          onClick={ () => registerUser(name, email, password, role) }
+          onClick={ () => registerUser() }
         >
           CADASTRAR
         </button>

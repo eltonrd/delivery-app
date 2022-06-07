@@ -30,20 +30,22 @@ export async function register(name, email, password) {
 }
 
 export async function addRegister(user, token) {
-  console.log(token);
+  console.log(token, user.email);
+  const headers = {
+    'Content-Type': 'application/json',
+    authorization: token,
+  };
   const isCreated = await axios.post(
     'http://localhost:3001/admin/manage',
     {
       ...user,
     }, {
-      headers: {
-        Authorization: { token },
-      },
+      headers,
     },
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  return !!isCreated;
+  return !isCreated;
 }
 
 export async function getAllUsers(token) {
