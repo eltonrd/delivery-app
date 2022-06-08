@@ -19,6 +19,6 @@ sellerOrderRouter.get('/', getEmailFromToken, getSellerOrders);
 sellerOrderRouter.get('/:id', getEmailFromToken, getsellerOrdersById);
 sellerOrderRouter.patch('/start/:id', validateToken, startingOrder);
 sellerOrderRouter.patch('/leave/:id', validateToken, leavingForDelivery);
-sellerOrderRouter.patch('/delevired/:id', validateToken, orderDelivered);
+sellerOrderRouter.patch('/delivered/:id', validateToken, orderDelivered);
 
 module.exports = { orderRouter, sellerOrderRouter };

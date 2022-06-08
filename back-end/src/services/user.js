@@ -23,7 +23,7 @@ const register = async (name, email, password, role = 'customer') => {
 
 const getAllUsers = async () => {
   try {
-    const allUsers = await User.findAll();
+    const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
     return allUsers;
   } catch (err) {
     return err;

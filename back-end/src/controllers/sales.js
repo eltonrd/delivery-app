@@ -1,6 +1,9 @@
 const { sequelize } = require('../database/models');
 const Sale = require('../services/sales');
 
+const ORDER_NOT_FOUND = 'Order not found';
+const ACCESS_DENIED = 'Access denied';
+
 const createSale = async (req, res, next) => {
   try {
     const {
@@ -28,6 +31,7 @@ const getUserOrders = async (req, res, next) => {
   try {
     const { email } = req.body;
     const orders = await Sale.getUserSales(email);
+    if (orders.message) return res.status(404).json({ message: orders.message });
     return res.status(200).json(orders);
   } catch (err) {
     next(err);
@@ -42,17 +46,18 @@ const getUserOrdersById = async (req, res, _next) => {
     if (order.message) return res.status(404).json({ message: order.message });
     return res.status(200).json(order);
   } catch (err) {
-    return res.status(403).json({ message: 'Access denied' });
+    return res.status(403).json({ message: ACCESS_DENIED });
   }
 };
 
-const getSellerOrders = async (req, res, next) => {
+const getSellerOrders = async (req, res, _next) => {
   try {
     const { email } = req.body;
     const sellerOrders = await Sale.getSellerSales(email);
+    if (sellerOrders.message) return res.status(404).json({ message: sellerOrders.message });
     return res.status(200).json(sellerOrders);
   } catch (err) {
-    next(err);
+    return res.status(403).json({ message: ACCESS_DENIED });
   }
 };
 
@@ -64,14 +69,15 @@ const getsellerOrdersById = async (req, res, _next) => {
     if (order.message) return res.status(404).json({ message: order.message });
     return res.status(200).json(order);
   } catch (err) {
-    return res.status(403).json({ message: 'Access denied' });
+    return res.status(403).json({ message: ACCESS_DENIED });
   }
 };
 
 const startingOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.startingOrder(id);
+    const orderId = await Sale.startingOrder(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
@@ -81,7 +87,8 @@ const startingOrder = async (req, res, next) => {
 const leavingForDelivery = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.leavingForDelivery(id);
+    const orderId = await Sale.leavingForDelivery(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
@@ -91,7 +98,8 @@ const leavingForDelivery = async (req, res, next) => {
 const orderDelivered = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Sale.orderDelivered(id);
+    const orderId = await Sale.orderDelivered(id);
+    if (!orderId) return res.status(404).json({ message: ORDER_NOT_FOUND });
     return res.status(204).end();
   } catch (err) {
     next(err);
