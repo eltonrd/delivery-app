@@ -101,4 +101,23 @@ describe('Test POST /sales endpoint', () => {
       });
     });
   });
+
+  describe('Test database exception', () => {
+    before(async () => {
+      sinon.stub(User, 'findOne').resolves(userDbResponse);
+      sinon.stub(Sale, 'create').throws();
+    });
+
+    after(() => {
+      (User.findOne).restore();
+      (Sale.create).restore();
+    });
+
+    it('Should return http status 500', async () => {
+      res = await chai.request(app).post(SALES_ROUTE).send(validSale)
+        .set({ authorization: token });
+      expect(res.status).to.be.equal(500);
+      expect(res.body).to.have.own.property('message')
+    });
+  });
 });
