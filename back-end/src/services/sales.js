@@ -1,5 +1,5 @@
 const { Sale } = require('../database/models');
-const { SaleProduct } = require('../database/models');
+const { SaleProduct, Product } = require('../database/models');
 const { getUserByParam } = require('./user');
 
 const USER_NOT_FOUND = 'User does not exist';
@@ -31,7 +31,14 @@ const createSaleProducts = async (products, saleId, transaction) => {
 const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
-  const sales = await Sale.findAll({ where: { userId: user.id } });
+  if (user.role !== 'customer') throw new Error();
+  const sales = await Sale.findAll({ where: { userId: user.id },
+    include: [{
+      model: Product,
+      as: 'product',
+      through: { attributes: ['quantity'] },
+    }],
+  });
   return sales;
 };
 
@@ -47,6 +54,7 @@ const getUserSalesById = async (id, email) => {
 const getSellerSales = async (email) => {
   const seller = await getUserByParam(email, 'email');
   if (!seller) return { message: USER_NOT_FOUND };
+  if (seller.role !== 'seller') throw new Error();
   const sales = await Sale.findAll({ where: { sellerId: seller.id } });
   return sales;
 };
@@ -60,17 +68,11 @@ const getSellerSalesById = async (id, email) => {
   return sale;
 };
 
-const startingOrder = async (id) => {
-  await Sale.update({ status: 'Preparando' }, { where: { id } });
-};
+const startingOrder = async (id) => Sale.update({ status: 'Preparando' }, { where: { id } });
 
-const leavingForDelivery = async (id) => {
-  await Sale.update({ status: 'Em Trânsito' }, { where: { id } });
-};
+const leavingForDelivery = async (id) => Sale.update({ status: 'Em Trânsito' }, { where: { id } });
 
-const orderDelivered = async (id) => {
-  await Sale.update({ status: 'Entregue' }, { where: { id } });
-};
+const orderDelivered = async (id) => Sale.update({ status: 'Entregue' }, { where: { id } });
 
 module.exports = {
   createSaleProducts,

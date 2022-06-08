@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 // import UserList from '../components/UserList';
 import { adminRegister } from '../utils/api/service';
+import { localStorageUser } from '../utils/localStorage/localStorage';
 
 export default function AdminManage() {
   const [name, setName] = useState('');
@@ -28,7 +29,7 @@ export default function AdminManage() {
   }, [password, email, name]);
 
   const registerUser = async () => {
-    const t = localStorage.getItem('token');
+    const t = localStorageUser().token;
     const user = { name, email, password, role };
     const response = await adminRegister(user, t);
     setIsRegisterWrong(response);
