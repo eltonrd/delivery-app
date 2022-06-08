@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomerContext from '../context/CustomerContext';
+import priceToReal from '../utils/helpers/priceToReal';
 
 export default function CartButton() {
   const { cart } = useContext(CustomerContext);
@@ -11,7 +12,7 @@ export default function CartButton() {
   useEffect(() => {
     const getTotalPrice = () => {
       const price = cart.reduce((acc, cur) => acc + (cur.price * cur.qty), 0);
-      setTotal(price.toFixed(2));
+      setTotal(priceToReal(price));
     };
 
     getTotalPrice();
@@ -28,7 +29,7 @@ export default function CartButton() {
       <span
         data-testid="customer_products__checkout-bottom-value"
       >
-        { total.replace('.', ',') }
+        { total }
       </span>
     </button>
   );

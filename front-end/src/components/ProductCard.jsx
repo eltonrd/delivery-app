@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import CustomerContext from '../context/CustomerContext';
+import priceToReal from '../utils/helpers/priceToReal';
 import { setLocalStorageCart } from '../utils/localStorage/localStorage';
 
 export default function ProductCard({ product }) {
@@ -71,7 +72,7 @@ export default function ProductCard({ product }) {
         <span
           data-testid={ `customer_products__element-card-price-${id}` }
         >
-          { `${price}`.replace('.', ',') }
+          { priceToReal(price) }
         </span>
       </p>
       <button
