@@ -20,7 +20,10 @@ export default function AdressForm() {
       <form>
         <label htmlFor="seller-input">
           P.Vendedora Responsável:
-          <select id="seller-input">
+          <select
+            data-testid="customer_checkout__select-seller"
+            id="seller-input"
+          >
             {sellers.map(({ name }) => (
               <option value={ name } key={ name }>{ name }</option>
             ))}
@@ -29,6 +32,7 @@ export default function AdressForm() {
         <label htmlFor="address-input">
           Endereço:
           <input
+            data-testid="customer_checkout__input-address"
             id="address-input"
             onChange={ ({ target: { value } }) => setAdress(value) }
             placeholder="Travessa Terceira da Castanheira, Bairro Muruci"
@@ -39,13 +43,19 @@ export default function AdressForm() {
         <label htmlFor="number-input">
           Número
           <input
+            data-testid="customer_checkout__input-addressNumber"
             id="number-input"
             placeholder="198"
             type="text"
           />
         </label>
       </form>
-      <button type="button">Finalizar Pedido</button>
+      <button
+        data-testid="customer_checkout__button-submit-order"
+        type="button"
+      >
+        Finalizar Pedido
+      </button>
     </section>
   );
 }
