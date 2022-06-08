@@ -31,6 +31,7 @@ const createSaleProducts = async (products, saleId, transaction) => {
 const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
+  if (user.role !== 'customer') throw new Error();
   const sales = await Sale.findAll({ where: { userId: user.id } });
   return sales;
 };
@@ -47,6 +48,7 @@ const getUserSalesById = async (id, email) => {
 const getSellerSales = async (email) => {
   const seller = await getUserByParam(email, 'email');
   if (!seller) return { message: USER_NOT_FOUND };
+  if (seller.role !== 'seller') throw new Error();
   const sales = await Sale.findAll({ where: { sellerId: seller.id } });
   return sales;
 };
