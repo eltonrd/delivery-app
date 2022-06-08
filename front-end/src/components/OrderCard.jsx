@@ -21,17 +21,21 @@ export default function OrderCard({ order }) {
         <p
           data-testid={ `customer_orders__element-order-date-${order.id}` }
         >
-          { order.date }
+          { order.saleDate }
         </p>
         <p>
-          {/* { valorDaCompra } */}
-          valorDaCompra
+          { order.totalPrice }
         </p>
       </div>
     </div>
   );
 }
+
 OrderCard.propTypes = {
-  id: PropTypes.number.isRequired(),
-  status: PropTypes.string.isRe
+  order: PropTypes.shape({
+    id: PropTypes.number,
+    status: PropTypes.string,
+    saleDate: PropTypes.instanceOf(Date),
+    totalPrice: PropTypes.number,
+  }).isRequired,
 };
