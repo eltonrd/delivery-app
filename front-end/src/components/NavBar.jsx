@@ -3,11 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 
 export default function NavBar() {
-  const location = useLocation();
-  const pathname = location.pathname;
+  const { pathname } = useLocation();
 
   function navBarOptions() {
-    const name = localStorageUser().name;
+    const { name } = localStorageUser();
     if (pathname.includes('admin')) {
       return (
         <ul>
