@@ -35,9 +35,9 @@ export default function OrderCard({ order }) {
 
 OrderCard.propTypes = {
   order: PropTypes.shape({
-    id: PropTypes.number,
-    status: PropTypes.string,
-    saleDate: PropTypes.instanceOf(Date),
-    totalPrice: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+    saleDate: PropTypes.string.isRequired,
+    totalPrice: PropTypes.string.isRequired,
   }).isRequired,
 };

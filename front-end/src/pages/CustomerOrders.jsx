@@ -11,8 +11,6 @@ export default function CustomerOrders() {
     const getOrders = async () => {
       const userToken = localStorageUser().token;
       const orders = await customerOrders(userToken);
-      console.log(orders);
-      console.log(userToken);
       setUserOrders(orders);
     };
     getOrders();

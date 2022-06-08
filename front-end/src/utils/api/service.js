@@ -89,20 +89,16 @@ export async function adminRegister(user, token) {
 // }
 
 export async function customerOrders(token) {
-  console.log(token);
   const headers = {
     'Content-Type': 'application/json',
     authorization: token,
   };
-  const customerOrder = await axios.get(
-    'http://localhost:3001/customer/orders',
-    {},
+  const customerOrder = await API.get(
+    '/customer/orders',
     {
       headers,
     },
-  ).then((result) => console.log(result)).catch((err) => console.error(err));
-
-  console.log(customerOrder, 'resposta');
+  ).then((result) => result.data).catch((err) => console.error(err));
 
   return customerOrder;
 }
@@ -110,7 +106,6 @@ export async function customerOrders(token) {
 export async function customerOrdersById(id, token) {
   const customerOrderById = await API.get(
     `/customer/orders/${id}`,
-    {},
     { headers: { authorization: token } },
   ).then((result) => result).catch((err) => console.error(err));
 
