@@ -7,6 +7,7 @@ const productsRouter = require('../routes/products');
 const adminRouter = require('../routes/admin');
 const salesRouter = require('../routes/sales');
 const { orderRouter, sellerOrderRouter } = require('../routes/orders');
+const sellerRouter = require('../routes/seller');
 const errorMidleware = require('../middlewares/error');
 
 const app = express();
@@ -19,6 +20,7 @@ app.use('/admin/manage', adminRouter);
 app.use('/sales', salesRouter);
 app.use('/customer/orders', orderRouter);
 app.use('/seller/orders', sellerOrderRouter);
+app.use('/seller', sellerRouter);
 app.use(express.static('public'));
 app.use(errorMidleware);
 

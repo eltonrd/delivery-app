@@ -39,9 +39,21 @@ const deleteUser = async (id) => {
   }
 };
 
+const getAllSellersUsers = async () => { 
+  try {
+    const allSellersUsers = await User.findAll(
+      { where: { role: 'seller' }, attributes: { exclude: ['password'] } },
+      );
+    return allSellersUsers;
+  } catch (err) {
+    return err;
+  } 
+};
+
 module.exports = {
   getUserByParam,
   register,
   getAllUsers,
   deleteUser,
+  getAllSellersUsers,
 };
