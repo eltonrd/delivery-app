@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import AppContext from '../context/AppContext';
+import { localStorageUser } from '../utils/localStorage/localStorage';
 
 export default function NavBar() {
-  const { user } = useContext(AppContext);
   const location = useLocation();
+  const pathname = location.pathname;
 
-  function navBarOptions(pathname, name) {
+  function navBarOptions() {
+    const name = localStorageUser().name;
     if (pathname.includes('admin')) {
       return (
         <ul>
@@ -41,9 +42,7 @@ export default function NavBar() {
 
   return (
     <nav>
-      {
-        navBarOptions(location.pathname, user.name)
-      }
+      { navBarOptions() }
     </nav>
   );
 }
