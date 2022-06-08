@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+const API = axios.create({
+  baseURL: 'http://localhost:3001',
+});
+
 export async function login(email, password) {
-  const user = await axios.post(
-    'http://localhost:3001/login',
+  const user = await API.post(
+    '/login',
     {
       email,
       password,
@@ -15,8 +19,8 @@ export async function login(email, password) {
 }
 
 export async function register(name, email, password) {
-  const user = await axios.post(
-    'http://localhost:3001/register',
+  const user = await API.post(
+    '/register',
     {
       name,
       email,
@@ -30,8 +34,8 @@ export async function register(name, email, password) {
 }
 
 export async function getProducts() {
-  const fetchProducts = await axios.get(
-    'http://localhost:3001/customer/products',
+  const fetchProducts = await API.get(
+    '/customer/products',
   ).then((result) => result.data).catch((error) => console.log(error));
 
   return fetchProducts;
@@ -42,8 +46,8 @@ export async function adminRegister(user, token) {
     'Content-Type': 'application/json',
     authorization: token,
   };
-  const isCreated = await axios.post(
-    'http://localhost:3001/admin/manage',
+  const isCreated = await API.post(
+    '/admin/manage',
     user,
     {
       headers,
@@ -54,32 +58,61 @@ export async function adminRegister(user, token) {
   return !isCreated;
 }
 
-export async function getAllUsers(token) {
-  const allUsers = await axios.get(
-    'http://localhost:3001/admin/manage',
-    {}, {
-      headers: {
-        Authorization: { token },
-      },
+// export async function getAllUsers(token) {
+//   const allUsers = await API.get(
+//     '/admin/manage',
+//     {}, {
+//       headers: {
+//         Authorization: { token },
+//       },
+//     },
+//   )
+//     .then((result) => result)
+//     .catch((error) => console.log(error));
+//   console.log(allUsers);
+//   return allUsers;
+// }
+
+// export async function deleteById(id) {
+//   const isDeleted = await API.delete(
+//     `/admin/manage/:${id}`,
+//     {}, {
+//       headers: {
+//         Authorization: { token },
+//       },
+//     },
+//   )
+//     .then((result) => result)
+//     .catch((error) => console.log(error));
+//   console.log(isDeleted);
+//   return !!isDeleted;
+// }
+
+export async function customerOrders(token) {
+  console.log(token);
+  const headers = {
+    'Content-Type': 'application/json',
+    authorization: token,
+  };
+  const customerOrder = await axios.get(
+    'http://localhost:3001/customer/orders',
+    {},
+    {
+      headers,
     },
-  )
-    .then((result) => result)
-    .catch((error) => console.log(error));
-  console.log(allUsers);
-  return allUsers;
+  ).then((result) => console.log(result)).catch((err) => console.error(err));
+
+  console.log(customerOrder, 'resposta');
+
+  return customerOrder;
 }
 
-export async function deleteById(id) {
-  const isDeleted = await axios.delete(
-    `http://localhost:3001/admin/manage/:${id}`,
-    {}, {
-      headers: {
-        Authorization: { token },
-      },
-    },
-  )
-    .then((result) => result)
-    .catch((error) => console.log(error));
-  console.log(isDeleted);
-  return !!isDeleted;
+export async function customerOrdersById(id, token) {
+  const customerOrderById = await API.get(
+    `/customer/orders/${id}`,
+    {},
+    { headers: { authorization: token } },
+  ).then((result) => result).catch((err) => console.error(err));
+
+  return customerOrderById;
 }

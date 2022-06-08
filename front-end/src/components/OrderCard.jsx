@@ -23,7 +23,9 @@ export default function OrderCard({ order }) {
         >
           { order.saleDate }
         </p>
-        <p>
+        <p
+          data-testid={ `customer_orders__element-card-price-${order.id}` }
+        >
           { order.totalPrice }
         </p>
       </div>
