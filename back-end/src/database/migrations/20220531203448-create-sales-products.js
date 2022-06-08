@@ -21,11 +21,11 @@ module.exports = {
         field: 'product_id',
       }, 
       quantity: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface, _Sequelize) {
     await queryInterface.dropTable('sales_products');
   }
 };

@@ -1,5 +1,5 @@
 const { Sale } = require('../database/models');
-const { SaleProduct } = require('../database/models');
+const { SaleProduct, Product } = require('../database/models');
 const { getUserByParam } = require('./user');
 
 const USER_NOT_FOUND = 'User does not exist';
@@ -32,7 +32,13 @@ const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
   if (user.role !== 'customer') throw new Error();
-  const sales = await Sale.findAll({ where: { userId: user.id } });
+  const sales = await Sale.findAll({ where: { userId: user.id },
+    include: [{
+      model: Product,
+      as: 'product',
+      through: { attributes: ['quantity'] },
+    }],
+  });
   return sales;
 };
 
