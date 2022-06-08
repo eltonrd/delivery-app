@@ -33,17 +33,13 @@ const nameMiddleware = (req, res, next) => {
 };
 
 const getUser = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    const token = verifyToken(authorization);
-    if (token.message) return res.status(401).json({ message: token.message });
-    const user = await getUserByParam(token.email, 'email');
-    if (!user) return res.status(404).json({ message: 'User does not exist' });
-    req.body = { ...req.body, userId: user.id };
-    next();
-  } catch (err) {
-    next(err);
-  }
+  const { authorization } = req.headers;
+  const token = verifyToken(authorization);
+  if (token.message) return res.status(401).json({ message: token.message });
+  const user = await getUserByParam(token.email, 'email');
+  if (!user) return res.status(404).json({ message: 'User does not exist' });
+  req.body = { ...req.body, userId: user.id };
+  next();
 };
 
 const authMiddleware = (req, res, next) => {
