@@ -83,3 +83,12 @@ export async function deleteById(id) {
   console.log(isDeleted);
   return !!isDeleted;
 }
+
+export async function getSellers() {
+  const sellers = await axios.get(
+    'htpp://localhost:3001/seller',
+  )
+    .then((result) => result.data)
+    .catch((error) => console.log(error));
+  return sellers;
+}
