@@ -13,7 +13,7 @@ const createSale = async (sales, id, transaction) => {
       totalPrice,
       deliveryAddress,
       deliveryNumber,
-      status: 'pendente',
+      status: 'Pendente',
     }, { transaction });
     return sale.id;
   } catch (err) {
