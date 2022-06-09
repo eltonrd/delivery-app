@@ -113,8 +113,8 @@ export async function customerOrdersById(id, token) {
 }
 
 export async function getSellers() {
-  const sellers = await axios.get(
-    'http://localhost:3001/seller',
+  const sellers = await API.get(
+    '/seller',
   )
     .then((result) => result.data)
     .catch((error) => console.log(error));
@@ -126,8 +126,8 @@ export async function createSale(sale, token) {
     'Content-Type': 'application/json',
     authorization: token,
   };
-  const createdSale = await axios.post(
-    'http://localhost:3001/sales',
+  const createdSale = await API.post(
+    '/sales',
     sale,
     {
       headers,
