@@ -21,7 +21,7 @@ export default function AddressForm() {
         setSellers(apiResponse);
 
         if (!selectValue && apiResponse.length > 0) {
-          setSelectValue(apiResponse[0].id)
+          setSelectValue(apiResponse[0].id);
         }
       }
     }
@@ -44,7 +44,7 @@ export default function AddressForm() {
       products: cart.map(({ id, qty: quantity }) => ({ id, quantity })),
       totalPrice: totalPrice(cart),
     };
-    const token = localStorageUser().token;
+    const { token } = localStorageUser();
     const saleId = await createSale(sale, token);
 
     navigate(`/customer/orders/${saleId}`);
