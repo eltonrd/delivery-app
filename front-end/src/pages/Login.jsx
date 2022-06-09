@@ -13,9 +13,6 @@ export default function Login() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoginWrong, setIsLoginWrong] = useState(false);
 
-  const user = localStorageUser();
-  console.log(user);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +48,7 @@ export default function Login() {
       handleRole(user.role);
     }
   };
-  
+
   if (!localStorageUser()) {
     return (
       <div>
@@ -105,19 +102,19 @@ export default function Login() {
       </div>
     );
   }
-  switch (user.role) {
-    case 'administrator':
-      return (
-        <Navigate to="/admin/manage" replace />
-        );
-    case 'customer':
-      return (
-        <Navigate to="/customer/products" replace />
-        );
-    default:
-      return (
-        <Navigate to="/seller/orders" replace />
-        );
-    }
-      };
-      
+
+  switch (localStorageUser().role) {
+  case 'administrator':
+    return (
+      <Navigate to="/admin/manage" replace />
+    );
+  case 'customer':
+    return (
+      <Navigate to="/customer/products" replace />
+    );
+  default:
+    return (
+      <Navigate to="/seller/orders" replace />
+    );
+  }
+}
