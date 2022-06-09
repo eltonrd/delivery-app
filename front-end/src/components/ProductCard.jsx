@@ -2,19 +2,23 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import CustomerContext from '../context/CustomerContext';
 import priceToReal from '../utils/helpers/priceToReal';
-import { setLocalStorageCart } from '../utils/localStorage/localStorage';
 
 export default function ProductCard({ product }) {
   const { id, name, urlImage, price } = product;
   const { cart, setCart } = useContext(CustomerContext);
-  const [quantity, setQuantity] = useState(0);
+
+  const [quantity, setQuantity] = useState(() => {
+    if (!cart || cart.length === 0) return 0;
+
+    const productInCart = cart.find(({ id: productId }) => productId === id);
+    return productInCart ? productInCart.qty : 0;
+  });
 
   useEffect(() => {
     const item = { id, name, price };
 
     const handleCartChange = (newCart) => {
       setCart(newCart);
-      setLocalStorageCart(newCart);
     };
 
     if (cart.length === 0) {
@@ -51,7 +55,7 @@ export default function ProductCard({ product }) {
   };
 
   const handleQuantity = ({ target: { value } }) => {
-    setQuantity(value);
+    setQuantity(Number(value));
   };
 
   return (
