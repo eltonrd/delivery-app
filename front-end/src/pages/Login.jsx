@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { login } from '../utils/api/service';
 import RockGlass from '../images/rockGlass.svg';
-import { setLocalStorageUser } from '../utils/localStorage/localStorage';
+import {
+  setLocalStorageUser,
+  localStorageUser,
+} from '../utils/localStorage/localStorage';
 
 export default function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoginWrong, setIsLoginWrong] = useState(false);
+
+  const user = localStorageUser();
+  console.log(user);
 
   const navigate = useNavigate();
 
@@ -45,56 +51,73 @@ export default function Login() {
       handleRole(user.role);
     }
   };
-
-  return (
-    <div>
-      <img alt="logo app delivery" src={ RockGlass } width="100px" />
-      <h1>Delivery App</h1>
-      <form>
-        <label htmlFor="login-input">
-          Login
-          <input
-            data-testid="common_login__input-email"
-            id="login-input"
-            name="login"
-            onChange={ ({ target }) => setEmail(target.value) }
-            type="text"
-          />
-        </label>
-        <label htmlFor="password-input">
-          Senha
-          <input
-            data-testid="common_login__input-password"
-            id="password-input"
-            name="password"
-            onChange={ ({ target }) => setPassword(target.value) }
-            type="password"
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="common_login__button-login"
-          disabled={ isDisabled }
-          onClick={ sendLoginInfo }
-        >
-          Login
-        </button>
-        <button
-          type="button"
-          data-testid="common_login__button-register"
-          onClick={ () => navigate('/register') }
-        >
-          Não tenho conta
-        </button>
-      </form>
-      {
-        isLoginWrong
-        && (
-          <div data-testid="common_login__element-invalid-email">
-            Email ou senha invalidos!
-          </div>
-        )
-      }
-    </div>
-  );
-}
+  
+  if (!localStorageUser()) {
+    return (
+      <div>
+        <img alt="logo app delivery" src={ RockGlass } width="100px" />
+        <h1>Delivery App</h1>
+        <form>
+          <label htmlFor="login-input">
+            Login
+            <input
+              data-testid="common_login__input-email"
+              id="login-input"
+              name="login"
+              onChange={ ({ target }) => setEmail(target.value) }
+              type="text"
+            />
+          </label>
+          <label htmlFor="password-input">
+            Senha
+            <input
+              data-testid="common_login__input-password"
+              id="password-input"
+              name="password"
+              onChange={ ({ target }) => setPassword(target.value) }
+              type="password"
+            />
+          </label>
+          <button
+            type="button"
+            data-testid="common_login__button-login"
+            disabled={ isDisabled }
+            onClick={ sendLoginInfo }
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            data-testid="common_login__button-register"
+            onClick={ () => navigate('/register') }
+          >
+            Não tenho conta
+          </button>
+        </form>
+        {
+          isLoginWrong
+          && (
+            <div data-testid="common_login__element-invalid-email">
+              Email ou senha invalidos!
+            </div>
+          )
+        }
+      </div>
+    );
+  }
+  switch (user.role) {
+    case 'administrator':
+      return (
+        <Navigate to="/admin/manage" replace />
+        );
+    case 'customer':
+      return (
+        <Navigate to="/customer/products" replace />
+        );
+    default:
+      return (
+        <Navigate to="/seller/orders" replace />
+        );
+    }
+      };
+      
