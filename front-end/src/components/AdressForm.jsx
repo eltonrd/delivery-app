@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CustomerContext from '../context/CustomerContext';
-import { getSellers } from '../utils/api/service';
+import { createSale, getSellers } from '../utils/api/service';
+import { localStorageUser } from '../utils/localStorage/localStorage';
+import totalPrice from '../utils/helpers/totalPrice';
 
 export default function AdressForm() {
   const [address, setAddress] = useState('');
@@ -9,6 +12,7 @@ export default function AdressForm() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [sellers, setSellers] = useState([]);
   const { cart } = useContext(CustomerContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -33,10 +37,18 @@ export default function AdressForm() {
     validateInputs();
   }, [address, addressNumber, selectValue]);
 
-  const handleClick = () => {
-    // create sale request
-    // navigate to order detail
-    console.log('working!');
+  const handleClick = async () => {
+    const sale = {
+      deliveryAddress: address,
+      deliveryNumber: addressNumber,
+      sellerId: selectValue,
+      products: cart.map(({ id, qty: quantity }) => ({ id, quantity })),
+      totalPrice: totalPrice(cart),
+    };
+    const token = localStorageUser().token;
+    const saleId = await createSale(sale, token);
+
+    navigate(`/customer/orders/${saleId}`);
   };
 
   return (

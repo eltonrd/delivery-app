@@ -92,3 +92,21 @@ export async function getSellers() {
     .catch((error) => console.log(error));
   return sellers;
 }
+
+export async function createSale(sale, token) {
+  const headers = {
+    'Content-Type': 'application/json',
+    authorization: token,
+  };
+  const createdSale = await axios.post(
+    'http://localhost:3001/sales',
+    sale,
+    {
+      headers,
+    },
+  )
+    .then((result) => result.data)
+    .catch((error) => console.log(error));
+
+  return createdSale.id;
+}
