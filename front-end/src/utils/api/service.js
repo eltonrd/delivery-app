@@ -60,35 +60,35 @@ export async function adminRegister(user, token) {
   return !isCreated;
 }
 
-// export async function getAllUsers(token) {
-//   const allUsers = await API.get(
-//     '/admin/manage',
-//      {
-//       headers: {
-//         Authorization: { token },
-//       },
-//     },
-//   )
-//     .then((result) => result)
-//     .catch((error) => console.log(error));
-//   console.log(allUsers);
-//   return allUsers;
-// }
+export async function getAllUsers(token) {
+  const allUsers = await API.get(
+    '/admin/manage',
+     {
+      headers: {
+        Authorization: { token },
+      },
+    },
+  )
+    .then((result) => result)
+    .catch((error) => console.log(error));
+  console.log(allUsers);
+  return allUsers;
+}
 
-// export async function deleteById(id) {
-//   const isDeleted = await API.delete(
-//     `/admin/manage/:${id}`,
-//     {}, {
-//       headers: {
-//         Authorization: { token },
-//       },
-//     },
-//   )
-//     .then((result) => result)
-//     .catch((error) => console.log(error));
-//   console.log(isDeleted);
-//   return !!isDeleted;
-// }
+export async function deleteById(id) {
+  const isDeleted = await API.delete(
+    `/admin/manage/:${id}`,
+    {}, {
+      headers: {
+        Authorization: { token },
+      },
+    },
+  )
+    .then((result) => result)
+    .catch((error) => console.log(error));
+  console.log(isDeleted);
+  return !!isDeleted;
+}
 
 export async function customerOrders(token) {
   const headers = {
