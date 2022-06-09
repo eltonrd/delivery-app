@@ -71,7 +71,6 @@ export async function getAllUsers(token) {
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  console.log(allUsers);
   return allUsers;
 }
 
@@ -86,7 +85,6 @@ export async function deleteById(id) {
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  console.log(isDeleted);
   return !!isDeleted;
 }
 
