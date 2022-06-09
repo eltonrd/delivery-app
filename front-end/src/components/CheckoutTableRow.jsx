@@ -11,10 +11,10 @@ export default function CheckoutTableRow({ product, index }) {
   const totalPrice = unitPrice * parseInt(qty, 10);
 
   const removeItem = () => {
-    const newCart = cart.filter((product) => product.id !== id);
+    const newCart = cart.filter((cartProduct) => cartProduct.id !== id);
 
     setCart(newCart);
-  }
+  };
 
   return (
     <tr>
@@ -54,7 +54,7 @@ export default function CheckoutTableRow({ product, index }) {
   );
 }
 
-TableRow.propTypes = {
+CheckoutTableRow.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
