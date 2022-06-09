@@ -138,3 +138,12 @@ export async function createSale(sale, token) {
 
   return createdSale.id;
 }
+
+export async function getSellerOrders(token) {
+  const sellerOrders = await API.get(
+    '/seller/orders',
+    { headers: { authorization: token } },
+  ).then((result) => result.data).catch((err) => console.error(err));
+
+  return sellerOrders;
+}
