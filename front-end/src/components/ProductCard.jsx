@@ -41,7 +41,7 @@ export default function ProductCard({ product }) {
         handleCartChange(newCart);
       }
     }
-  }, [quantity, cart, id, name, price, setCart]);
+  }, [quantity]);
 
   const addToCart = () => {
     setQuantity(quantity + 1);
