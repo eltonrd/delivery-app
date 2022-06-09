@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import priceToReal from '../utils/helpers/priceToReal';
+import CustomerContext from '../context/CustomerContext';
 
-export default function TableRow({ product, index }) {
+export default function CheckoutTableRow({ product, index }) {
+  const { cart, setCart } = useContext(CustomerContext);
+
   const { id, name, price, qty } = product;
   const unitPrice = parseFloat(price);
   const totalPrice = unitPrice * parseInt(qty, 10);
+
+  const removeItem = () => {
+    const newCart = cart.filter((product) => product.id !== id);
+
+    setCart(newCart);
+  }
 
   return (
     <tr>
@@ -37,7 +46,9 @@ export default function TableRow({ product, index }) {
       <td
         data-testid={ `customer_checkout__element-order-table-remove-${id}` }
       >
-        Remover
+        <button type="button" onClick={ removeItem }>
+          Remover
+        </button>
       </td>
     </tr>
   );
