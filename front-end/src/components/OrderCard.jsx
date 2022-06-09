@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
+import priceToReal from '../utils/helpers/priceToReal';
 
 export default function OrderCard({ order }) {
   return (
-    <div>
+    <a href={ `/customer/orders/${order.id}` }>
       <p>
         Pedido
         <span
@@ -21,15 +23,15 @@ export default function OrderCard({ order }) {
         <p
           data-testid={ `customer_orders__element-order-date-${order.id}` }
         >
-          { order.saleDate }
+          { format(new Date(order.saleDate), 'dd/MM/yyyy') }
         </p>
         <p
           data-testid={ `customer_orders__element-card-price-${order.id}` }
         >
-          { order.totalPrice }
+          { priceToReal(order.totalPrice, true) }
         </p>
       </div>
-    </div>
+    </a>
   );
 }
 
