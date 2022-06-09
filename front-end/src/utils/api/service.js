@@ -4,6 +4,8 @@ const API = axios.create({
   baseURL: 'http://localhost:3001',
 });
 
+const CONTENT_TYPE = 'application/json';
+
 export async function login(email, password) {
   const user = await API.post(
     '/login',
@@ -43,7 +45,7 @@ export async function getProducts() {
 
 export async function adminRegister(user, token) {
   const headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
   const isCreated = await API.post(
@@ -61,7 +63,7 @@ export async function adminRegister(user, token) {
 // export async function getAllUsers(token) {
 //   const allUsers = await API.get(
 //     '/admin/manage',
-//     {}, {
+//      {
 //       headers: {
 //         Authorization: { token },
 //       },
@@ -90,7 +92,7 @@ export async function adminRegister(user, token) {
 
 export async function customerOrders(token) {
   const headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
   const customerOrder = await API.get(
@@ -123,7 +125,7 @@ export async function getSellers() {
 
 export async function createSale(sale, token) {
   const headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
   const createdSale = await API.post(
