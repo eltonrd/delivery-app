@@ -26,6 +26,7 @@ export default function Products() {
 
   const logout = () => {
     removeFromLocalStorage('user');
+    removeFromLocalStorage('carrinho');
     navigate('/login');
   };
 
