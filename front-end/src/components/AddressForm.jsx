@@ -5,7 +5,7 @@ import { createSale, getSellers } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import totalPrice from '../utils/helpers/totalPrice';
 
-export default function AdressForm() {
+export default function AddressForm() {
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [selectValue, setSelectValue] = useState();

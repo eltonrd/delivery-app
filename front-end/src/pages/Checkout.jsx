@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import CustomerContext from '../context/CustomerContext';
 import NavBar from '../components/NavBar';
-import AdressForm from '../components/AdressForm';
+import AddressForm from '../components/AddressForm';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import CheckoutTable from '../components/CheckoutTable';
@@ -29,7 +29,7 @@ export default function Checkout() {
           </span>
         </h1>
       </section>
-      <AdressForm />
+      <AddressForm />
     </div>
   );
 }
