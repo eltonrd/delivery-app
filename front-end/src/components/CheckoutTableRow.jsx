@@ -19,32 +19,32 @@ export default function CheckoutTableRow({ product, index }) {
   return (
     <tr>
       <td
-        data-testid={ `customer_checkout__element-order-table-item-number-${id}` }
+        data-testid={ `customer_checkout__element-order-table-item-number-${index}` }
       >
         { index + 1 }
       </td>
       <td
-        data-testid={ `customer_checkout__element-order-table-name-${id}` }
+        data-testid={ `customer_checkout__element-order-table-name-${index}` }
       >
         { name }
       </td>
       <td
-        data-testid={ `customer_checkout__element-order-table-quantity-${id}` }
+        data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
       >
         { qty }
       </td>
       <td
-        data-testid={ `customer_checkout__element-order-table-unit-price-${id}` }
+        data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }
       >
         { priceToReal(unitPrice, true) }
       </td>
       <td
-        data-testid={ `customer_checkout__element-order-table-sub-total-${id}` }
+        data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }
       >
         { priceToReal(totalPrice, true) }
       </td>
       <td
-        data-testid={ `customer_checkout__element-order-table-remove-${id}` }
+        data-testid={ `customer_checkout__element-order-table-remove-${index}` }
       >
         <button type="button" onClick={ removeItem }>
           Remover
