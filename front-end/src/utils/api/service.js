@@ -63,7 +63,7 @@ export async function adminRegister(user, token) {
 export async function getAllUsers(token) {
   const allUsers = await API.get(
     '/admin/manage',
-     {
+    {
       headers: {
         Authorization: { token },
       },
