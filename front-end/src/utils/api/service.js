@@ -86,7 +86,7 @@ export async function deleteById(id) {
 
 export async function getSellers() {
   const sellers = await axios.get(
-    'htpp://localhost:3001/seller',
+    'http://localhost:3001/seller',
   )
     .then((result) => result.data)
     .catch((error) => console.log(error));
