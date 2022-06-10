@@ -13,7 +13,7 @@ export default function SellerOrders() {
       const { token } = localStorage.getItem('user');
       const sellerOrders = await getSellerOrders(token);
 
-      if (Array.isArray(sellerOrders) && orders.length > 0) {
+      if (Array.isArray(sellerOrders) && sellerOrders.length > 0) {
         setOrders(sellerOrders);
       }
     };
