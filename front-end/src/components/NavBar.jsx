@@ -1,6 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { localStorageUser, removeFromLocalStorage } from '../utils/localStorage/localStorage';
+import {
+  localStorageUser,
+  removeFromLocalStorage,
+} from '../utils/localStorage/localStorage';
 
 export default function NavBar() {
   const { pathname } = useLocation();
@@ -24,6 +27,7 @@ export default function NavBar() {
           <button
             data-testid="customer_products__element-navbar-link-logout"
             onClick={ logout }
+            type="button"
           >
             SAIR
           </button>
@@ -40,6 +44,7 @@ export default function NavBar() {
           <button
             data-testid="customer_products__element-navbar-link-logout"
             onClick={ logout }
+            type="button"
           >
             SAIR
           </button>
@@ -53,6 +58,7 @@ export default function NavBar() {
           <button
             data-testid="customer_products__element-navbar-link-logout"
             onClick={ logout }
+            type="button"
           >
             SAIR
           </button>
