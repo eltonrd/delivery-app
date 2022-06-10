@@ -32,13 +32,7 @@ const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
   if (user.role !== 'customer') throw new Error();
-  const sales = await Sale.findAll({ where: { userId: user.id },
-    include: [{
-      model: Product,
-      as: 'product',
-      through: { attributes: ['quantity'] },
-    }],
-  });
+  const sales = await Sale.findAll({ where: { userId: user.id } });
   return sales;
 };
 
@@ -48,7 +42,13 @@ const getUserSalesById = async (id, email) => {
   const sale = await Sale.findOne({ where: { id } });
   if (!sale) return { message: 'Order not found' };
   if (user.id !== sale.userId) throw new Error();
-  return sale;
+  const order = await Sale.findOne({ where: { userId: user.id, id },
+    include: [{
+      model: Product,
+      as: 'products',
+      through: { attributes: ['quantity'] },
+    }], })
+  return order;
 };
 
 const getSellerSales = async (email) => {
@@ -62,7 +62,12 @@ const getSellerSales = async (email) => {
 const getSellerSalesById = async (id, email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
-  const sale = await Sale.findOne({ where: { id } });
+  const sale = await Sale.findOne({ where: { sellerId: seller.id, id },
+    include: [{
+      model: Product,
+      as: 'products',
+      through: { attributes: ['quantity'] },
+    }], });
   if (!sale) return { message: 'Order not found' };
   if (user.id !== sale.sellerId) throw new Error();
   return sale;
