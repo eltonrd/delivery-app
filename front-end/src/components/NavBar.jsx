@@ -1,9 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { localStorageUser } from '../utils/localStorage/localStorage';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { localStorageUser, removeFromLocalStorage } from '../utils/localStorage/localStorage';
 
 export default function NavBar() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    removeFromLocalStorage('user');
+    removeFromLocalStorage('carrinho');
+    navigate('/login');
+  };
 
   function navBarOptions() {
     const { name } = localStorageUser();
@@ -14,7 +21,12 @@ export default function NavBar() {
             GERENCIAR USUÁRIOS
           </li>
           <li data-testid="customer_products__element-navbar-user-full-name">{ name }</li>
-          <li data-testid="customer_products__element-navbar-link-logout">SAIR</li>
+          <button
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ logout }
+          >
+            SAIR
+          </button>
         </ul>
       );
     } if (pathname.includes('customer')) {
@@ -25,7 +37,12 @@ export default function NavBar() {
             MEUS PEDIDOS
           </li>
           <li data-testid="customer_products__element-navbar-user-full-name">{ name }</li>
-          <li data-testid="customer_products__element-navbar-link-logout">SAIR</li>
+          <button
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ logout }
+          >
+            SAIR
+          </button>
         </ul>
       );
     } if (pathname.includes('seller')) {
@@ -33,7 +50,12 @@ export default function NavBar() {
         <ul>
           <li data-testid="customer_products__element-navbar-link-orders">PEDIDOS</li>
           <li data-testid="customer_products__element-navbar-user-full-name">{ name }</li>
-          <li data-testid="customer_products__element-navbar-link-logout">SAIR</li>
+          <button
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ logout }
+          >
+            SAIR
+          </button>
         </ul>
       );
     }
