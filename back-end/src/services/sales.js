@@ -45,7 +45,13 @@ const getUserSales = async (email) => {
 const getUserSalesById = async (id, email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
-  const sale = await Sale.findOne({ where: { id } });
+  const sale = await Sale.findOne({ where: { userId: user.id, id },
+    include: [{
+      model: Product,
+      as: 'product',
+      through: { attributes: ['quantity'] },
+    }], 
+  });
   if (!sale) return { message: 'Order not found' };
   if (user.id !== sale.userId) throw new Error();
   return sale;
