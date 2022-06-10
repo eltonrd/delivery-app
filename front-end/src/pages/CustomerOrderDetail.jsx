@@ -1,7 +1,11 @@
 import React from 'react';
+import NavBar from '../components/NavBar';
 
 export default function CustomerOrderDetail() {
   return (
-    <div>CustomerOrderDetail</div>
+    <div>
+      <NavBar />
+      CustomerOrderDetail
+    </div>
   );
 }
