@@ -5,7 +5,7 @@ import priceToReal from '../utils/helpers/priceToReal';
 
 export default function SellerOrderCard({ order }) {
   return (
-    <a href={ `/customer/orders/${order.id}` }>
+    <a href={ `/seller/orders/${order.id}` }>
       <div>
         <p>Pedido</p>
         <span
