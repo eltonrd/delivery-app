@@ -61,15 +61,17 @@ export async function adminRegister(user, token) {
 }
 
 export async function getAllUsers(token) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
   const allUsers = await API.get(
     '/admin/manage',
     {
-      headers: {
-        Authorization: { token },
-      },
+      headers,
     },
   )
-    .then((result) => result)
+    .then((result) => result.data)
     .catch((error) => console.log(error));
   return allUsers;
 }
