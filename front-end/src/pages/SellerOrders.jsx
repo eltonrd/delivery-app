@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import { getSellerOrders } from '../utils/api/service';
-import NavBar from '../components/NavBar';
+import SellerNavBar from '../components/SellerNavBar';
 import SellerOrderCard from '../components/SellerOrderCard';
 
 export default function SellerOrders() {
@@ -22,7 +22,7 @@ export default function SellerOrders() {
 
   return (
     <>
-      <NavBar />
+      <SellerNavBar />
       <section>
         {
           orders.map((order, index) => (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import OrderCard from '../components/OrderCard';
-import NavBar from '../components/NavBar';
 import { customerOrders } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
+import CustomerNavBar from '../components/CustomerNavBar';
 
 export default function CustomerOrders() {
   const [userOrders, setUserOrders] = useState([]);
@@ -18,7 +18,7 @@ export default function CustomerOrders() {
 
   return (
     <>
-      <NavBar />
+      <CustomerNavBar />
       <div>
         {
           userOrders.map((order, index) => <OrderCard key={ index } order={ order } />)

@@ -1,4 +1,5 @@
 const md5 = require('md5');
+const { Op } = require('sequelize');
 const { User } = require('../database/models');
 const { generateToken } = require('../utils/jwt');
 
@@ -23,7 +24,9 @@ const register = async (name, email, password, role = 'customer') => {
 
 const getAllUsers = async () => {
   try {
-    const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
+    const allUsers = await User.findAll({
+      where: { role: { [Op.not]: 'administrator' } },
+      attributes: { exclude: ['password'] } });
     return allUsers;
   } catch (err) {
     return err;

@@ -12,7 +12,6 @@ export default function CheckoutTableRow({ product, index }) {
 
   const removeItem = () => {
     const newCart = cart.filter((cartProduct) => cartProduct.id !== id);
-
     setCart(newCart);
   };
 

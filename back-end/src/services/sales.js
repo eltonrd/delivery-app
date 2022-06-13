@@ -1,5 +1,5 @@
 const { Sale } = require('../database/models');
-const { SaleProduct, Product } = require('../database/models');
+const { SaleProduct, Product, User } = require('../database/models');
 const { getUserByParam } = require('./user');
 
 const USER_NOT_FOUND = 'User does not exist';
@@ -32,23 +32,32 @@ const getUserSales = async (email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
   if (user.role !== 'customer') throw new Error();
-  const sales = await Sale.findAll({ where: { userId: user.id } });
+  const sales = await Sale.findAll({ where: { userId: user.id },
+    include: [{
+      model: Product,
+      as: 'products',
+      through: { attributes: ['quantity'] },
+    }],
+  });
   return sales;
 };
 
 const getUserSalesById = async (id, email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
-  const sale = await Sale.findOne({ where: { id } });
+  const sale = await Sale.findOne({ where: { userId: user.id, id },
+    include: [
+      { model: User, as: 'seller', attributes: ['name'] },
+      {
+        model: Product,
+        as: 'products',
+        through: { attributes: ['quantity'] },
+      },
+  ], 
+  });
   if (!sale) return { message: 'Order not found' };
   if (user.id !== sale.userId) throw new Error();
-  const order = await Sale.findOne({ where: { userId: user.id, id },
-    include: [{
-      model: Product,
-      as: 'products',
-      through: { attributes: ['quantity'] },
-    }] });
-  return order;
+  return sale;
 };
 
 const getSellerSales = async (email) => {
