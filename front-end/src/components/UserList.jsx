@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { getAllUsers } from '../utils/api/service';
+import { localStorageUser } from '../utils/localStorage/localStorage';
 
 export default function UserList() {
-  const [users, setUsers] = useState();
-  const tokenAdmin = localStorage.getItem('token');
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const getUsers = async () => {
+      const { token } = localStorageUser();
       const apiUsers = await getAllUsers(token);
-      setUsers(apiUsers);
+      if (Array.isArray(apiUsers)) {
+        setUsers(apiUsers);
+      }
     };
     getUsers();
-  }, [tokenAdmin]);
+  }, []);
 
   return (
-    users !== undefined ? (
-      <table>
+    <table>
+      <thead>
         <tr>
           <th>Item</th>
           <th>Nome</th>
@@ -23,8 +26,10 @@ export default function UserList() {
           <th>Tipo</th>
           <th>Excluir</th>
         </tr>
+      </thead>
+      <tbody>
         {
-          usuarios.map((user, index) => (
+          users.map((user, index) => (
             <tr key={ user.id }>
               <td data-testid={ `admin_manage__element-user-table-item-number-${index}` }>
                 { index + 1 }
@@ -44,12 +49,7 @@ export default function UserList() {
             </tr>
           ))
         }
-      </table>
-    ) : (
-      <div>
-        Carregando ....
-      </div>
-    )
-
+      </tbody>
+    </table>
   );
 }
