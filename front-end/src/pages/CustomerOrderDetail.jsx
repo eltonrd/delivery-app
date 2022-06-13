@@ -14,27 +14,24 @@ export default function CustomerOrderDetail() {
   const { token } = localStorageUser();
   const { id } = useParams();
 
-  useEffect(() => {
-    async function fetchData() {
-      const apiResponse = await getSaleById(token, id);
-      if (!apiResponse) {
-        return setShowTable(false);
-      }
-      setOrder(apiResponse);
-      return setShowTable(true);
+  const getOrderInfo = async () => {
+    const apiResponse = await getSaleById(token, id);
+    if (!apiResponse) {
+      return setShowTable(false);
     }
-    fetchData();
-  }, [id, token]);
+    setOrder(apiResponse);
+    return setShowTable(true);
+  };
+
+  useEffect(() => {
+    getOrderInfo();
+  }, []);
 
   const data = 'customer_order_details__element-order-details-label-';
 
   const delivered = async () => {
     await markAsDelivered(token, order.id);
-    async function fetchData() {
-      const apiResponse = await getSaleById(token, id);
-      setOrder(apiResponse);
-    }
-    fetchData();
+    getOrderInfo();
   };
 
   const formatProducts = () => order.products
