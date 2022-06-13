@@ -61,31 +61,34 @@ export async function adminRegister(user, token) {
 }
 
 export async function getAllUsers(token) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
   const allUsers = await API.get(
     '/admin/manage',
     {
-      headers: {
-        Authorization: { token },
-      },
+      headers,
     },
   )
-    .then((result) => result)
+    .then((result) => result.data)
     .catch((error) => console.log(error));
   return allUsers;
 }
 
-export async function deleteById(id) {
-  const isDeleted = await API.delete(
-    `/admin/manage/:${id}`,
-    {}, {
-      headers: {
-        Authorization: { token },
-      },
+export async function deleteById(id, token) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.delete(
+    `/admin/manage/${id}`,
+    {
+      headers,
     },
   )
-    .then((result) => result)
+    .then((result) => result.data)
     .catch((error) => console.log(error));
-  return !!isDeleted;
 }
 
 export async function customerOrders(token) {
@@ -139,7 +142,7 @@ export async function createSale(sale, token) {
   return createdSale.id;
 }
 
-export async function getSaleById(token, id) {
+export async function getCustomerOrderById(token, id) {
   const headers = {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
@@ -172,6 +175,36 @@ export async function markAsDelivered(token, id) {
     .catch((error) => console.log(error));
 }
 
+export async function markAsDispatched(token, id) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.patch(
+    `/seller/orders/leave/${id}`,
+    {},
+    {
+      headers,
+    },
+  )
+    .catch((error) => console.log(error));
+}
+
+export async function markAsPreparing(token, id) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.patch(
+    `/seller/orders/start/${id}`,
+    {},
+    {
+      headers,
+    },
+  )
+    .catch((error) => console.log(error));
+}
+
 export async function getSellerOrders(token) {
   const sellerOrders = await API.get(
     '/seller/orders',
@@ -179,4 +212,22 @@ export async function getSellerOrders(token) {
   ).then((result) => result.data).catch((err) => console.error(err));
 
   return sellerOrders;
+}
+
+export async function getSellerOrderById(token, id) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+
+  const allSales = await API.get(
+    `/seller/orders/${id}`,
+    {
+      headers,
+    },
+  )
+    .then((result) => (result.data))
+    .catch((error) => console.log(error));
+
+  return allSales;
 }

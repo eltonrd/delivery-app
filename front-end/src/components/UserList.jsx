@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../utils/api/service';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { deleteById } from '../utils/api/service';
+import { localStorageUser } from '../utils/localStorage/localStorage';
 
-export default function UserList() {
-  const [users, setUsers] = useState();
-  const tokenAdmin = localStorage.getItem('token');
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const apiUsers = await getAllUsers(token);
-      setUsers(apiUsers);
-    };
-    getUsers();
-  }, [tokenAdmin]);
+export default function UserList({ update, users }) {
+  const deleteUser = async (id) => {
+    const { token } = localStorageUser();
+    await deleteById(id, token);
+    update();
+  };
 
   return (
-    users !== undefined ? (
-      <table>
+    <table>
+      <thead>
         <tr>
           <th>Item</th>
           <th>Nome</th>
@@ -23,8 +20,10 @@ export default function UserList() {
           <th>Tipo</th>
           <th>Excluir</th>
         </tr>
+      </thead>
+      <tbody>
         {
-          usuarios.map((user, index) => (
+          users.map((user, index) => (
             <tr key={ user.id }>
               <td data-testid={ `admin_manage__element-user-table-item-number-${index}` }>
                 { index + 1 }
@@ -39,17 +38,29 @@ export default function UserList() {
                 { user.role }
               </td>
               <td data-testid={ `admin_manage__element-user-table-remove-${index}` }>
-                <button type="button">EXCLUIR</button>
+                <button
+                  onClick={ () => deleteUser(user.id) }
+                  type="button"
+                >
+                  EXCLUIR
+                </button>
               </td>
             </tr>
           ))
         }
-      </table>
-    ) : (
-      <div>
-        Carregando ....
-      </div>
-    )
-
+      </tbody>
+    </table>
   );
 }
+
+UserList.propTypes = {
+  update: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      role: PropTypes.string,
+      email: PropTypes.string,
+    }),
+  ).isRequired,
+};

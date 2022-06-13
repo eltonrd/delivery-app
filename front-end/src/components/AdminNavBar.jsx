@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicNavBar from './BasicNavBar';
+import NavBar from './NavBar';
 
 export default function AdminNavBar() {
   const TEST_ID_PREFIX = 'customer_products__element-navbar';
@@ -18,6 +18,6 @@ export default function AdminNavBar() {
   };
 
   return (
-    <BasicNavBar links={ links } dataTestIds={ dataTestIds } />
+    <NavBar links={ links } dataTestIds={ dataTestIds } />
   );
 }
