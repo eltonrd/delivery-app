@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { localStorageUser } from '../utils/localStorage/localStorage';
-import { getSellerOrderById, markAsDispatched, markAsPreparing } from '../utils/api/service';
+import {
+  getSellerOrderById,
+  markAsDispatched,
+  markAsPreparing,
+} from '../utils/api/service';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import SellerNavBar from '../components/SellerNavBar';
