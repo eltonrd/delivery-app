@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { adminRegister } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 
-export default function AdminRegisterForm() {
+export default function AdminRegisterForm({ update }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,6 +32,7 @@ export default function AdminRegisterForm() {
     const user = { name, email, password, role };
     const response = await adminRegister(user, t);
     setIsRegisterWrong(response);
+    update();
   };
 
   return (
@@ -99,3 +101,7 @@ export default function AdminRegisterForm() {
     </section>
   );
 }
+
+AdminRegisterForm.propTypes = {
+  update: PropTypes.func.isRequired,
+};

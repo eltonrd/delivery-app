@@ -76,18 +76,19 @@ export async function getAllUsers(token) {
   return allUsers;
 }
 
-export async function deleteById(id) {
-  const isDeleted = await API.delete(
+export async function deleteById(id, token) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.delete(
     `/admin/manage/:${id}`,
     {}, {
-      headers: {
-        Authorization: { token },
-      },
+      headers,
     },
   )
-    .then((result) => result)
+    .then((result) => result.data)
     .catch((error) => console.log(error));
-  return !!isDeleted;
 }
 
 export async function customerOrders(token) {

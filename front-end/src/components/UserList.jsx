@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../utils/api/service';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { deleteById } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 
-export default function UserList() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const { token } = localStorageUser();
-      const apiUsers = await getAllUsers(token);
-      if (Array.isArray(apiUsers)) {
-        setUsers(apiUsers);
-      }
-    };
-    getUsers();
-  }, []);
+export default function UserList({ update, users }) {
+  const deleteUser = async (id) => {
+    const { token } = localStorageUser();
+    await deleteById(id, token);
+    update();
+  };
 
   return (
     <table>
@@ -44,7 +38,12 @@ export default function UserList() {
                 { user.role }
               </td>
               <td data-testid={ `admin_manage__element-user-table-remove-${index}` }>
-                <button type="button">EXCLUIR</button>
+                <button
+                  onClick={ () => deleteUser(user.id) }
+                  type="button"
+                >
+                  EXCLUIR
+                </button>
               </td>
             </tr>
           ))
@@ -53,3 +52,15 @@ export default function UserList() {
     </table>
   );
 }
+
+UserList.propTypes = {
+  update: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      role: PropTypes.string,
+      email: PropTypes.string,
+    }),
+  ).isRequired,
+};
