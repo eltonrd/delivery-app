@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import priceToReal from '../utils/helpers/priceToReal';
 
 export default function SellerOrderCard({ order }) {
   return (
-    <a href={ `/seller/orders/${order.id}` }>
+    <Link to={ `/seller/orders/${order.id}` }>
       <div>
         <p>Pedido</p>
         <span
@@ -38,7 +39,7 @@ export default function SellerOrderCard({ order }) {
       >
         { `${order.deliveryAddress}, ${order.deliveryNumber}` }
       </p>
-    </a>
+    </Link>
   );
 }
 

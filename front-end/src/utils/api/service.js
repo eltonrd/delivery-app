@@ -142,7 +142,7 @@ export async function createSale(sale, token) {
   return createdSale.id;
 }
 
-export async function getSaleById(token, id) {
+export async function getSaleById(token, id) { // <-- Customer order
   const headers = {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
@@ -175,6 +175,36 @@ export async function markAsDelivered(token, id) {
     .catch((error) => console.log(error));
 }
 
+export async function markAsDispatched(token, id) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.patch(
+    `/seller/orders/leave/${id}`,
+    {},
+    {
+      headers,
+    },
+  )
+    .catch((error) => console.log(error));
+}
+
+export async function markAsPreparing(token, id) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  await API.patch(
+    `/seller/orders/start/${id}`,
+    {},
+    {
+      headers,
+    },
+  )
+    .catch((error) => console.log(error));
+}
+
 export async function getSellerOrders(token) {
   const sellerOrders = await API.get(
     '/seller/orders',
@@ -182,4 +212,22 @@ export async function getSellerOrders(token) {
   ).then((result) => result.data).catch((err) => console.error(err));
 
   return sellerOrders;
+}
+
+export async function getOrderById(token, id) { // <-- Seller order
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+
+  const allSales = await API.get(
+    `/seller/orders/${id}`,
+    {
+      headers,
+    },
+  )
+    .then((result) => (result.data))
+    .catch((error) => console.log(error));
+
+  return allSales;
 }
