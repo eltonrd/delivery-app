@@ -35,7 +35,7 @@ const getUserSales = async (email) => {
   const sales = await Sale.findAll({ where: { userId: user.id },
     include: [{
       model: Product,
-      as: 'product',
+      as: 'products',
       through: { attributes: ['quantity'] },
     }],
   });
@@ -48,7 +48,7 @@ const getUserSalesById = async (id, email) => {
   const sale = await Sale.findOne({ where: { userId: user.id, id },
     include: [{
       model: Product,
-      as: 'product',
+      as: 'products',
       through: { attributes: ['quantity'] },
     }], 
   });
@@ -68,7 +68,12 @@ const getSellerSales = async (email) => {
 const getSellerSalesById = async (id, email) => {
   const user = await getUserByParam(email, 'email');
   if (!user) return { message: USER_NOT_FOUND };
-  const sale = await Sale.findOne({ where: { id } });
+  const sale = await Sale.findOne({ where: { sellerId: user.id, id },
+    include: [{
+      model: Product,
+      as: 'products',
+      through: { attributes: ['quantity'] },
+    }] });
   if (!sale) return { message: 'Order not found' };
   if (user.id !== sale.sellerId) throw new Error();
   return sale;

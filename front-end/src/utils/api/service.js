@@ -1,10 +1,14 @@
 import axios from 'axios';
 
+const API = axios.create({
+  baseURL: 'http://localhost:3001',
+});
+
 const CONTENT_TYPE = 'application/json';
 
 export async function login(email, password) {
-  const user = await axios.post(
-    'http://localhost:3001/login',
+  const user = await API.post(
+    '/login',
     {
       email,
       password,
@@ -17,8 +21,8 @@ export async function login(email, password) {
 }
 
 export async function register(name, email, password) {
-  const user = await axios.post(
-    'http://localhost:3001/register',
+  const user = await API.post(
+    '/register',
     {
       name,
       email,
@@ -32,8 +36,8 @@ export async function register(name, email, password) {
 }
 
 export async function getProducts() {
-  const fetchProducts = await axios.get(
-    'http://localhost:3001/customer/products',
+  const fetchProducts = await API.get(
+    '/customer/products',
   ).then((result) => result.data).catch((error) => console.log(error));
 
   return fetchProducts;
@@ -44,8 +48,8 @@ export async function adminRegister(user, token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const isCreated = await axios.post(
-    'http://localhost:3001/admin/manage',
+  const isCreated = await API.post(
+    '/admin/manage',
     user,
     {
       headers,
@@ -57,42 +61,60 @@ export async function adminRegister(user, token) {
 }
 
 export async function getAllUsers(token) {
-  const headers = {
-    'Content-Type': CONTENT_TYPE,
-    authorization: token,
-  };
-  const allUsers = await axios.get(
-    'http://localhost:3001/admin/manage',
+  const allUsers = await API.get(
+    '/admin/manage',
     {
-      headers,
+      headers: {
+        Authorization: { token },
+      },
     },
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  console.log(allUsers);
   return allUsers;
 }
 
 export async function deleteById(id) {
-  const headers = {
-    'Content-Type': CONTENT_TYPE,
-    authorization: token,
-  };
-  const isDeleted = await axios.delete(
-    `http://localhost:3001/admin/manage/:${id}`,
-    {
-      headers,
+  const isDeleted = await API.delete(
+    `/admin/manage/:${id}`,
+    {}, {
+      headers: {
+        Authorization: { token },
+      },
     },
   )
     .then((result) => result)
     .catch((error) => console.log(error));
-  console.log(isDeleted);
   return !!isDeleted;
 }
 
+export async function customerOrders(token) {
+  const headers = {
+    'Content-Type': CONTENT_TYPE,
+    authorization: token,
+  };
+  const customerOrder = await API.get(
+    '/customer/orders',
+    {
+      headers,
+    },
+  ).then((result) => result.data).catch((err) => console.error(err));
+
+  return customerOrder;
+}
+
+export async function customerOrdersById(id, token) {
+  const customerOrderById = await API.get(
+    `/customer/orders/${id}`,
+    { headers: { authorization: token } },
+  ).then((result) => result).catch((err) => console.error(err));
+
+  return customerOrderById;
+}
+
 export async function getSellers() {
-  const sellers = await axios.get(
-    'http://localhost:3001/seller',
+  const sellers = await API.get(
+    '/seller',
   )
     .then((result) => result.data)
     .catch((error) => console.log(error));
@@ -104,8 +126,8 @@ export async function createSale(sale, token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const createdSale = await axios.post(
-    'http://localhost:3001/sales',
+  const createdSale = await API.post(
+    '/sales',
     sale,
     {
       headers,
@@ -123,8 +145,8 @@ export async function getSaleById(token, id) {
     authorization: token,
   };
 
-  const allSales = await axios.get(
-    `http://localhost:3001/customer/orders/${id}`,
+  const allSales = await API.get(
+    `/customer/orders/${id}`,
     {
       headers,
     },
@@ -140,11 +162,20 @@ export async function markAsDelivered(token, id) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  await axios.patch(
-    `http://localhost:3001/seller/orders/delivered/${id}`,
+  await API.patch(
+    `/seller/orders/delivered/${id}`,
     {
       headers,
     },
   )
     .catch((error) => console.log(error));
+}
+
+export async function getSellerOrders(token) {
+  const sellerOrders = await API.get(
+    '/seller/orders',
+    { headers: { authorization: token } },
+  ).then((result) => result.data).catch((err) => console.error(err));
+
+  return sellerOrders;
 }
