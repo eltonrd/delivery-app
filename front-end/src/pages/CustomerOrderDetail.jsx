@@ -15,7 +15,7 @@ export default function CustomerOrderDetail() {
   const { id } = useParams();
 
   const getOrderInfo = async () => {
-    const apiResponse = await getSaleById(token, id);
+    const apiResponse = await getCustomerOrderById(token, id);
     if (!apiResponse) {
       return setShowTable(false);
     }

@@ -142,7 +142,7 @@ export async function createSale(sale, token) {
   return createdSale.id;
 }
 
-export async function getSaleById(token, id) { // <-- Customer order
+export async function getCustomerOrderById(token, id) {
   const headers = {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
@@ -214,7 +214,7 @@ export async function getSellerOrders(token) {
   return sellerOrders;
 }
 
-export async function getOrderById(token, id) { // <-- Seller order
+export async function getSellerOrderById(token, id) {
   const headers = {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
