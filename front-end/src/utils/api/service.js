@@ -136,15 +136,10 @@ export async function getSaleById(token, id) {
 }
 
 export async function markAsDelivered(token, id) {
-  const headers = {
-    'Content-Type': CONTENT_TYPE,
-    authorization: token,
-  };
   await axios.patch(
     `http://localhost:3001/seller/orders/delivered/${id}`,
-    {
-      headers,
-    },
+    {},
+    { headers: { authorization: token } },
   )
     .catch((error) => console.log(error));
 }
