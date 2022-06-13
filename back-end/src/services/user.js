@@ -1,7 +1,7 @@
 const md5 = require('md5');
+const { Op } = require('sequelize');
 const { User } = require('../database/models');
 const { generateToken } = require('../utils/jwt');
-const { Op } = require('sequelize');
 
 async function getUserByParam(param, paramName) {
   const user = await User.findOne({ where: { [paramName]: param } });
