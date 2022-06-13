@@ -82,8 +82,8 @@ export async function deleteById(id, token) {
     authorization: token,
   };
   await API.delete(
-    `/admin/manage/:${id}`,
-    {}, {
+    `/admin/manage/${id}`,
+    {
       headers,
     },
   )
