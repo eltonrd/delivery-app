@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import DetailsTable from '../components/DetailsTable';
-import { getSaleById, markAsDelivered } from '../utils/api/service';
+import { getCustomerOrderById, markAsDelivered } from '../utils/api/service';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import CustomerNavBar from '../components/CustomerNavBar';
