@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import CustomerContext from '../context/CustomerContext';
-import NavBar from '../components/NavBar';
 import AddressForm from '../components/AddressForm';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import CheckoutTable from '../components/CheckoutTable';
+import CustomerNavBar from '../components/CustomerNavBar';
 
 export default function Checkout() {
   const { cart } = useContext(CustomerContext);
@@ -16,7 +16,7 @@ export default function Checkout() {
 
   return (
     <div>
-      <NavBar />
+      <CustomerNavBar />
       <section>
         <h1>Finalizar Pedido</h1>
         <CheckoutTable />

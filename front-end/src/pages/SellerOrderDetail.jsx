@@ -1,10 +1,10 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
+import SellerNavBar from '../components/SellerNavBar';
 
 export default function SellerOrderDetail() {
   return (
     <div>
-      <NavBar />
+      <SellerNavBar />
       <h1>SellerOrderDetail</h1>
     </div>
   );

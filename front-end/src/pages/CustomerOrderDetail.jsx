@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import NavBar from '../components/NavBar';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import DetailsTable from '../components/DetailsTable';
 import { getSaleById, markAsDelivered } from '../utils/api/service';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
+import CustomerNavBar from '../components/CustomerNavBar';
 
 export default function CustomerOrderDetail() {
   const [order, setOrder] = useState({});
@@ -50,7 +50,7 @@ export default function CustomerOrderDetail() {
 
   return (
     <>
-      <NavBar />
+      <CustomerNavBar />
       <section>
         <h1>Detalhe do Pedido</h1>
         {

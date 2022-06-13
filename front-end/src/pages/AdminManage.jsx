@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
+import AdminNavBar from '../components/AdminNavBar';
 // import UserList from '../components/UserList';
 import { adminRegister } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
@@ -37,7 +37,7 @@ export default function AdminManage() {
 
   return (
     <div>
-      <NavBar />
+      <AdminNavBar />
       <h1>Cadastrar novo usuário</h1>
       <form>
         <label htmlFor="name-input">
