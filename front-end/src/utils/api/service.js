@@ -164,6 +164,7 @@ export async function markAsDelivered(token, id) {
   };
   await API.patch(
     `/seller/orders/delivered/${id}`,
+    {},
     {
       headers,
     },
