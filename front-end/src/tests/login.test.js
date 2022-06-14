@@ -7,7 +7,7 @@ import renderWithRouter from './renderWithRouter';
 
 describe('Test Login page without navigation', () => {
   beforeEach(() => renderWithRouter(<Login />));
-  it('Shoul have the right screen elements', () => {
+  it('Should have the right screen elements', () => {
     const logo = screen.getByRole('img', { name: /logo app delivery/i });
     const title = screen.getByRole('heading', { name: /delivery app/i, level: 1 });
     const emailInput = screen.getByRole('textbox', { name: /login/i });
