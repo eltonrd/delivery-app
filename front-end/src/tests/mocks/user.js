@@ -1,4 +1,4 @@
-const NAME = 'user_name';
+const NAME = 'valid_user_name';
 const EMAIL = 'user@user.com';
 const TOKEN = 'valid_token';
 
