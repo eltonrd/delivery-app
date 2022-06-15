@@ -51,7 +51,7 @@ describe('Test Login page without navigation', () => {
     expect(loginButton).not.toBeDisabled();
   });
 
-  it('Should not enable login button', () => {
+  it('Should not enable login button with invalid email format', () => {
     renderWithRouter(<Login />);
   
     const emailInput = screen.getByRole('textbox', { name: /login/i });
@@ -61,7 +61,22 @@ describe('Test Login page without navigation', () => {
     expect(loginButton).toBeDisabled();
 
     userEvent.type(emailInput, 'invalid_email');
-    userEvent.type(passwordInput, 'invalid_password');
+    userEvent.type(passwordInput, USER_PASSWORD);
+
+    expect(loginButton).toBeDisabled();
+  });
+
+  it('Should not enable login button with short password', () => {
+    renderWithRouter(<Login />);
+  
+    const emailInput = screen.getByRole('textbox', { name: /login/i });
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    expect(loginButton).toBeDisabled();
+
+    userEvent.type(emailInput, USER_EMAIL);
+    userEvent.type(passwordInput, 'short');
 
     expect(loginButton).toBeDisabled();
   });
@@ -134,11 +149,11 @@ describe('Test login page with navigation', () => {
   
       afterEach(() => { localStorage.removeItem('user') })
     
-      it('should call register.login', () => {
+      it('should call service.login', () => {
         expect(service.login).toHaveBeenCalledTimes(1);
       });
   
-      it('should call register.login with user email and password', () => {
+      it('should call service.login with user email and password', () => {
         expect(service.login)
         .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
   
