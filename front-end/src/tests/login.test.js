@@ -10,24 +10,20 @@ import * as service from '../utils/api/service';
 import userMock from './mocks/user';
 import  LocalStorageMock from './mocks/localStorage';
 
+global.localStorage = new LocalStorageMock;
+
 const USER_EMAIL = 'user@user.com';
 const USER_PASSWORD = 'user_password';
 
 describe('Test Login page without navigation', () => {
-  let emailInput;
-  let passwordInput;
-  let loginButton;
-
-  beforeEach(() => {
+  it('Should have the right screen elements', () => {
     renderWithRouter(<Login />);
   
-    emailInput = screen.getByRole('textbox', { name: /login/i });
-    passwordInput = screen.getByLabelText(/senha/i);
-    loginButton = screen.getByRole('button', { name: /login/i });
-  });
-  it('Should have the right screen elements', () => {
     const logo = screen.getByRole('img', { name: /logo app delivery/i });
     const title = screen.getByRole('heading', { name: /delivery app/i, level: 1 });
+    const emailInput = screen.getByRole('textbox', { name: /login/i });
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
   
     const registerButton = screen.getByRole('button', { name: /não tenho conta/i });
 
@@ -41,6 +37,12 @@ describe('Test Login page without navigation', () => {
   });
 
   it('Should enable login button', () => {
+    renderWithRouter(<Login />);
+  
+    const emailInput = screen.getByRole('textbox', { name: /login/i });
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
     expect(loginButton).toBeDisabled();
 
     userEvent.type(emailInput, USER_EMAIL);
@@ -50,6 +52,12 @@ describe('Test Login page without navigation', () => {
   });
 
   it('Should not enable login button', () => {
+    renderWithRouter(<Login />);
+  
+    const emailInput = screen.getByRole('textbox', { name: /login/i });
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
     expect(loginButton).toBeDisabled();
 
     userEvent.type(emailInput, 'invalid_email');
@@ -57,6 +65,35 @@ describe('Test Login page without navigation', () => {
 
     expect(loginButton).toBeDisabled();
   });
+
+  describe('should auto redirect', () => {
+    afterEach(() => localStorage.removeItem('user'));
+
+    it('to /customer/products if localStorage has customer info', () => {
+      localStorage.setItem('user', JSON.stringify({ role: userMock.customer.user.role }));
+      const { history } = renderWithRouter(<Login />);
+    
+      const { pathname } = history.location;
+      expect(pathname).toBe('/customer/products');
+    });
+  
+    it('to /admin/manage if localStorage has administrator info', () => {
+      localStorage.setItem('user', JSON.stringify({ role: userMock.administrator.user.role }));
+      const { history } = renderWithRouter(<Login />);
+    
+      const { pathname } = history.location;
+      expect(pathname).toBe('/admin/manage');
+    });
+  
+    it('to /seller/orders if localStorage has seller info', () => {
+      localStorage.setItem('user', JSON.stringify({ role: userMock.seller.user.role }));
+      const { history } = renderWithRouter(<Login />);
+    
+      const { pathname } = history.location;
+      expect(pathname).toBe('/seller/orders');
+    });
+  });
+
 });
 
 describe('Test login page with navigation', () => {
@@ -82,7 +119,6 @@ describe('Test login page with navigation', () => {
 
       beforeEach(() => {
         service.login.mockImplementation(() => Promise.resolve(userMock.customer));
-        global.localStorage = new LocalStorageMock;
   
         history = renderWithRouter(<Login />).history;
         history.push = jest.fn();
