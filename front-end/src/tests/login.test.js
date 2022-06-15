@@ -8,6 +8,7 @@ import Login from '../pages/Login';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
+import  LocalStorageMock from './mocks/localStorage';
 
 const USER_EMAIL = 'user@user.com';
 const USER_PASSWORD = 'user_password';
@@ -72,65 +73,106 @@ describe('Test login page with navigation', () => {
     });
   });
   
-  describe('Trying to log in', () => {
-    let history;
-    let emailInput;
-    let passwordInput;
-    let loginButton;
-  
-    beforeEach(() => {
-      service.login.mockImplementation(() => Promise.resolve(userMock.customer));
+  describe('Trying to log in', () => {    
+    describe('as customer', () => {
+      let history;
+      let emailInput;
+      let passwordInput;
+      let loginButton;
 
-      history = renderWithRouter(<Login />).history;
-      history.push = jest.fn();
-
-      emailInput = screen.getByRole('textbox', { name: /login/i });
-      passwordInput = screen.getByLabelText(/senha/i);
-      loginButton = screen.getByRole('button', { name: /login/i });
+      beforeEach(() => {
+        service.login.mockImplementation(() => Promise.resolve(userMock.customer));
+        global.localStorage = new LocalStorageMock;
   
-      userEvent.type(emailInput, USER_EMAIL);
-      userEvent.type(passwordInput, USER_PASSWORD); 
-      userEvent.click(loginButton);
-    });
+        history = renderWithRouter(<Login />).history;
+        history.push = jest.fn();
   
-    it('should call register.login', async () => {
-      expect(service.login).toHaveBeenCalledTimes(1);
-      expect(service.login)
-      .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
-      
-      await waitFor(() => {
-        expect(history.push).toBeCalledWith({
-          hash: '',
-          pathname: '/customer/products',
-          search: '',
-        }, undefined);
+        emailInput = screen.getByRole('textbox', { name: /login/i });
+        passwordInput = screen.getByLabelText(/senha/i);
+        loginButton = screen.getByRole('button', { name: /login/i });
+    
+        userEvent.type(emailInput, USER_EMAIL);
+        userEvent.type(passwordInput, USER_PASSWORD); 
+        userEvent.click(loginButton);
+      });
+  
+      afterEach(() => { localStorage.removeItem('user') })
+    
+      it('should call register.login', () => {
+        expect(service.login).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call register.login with user email and password', () => {
+        expect(service.login)
+        .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
+  
+      });
+  
+      it('should redirect to /customer/products', async () => {
+        await waitFor(() => {
+          expect(history.push).toBeCalledWith({
+            hash: '',
+            pathname: '/customer/products',
+            search: '',
+          }, undefined);
+        });
       });
     });
 
-    // it('should call register.login with user email and password', () => {
-    //   renderWithRouter(<Login />);
-    //   const emailInput = screen.getByRole('textbox', { name: /login/i });
-    //   const passwordInput = screen.getByLabelText(/senha/i);
-    //   const loginButton = screen.getByRole('button', { name: /login/i });
+    describe('as administrator', () => {
+      afterEach(() => { localStorage.removeItem('user') });
 
-    //   userEvent.type(emailInput, USER_EMAIL);
-    //   userEvent.type(passwordInput, USER_PASSWORD); 
-    //   userEvent.click(loginButton);
+      it('should redirect to /admin/manage', async () => {
+        service.login.mockImplementation(() => Promise.resolve(userMock.administrator));
+        global.localStorage = new LocalStorageMock;
+  
+        const { history } = renderWithRouter(<Login />);
+        history.push = jest.fn();
+  
+        const emailInput = screen.getByRole('textbox', { name: /login/i });
+        const passwordInput = screen.getByLabelText(/senha/i);
+        const loginButton = screen.getByRole('button', { name: /login/i });
+    
+        userEvent.type(emailInput, USER_EMAIL);
+        userEvent.type(passwordInput, USER_PASSWORD); 
+        userEvent.click(loginButton);
 
-    // });
+        await waitFor(() => {
+          expect(history.push).toBeCalledWith({
+            hash: '',
+            pathname: '/admin/manage',
+            search: '',
+          }, undefined);
+        });
+      });
+    });
 
-    // it('should redirect to /customer/products when logging in as customer', () => {
-    //   const { history } = renderWithRouter(<Login />);
-    //   const emailInput = screen.getByRole('textbox', { name: /login/i });
-    //   const passwordInput = screen.getByLabelText(/senha/i);
-    //   const loginButton = screen.getByRole('button', { name: /login/i });
+    describe('as seller', () => {
+      afterEach(() => { localStorage.removeItem('user') });
 
-    //   userEvent.type(emailInput, USER_EMAIL);
-    //   userEvent.type(passwordInput, USER_PASSWORD); 
-    //   userEvent.click(loginButton);
+      it('should redirect to /seller/orders', async () => {
+        service.login.mockImplementation(() => Promise.resolve(userMock.seller));
+        global.localStorage = new LocalStorageMock;
+  
+        const { history } = renderWithRouter(<Login />);
+        history.push = jest.fn();
+  
+        const emailInput = screen.getByRole('textbox', { name: /login/i });
+        const passwordInput = screen.getByLabelText(/senha/i);
+        const loginButton = screen.getByRole('button', { name: /login/i });
+    
+        userEvent.type(emailInput, USER_EMAIL);
+        userEvent.type(passwordInput, USER_PASSWORD); 
+        userEvent.click(loginButton);
 
-    //   const { pathname } = history.location;
-    //   expect(pathname).toBe('/customer/products');
-    // });
+        await waitFor(() => {
+          expect(history.push).toBeCalledWith({
+            hash: '',
+            pathname: '/seller/orders',
+            search: '',
+          }, undefined);
+        });
+      });
+    });
   });
 });
