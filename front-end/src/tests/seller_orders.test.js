@@ -1,7 +1,7 @@
 jest.mock('../utils/api/service');
 
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import SellerOrders from '../pages/SellerOrders';
@@ -71,11 +71,13 @@ describe('Seller Orders page', () => {
 
   describe('orders', () => {
     let history;
-
-    beforeEach(() => {
+    
+    beforeEach(async () => {
       service.getSellerOrders.mockImplementation(() => Promise.resolve(sellerOrders));
       localStorage.setItem('user', JSON.stringify(localStorageSeller));
-      history = renderWithRouter(<SellerOrders />).history;
+      await act(async () => {
+        history = renderWithRouter(<SellerOrders />).history;
+      });
     });
     
     afterEach(() => {
