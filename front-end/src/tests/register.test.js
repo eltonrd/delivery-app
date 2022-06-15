@@ -1,9 +1,14 @@
+jest.mock('../utils/api/service');
+
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Register from '../pages/Register';
 import renderWithRouter from './renderWithRouter';
+import * as service from '../utils/api/service';
+import userMock from './mocks/user';
+import  LocalStorageMock from './mocks/localStorage';
 
 const USER_NAME = 'valid_user_name';
 const USER_EMAIL = 'user@user.com';
@@ -85,47 +90,46 @@ describe('Test Register page without navigation', () => {
   });
 });
 
-// describe('Test Register page with navigation', () => {
-//   describe('as customer', () => {
-//     let history;
+describe('Test Register page with navigation', () => {
+  describe('as customer', () => {
+    let history;
   
-//     beforeEach(() => {
-//       service.register.mockImplementation(() => Promise.resolve(userMock.customer));
+    beforeEach(() => {
+      service.register.mockImplementation(() => Promise.resolve(userMock.customer));
   
-//       history = renderWithRouter(<Login />).history;
-//       history.push = jest.fn();
+      history = renderWithRouter(<Register />).history;
+      history.push = jest.fn();
 
-//       const nameInput = screen.getByRole('textbox', { name: /nome/i });
-//       const emailInput = screen.getByRole('textbox', { name: /login/i });
-//       const passwordInput = screen.getByLabelText(/senha/i);
-//       const loginButton = screen.getByRole('button', { name: /login/i });
+      const nameInput = screen.getByRole('textbox', { name: /nome/i });
+      const emailInput = screen.getByRole('textbox', { name: /email/i });
+      const passwordInput = screen.getByLabelText(/senha/i);
+      const registerButton = screen.getByRole('button', { name: /cadastrar/i });
   
-//       userEvent.type(emailInput, USER_EMAIL);
-//       userEvent.type(passwordInput, USER_PASSWORD);
-//       userEvent.type(nameInput, ) 
-//       userEvent.click(loginButton);
-//     });
+      userEvent.type(emailInput, USER_EMAIL);
+      userEvent.type(passwordInput, USER_PASSWORD);
+      userEvent.type(nameInput, USER_NAME); 
+      userEvent.click(registerButton);
+    });
   
-//     afterEach(() => { localStorage.removeItem('user') })
+    afterEach(() => { localStorage.removeItem('user') })
   
-//     it('should call register.login', () => {
-//       expect(service.login).toHaveBeenCalledTimes(1);
-//     });
+    it('should call service.register', () => {
+      expect(service.register).toHaveBeenCalledTimes(1);
+    });
   
-//     it('should call register.login with user email and password', () => {
-//       expect(service.login)
-//       .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
+    it('should call service.register with user name, email and password', () => {
+      expect(service.register)
+      .toHaveBeenCalledWith(USER_NAME, USER_EMAIL, USER_PASSWORD);
+    });
   
-//     });
-  
-//     it('should redirect to /customer/products', async () => {
-//       await waitFor(() => {
-//         expect(history.push).toBeCalledWith({
-//           hash: '',
-//           pathname: '/customer/products',
-//           search: '',
-//         }, undefined);
-//       });
-//     });
-//   });
-// });
+    it('should redirect to /customer/products', async () => {
+      await waitFor(() => {
+        expect(history.push).toBeCalledWith({
+          hash: '',
+          pathname: '/customer/products',
+          search: '',
+        }, undefined);
+      });
+    });
+  });
+});
