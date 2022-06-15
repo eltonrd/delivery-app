@@ -73,24 +73,31 @@ describe('Test login page with navigation', () => {
   });
   
   describe('Trying to log in', () => {
+    let history;
+    let emailInput;
+    let passwordInput;
+    let loginButton;
+  
     beforeEach(() => {
       service.login.mockImplementation(() => Promise.resolve(userMock.customer));
-    })
-    it('should call register.login', async () => {
-      const { history } = renderWithRouter(<Login />);
-      const emailInput = screen.getByRole('textbox', { name: /login/i });
-      const passwordInput = screen.getByLabelText(/senha/i);
-      const loginButton = screen.getByRole('button', { name: /login/i });
+
+      history = renderWithRouter(<Login />).history;
       history.push = jest.fn();
 
+      emailInput = screen.getByRole('textbox', { name: /login/i });
+      passwordInput = screen.getByLabelText(/senha/i);
+      loginButton = screen.getByRole('button', { name: /login/i });
+  
       userEvent.type(emailInput, USER_EMAIL);
       userEvent.type(passwordInput, USER_PASSWORD); 
       userEvent.click(loginButton);
-
+    });
+  
+    it('should call register.login', async () => {
       expect(service.login).toHaveBeenCalledTimes(1);
       expect(service.login)
-        .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
-
+      .toHaveBeenCalledWith(USER_EMAIL, USER_PASSWORD);
+      
       await waitFor(() => {
         expect(history.push).toBeCalledWith({
           hash: '',
