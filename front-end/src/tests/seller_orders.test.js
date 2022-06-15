@@ -6,17 +6,19 @@ import userEvent from '@testing-library/user-event';
 
 import SellerOrders from '../pages/SellerOrders';
 import renderWithRouter from './renderWithRouter';
+import * as service from '../utils/api/service';
 import userMock from './mocks/user';
+import sellerOrders from './mocks/orders';
 
 const { user, token } = userMock.seller;
-const localStorageUser = { ...user, token };
+const localStorageSeller = { ...user, token };
 
 describe('Seller Orders page', () => {
   describe('nav bar', () => {
     let history;
 
     beforeEach(() => {
-      localStorage.setItem('user', JSON.stringify(localStorageUser));
+      localStorage.setItem('user', JSON.stringify(localStorageSeller));
       history = renderWithRouter(<SellerOrders />).history;
     });
     
@@ -65,5 +67,38 @@ describe('Seller Orders page', () => {
         expect(pathname).toBe('/login');
       });
     });
+  });
+
+  describe('orders', () => {
+    let history;
+
+    beforeEach(() => {
+      service.getSellerOrders.mockImplementation(() => Promise.resolve(sellerOrders));
+      localStorage.setItem('user', JSON.stringify(localStorageSeller));
+      history = renderWithRouter(<SellerOrders />).history;
+    });
+    
+    afterEach(() => {
+      localStorage.removeItem('user');
+    });
+
+    it('should call service.getSellerOrders', () => {
+      expect(service.getSellerOrders).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call service.getSellerOrders with user email and password', () => {
+      expect(service.getSellerOrders)
+      .toHaveBeenCalledWith(localStorageSeller.token);
+    });
+
+    // it('should have the expected elements', () => {
+    //   const ordersLink = screen.getByRole('link', { name: /pedidos/i});
+    //   const nameHeading = screen.getByRole('heading', { name: userMock.seller.user.name });
+    //   const logoutButton = screen.getByRole('button', { name: /sair/i});
+      
+    //   expect(ordersLink).toBeInTheDocument();
+    //   expect(nameHeading).toBeInTheDocument();
+    //   expect(logoutButton).toBeInTheDocument();
+    // });
   });
 });
