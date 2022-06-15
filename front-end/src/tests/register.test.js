@@ -8,7 +8,6 @@ import Register from '../pages/Register';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
-import  LocalStorageMock from './mocks/localStorage';
 
 const USER_NAME = 'valid_user_name';
 const USER_EMAIL = 'user@user.com';

@@ -8,9 +8,6 @@ import Login from '../pages/Login';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
-import  LocalStorageMock from './mocks/localStorage';
-
-global.localStorage = new LocalStorageMock;
 
 const USER_EMAIL = 'user@user.com';
 const USER_PASSWORD = 'user_password';
@@ -175,7 +172,6 @@ describe('Test login page with navigation', () => {
 
       it('should redirect to /admin/manage', async () => {
         service.login.mockImplementation(() => Promise.resolve(userMock.administrator));
-        global.localStorage = new LocalStorageMock;
   
         const { history } = renderWithRouter(<Login />);
         history.push = jest.fn();
@@ -203,7 +199,6 @@ describe('Test login page with navigation', () => {
 
       it('should redirect to /seller/orders', async () => {
         service.login.mockImplementation(() => Promise.resolve(userMock.seller));
-        global.localStorage = new LocalStorageMock;
   
         const { history } = renderWithRouter(<Login />);
         history.push = jest.fn();
