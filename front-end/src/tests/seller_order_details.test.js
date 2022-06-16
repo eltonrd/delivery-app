@@ -72,13 +72,11 @@ describe('Seller Orders page', () => {
   });
 
   describe('order details', () => {
-    let history;
-    
     beforeEach(async () => {
       service.getSellerOrderById.mockImplementation(() => Promise.resolve(sellerOrderDetails));
       localStorage.setItem('user', JSON.stringify(localStorageSeller));
       await act(async () => {
-        history = renderWithRouter(<SellerOrderDetail />).history;
+        renderWithRouter(<SellerOrderDetail />);
       });
     });
     
@@ -158,6 +156,187 @@ describe('Seller Orders page', () => {
       expect(subTotalPrices).toHaveLength(2);
       expect(subTotalPrices[0].innerHTML).toBe('R$ 4,40');
       expect(subTotalPrices[1].innerHTML).toBe('R$ 22,50');
+    });
+  });
+
+  describe('buttons', () => {
+    beforeEach(async () => {
+      localStorage.setItem('user', JSON.stringify(localStorageSeller));
+    });
+    
+    afterEach(() => {
+      localStorage.removeItem('user');
+    });
+    
+    describe('when order is pending', () => {
+      beforeEach(async () => {
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve(sellerOrderDetails));
+        await act(async () => {
+          renderWithRouter(<SellerOrderDetail />);
+        });
+      });
+
+      it('prepare button should be enabled', () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        expect(preparingButton).not.toBeDisabled();
+      });
+
+      it('dispatch button should be disabled', () => {
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        expect(dispatchedButton).toBeDisabled();
+      });
+
+      it('clicking on prepare button should call service.markAsPreparing', async () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        await act(async () => {
+          userEvent.click(preparingButton);
+        });
+
+        expect(service.markAsPreparing).toHaveBeenCalledTimes(1);
+      });
+
+      it('clicking on prepare button should change order status', async () => {
+        const orderStatus = screen.queryByText(/pendente/i);
+
+        expect(orderStatus).toBeInTheDocument();
+
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+
+        await act(async () => {
+          userEvent.click(preparingButton);
+        });
+        
+        expect(orderStatus.innerHTML).toBe('Preparando');
+      });
+
+      it('clicking on prepare button should disable it', async () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+
+        await act(async () => {
+          userEvent.click(preparingButton);
+        });
+        
+        expect(preparingButton).toBeDisabled();
+      });
+
+      it('clicking on prepare button should enable dispatched button', async () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        expect(dispatchedButton).toBeDisabled();
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+
+        await act(async () => {
+          userEvent.click(preparingButton);
+        });
+        
+        expect(dispatchedButton).not.toBeDisabled();
+      });
+    });
+
+    describe('when order is being prepared', () => {
+      beforeEach(async () => {
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+        await act(async () => {
+          renderWithRouter(<SellerOrderDetail />);
+        });
+      });
+
+      it('prepare button should be disabled', () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        expect(preparingButton).toBeDisabled();
+      });
+
+      it('dispatch button should be enabled', () => {
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        expect(dispatchedButton).not.toBeDisabled();
+      });
+
+      it('clicking on dispatch button should call service.markAsDispatched', async () => {
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        await act(async () => {
+          userEvent.click(dispatchedButton);
+        });
+
+        expect(service.markAsDispatched).toHaveBeenCalledTimes(1);
+      });
+
+      it('clicking on dispatch button should change order status', async () => {
+        const orderStatus = screen.queryByText(/preparando/i);
+
+        expect(orderStatus).toBeInTheDocument();
+
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+
+        await act(async () => {
+          userEvent.click(dispatchedButton);
+        });
+        
+        expect(orderStatus.innerHTML).toBe('Em Trânsito');
+      });
+
+      it('clicking on dispatch button should disable it', async () => {
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+
+        await act(async () => {
+          userEvent.click(dispatchedButton);
+        });
+        
+        expect(dispatchedButton).toBeDisabled();
+      });
+
+      it('clicking on dispatch button should not disable prepare button', async () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        expect(preparingButton).toBeDisabled();
+
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+
+        await act(async () => {
+          userEvent.click(dispatchedButton);
+        });
+        
+        expect(preparingButton).toBeDisabled();
+      });
+    });
+
+    describe('when order is already dispatched', () => {
+      beforeEach(async () => {
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+        await act(async () => {
+          renderWithRouter(<SellerOrderDetail />);
+        });
+      });
+
+      it('prepare button should be disabled', () => {
+        const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
+
+        expect(preparingButton).toBeDisabled();
+      });
+
+      it('dispatch button should be disabled', () => {
+        const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
+
+        expect(dispatchedButton).toBeDisabled();
+      });
     });
   });
 });
