@@ -30,13 +30,13 @@ export const sellerOrderDetails = {
       id: 1,
       name: 'Skol Lata 250ml',
       price: '2.20',
-      SaleProduct: { quantity: 2 }
+      SaleProduct: { quantity: 2 },
     },
     {
       id: 2,
       name: 'Heineken 600ml',
       price: '7.50',
-      SaleProduct: { quantity: 3 }
+      SaleProduct: { quantity: 3 },
     },
   ],
   saleDate: '2022-06-16T13:33:25.000Z',
@@ -44,4 +44,4 @@ export const sellerOrderDetails = {
   status: 'Pendente',
   totalPrice: '26.90',
   userId: 4,
-}
+};
