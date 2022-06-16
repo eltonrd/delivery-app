@@ -160,4 +160,55 @@ describe('service functions', () => {
       });
     });
   });
+
+  describe('adminRegister', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.post.mockImplementation(() => {
+          return Promise.resolve({});
+        });
+  
+        result = await service.adminRegister({ ...user.customer, token: undefined }, user.administrator.token);
+      });
+  
+      it('should call axios.post', () => {  
+        expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.post with proper parameters', () => {  
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/admin/manage', { ...user.customer, token: undefined }, { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return false', () => {
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.post.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.adminRegister();
+      });
+      
+      it('should call axios.post', () => {  
+        expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return true', () => {
+        expect(result).toBe(true);
+      });
+    });
+  });
 });
