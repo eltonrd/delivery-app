@@ -195,7 +195,7 @@ describe('service functions', () => {
           return Promise.reject(new Error('error'));
         });
         
-        result = await service.adminRegister();
+        result = await service.adminRegister({ ...user.customer, token: undefined }, 'invalid_token');
       });
       
       it('should call axios.post', () => {  
@@ -208,6 +208,57 @@ describe('service functions', () => {
 
       it('should return true', () => {
         expect(result).toBe(true);
+      });
+    });
+  });
+
+  describe('getAllUsers', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.get.mockImplementation(() => {
+          return Promise.resolve({ data: [] });
+        });
+  
+        result = await service.getAllUsers(user.administrator.token);
+      });
+  
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.get with proper parameters', () => {  
+        expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/admin/manage', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return an array', () => {
+        expect(result).toStrictEqual([]);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.get.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.getAllUsers('invalid_token');
+      });
+      
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
       });
     });
   });
