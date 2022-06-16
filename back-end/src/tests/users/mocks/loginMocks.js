@@ -3,6 +3,11 @@ const validUser = {
 	password: '$#zebirita#$',
 };
 
+const validSeller = {
+  email: 'fulana@deliveryapp.com',
+  password: 'fulana@123',
+};
+
 const inValidUser = {
   email: 'zebirita@email.com',
 	password: '$#zebirita#$$',
@@ -34,6 +39,7 @@ const sellerDbResponse = {
 
 module.exports = {
   validUser,
+  validSeller,
   userDbResponse,
   inValidUser,
   userWithoutEmail,
