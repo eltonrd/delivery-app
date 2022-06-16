@@ -127,5 +127,37 @@ describe('Seller Orders page', () => {
       expect(orderTotalPriceHeading).toBeInTheDocument();
       expect(orderTotalPriceSpan).toBeInTheDocument();
     });
+
+    it('should have the expected cells in table', () => {
+      const itemsNumber = screen.getAllByTestId(/seller_order_details__element-order-table-item-number/);
+
+      expect(itemsNumber).toHaveLength(2);
+      expect(itemsNumber[0].innerHTML).toBe('1');
+      expect(itemsNumber[1].innerHTML).toBe('2');
+
+      const names = screen.getAllByTestId(/seller_order_details__element-order-table-name/);
+
+      expect(names).toHaveLength(2);
+      expect(names[0].innerHTML).toBe('Skol Lata 250ml');
+      expect(names[1].innerHTML).toBe('Heineken 600ml');
+
+      const quantities = screen.getAllByTestId(/seller_order_details__element-order-table-quantity/);
+
+      expect(quantities).toHaveLength(2);
+      expect(quantities[0].innerHTML).toBe('2');
+      expect(quantities[1].innerHTML).toBe('3');
+
+      const unitPrices = screen.getAllByTestId(/seller_order_details__element-order-table-unit-price/);
+
+      expect(unitPrices).toHaveLength(2);
+      expect(unitPrices[0].innerHTML).toBe('R$ 2,20');
+      expect(unitPrices[1].innerHTML).toBe('R$ 7,50');
+
+      const subTotalPrices = screen.getAllByTestId(/seller_order_details__element-order-table-sub-total/);
+
+      expect(subTotalPrices).toHaveLength(2);
+      expect(subTotalPrices[0].innerHTML).toBe('R$ 4,40');
+      expect(subTotalPrices[1].innerHTML).toBe('R$ 22,50');
+    });
   });
 });
