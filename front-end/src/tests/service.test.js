@@ -37,15 +37,20 @@ describe('service functions', () => {
       let result;
 
       beforeEach(async () => {
+        global.console.log = jest.fn();
         axios.post.mockImplementation(() => {
-          return Promise.resolve(new Error('error'));
+          return Promise.reject(new Error('error'));
         });
-  
+
         result = await service.login('', 'valid_password');
       });
   
       it('should call axios.post', () => {  
         expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
       });
 
       it('should return undefined', () => {
@@ -83,15 +88,20 @@ describe('service functions', () => {
       let result;
 
       beforeEach(async () => {
+        global.console.log = jest.fn();
         axios.post.mockImplementation(() => {
-          return Promise.resolve(new Error('error'));
+          return Promise.reject(new Error('error'));
         });
-  
-        result = await service.login('', '', 'valid_password');
+        
+        result = await service.register('', '', 'valid_password');
       });
-  
+      
       it('should call axios.post', () => {  
         expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
       });
 
       it('should return undefined', () => {
