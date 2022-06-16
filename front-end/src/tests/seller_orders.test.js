@@ -8,7 +8,7 @@ import SellerOrders from '../pages/SellerOrders';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
-import sellerOrders from './mocks/orders';
+import { sellerOrders } from './mocks/orders';
 
 const { user, token } = userMock.seller;
 const localStorageSeller = { ...user, token };
@@ -91,7 +91,7 @@ describe('Seller Orders page', () => {
         expect(service.getSellerOrders).toHaveBeenCalledTimes(1);
       });
   
-      it('should call service.getSellerOrders with user email and password', () => {
+      it('should call service.getSellerOrders with user token', () => {
         expect(service.getSellerOrders)
         .toHaveBeenCalledWith(localStorageSeller.token);
       });
