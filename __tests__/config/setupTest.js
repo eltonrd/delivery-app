@@ -4,7 +4,7 @@ const { mysqlPool } = require("./utils/mysqlPool");
 
 const action = require("../end-to-end/actions");
 
-const excludeList = ["12coverage_tests.test.js"];
+const excludeList = ["11coverage_tests.test.js"];
 
 const {
   environment,

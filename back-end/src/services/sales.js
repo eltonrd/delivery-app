@@ -56,7 +56,7 @@ const getUserSalesById = async (id, email) => {
   ], 
   });
   if (!sale) return { message: 'Order not found' };
-  if (user.id !== sale.userId) throw new Error();
+  if (user.id === sale.sellerId) throw new Error();
   return sale;
 };
 
