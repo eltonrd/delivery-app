@@ -1,3 +1,18 @@
+const products = [
+  {
+    id: 1,
+    name: 'Skol Lata 250ml',
+    price: '2.20',
+    SaleProduct: { quantity: 2 },
+  },
+  {
+    id: 2,
+    name: 'Heineken 600ml',
+    price: '7.50',
+    SaleProduct: { quantity: 3 },
+  },
+];
+
 const sellerOrders = [
   {
     deliveryAddress: 'Address One',
@@ -25,20 +40,7 @@ const sellerOrderDetails = {
   deliveryAddress: 'Rua abc',
   deliveryNumber: '28633',
   id: 1,
-  products: [
-    {
-      id: 1,
-      name: 'Skol Lata 250ml',
-      price: '2.20',
-      SaleProduct: { quantity: 2 },
-    },
-    {
-      id: 2,
-      name: 'Heineken 600ml',
-      price: '7.50',
-      SaleProduct: { quantity: 3 },
-    },
-  ],
+  products,
   saleDate: '2022-06-16T13:33:25.000Z',
   sellerId: 2,
   status: 'Pendente',
@@ -69,22 +71,9 @@ const customerOrderDetails = {
   deliveryAddress: 'Rua teste',
   deliveryNumber: '51',
   id: 1,
-  products: [
-    {
-      id: 1,
-      name: 'Skol Lata 250ml',
-      price: '2.20',
-      SaleProduct: { quantity: 2 },
-    },
-    {
-      id: 2,
-      name: 'Heineken 600ml',
-      price: '7.50',
-      SaleProduct: { quantity: 3 },
-    },
-  ],
+  products,
   saleDate: '2022-06-17T17:41:24.000Z',
-  seller: {name: 'Fulana Pereira'},
+  seller: { name: 'Fulana Pereira' },
   sellerId: 2,
   status: 'Pendente',
   totalPrice: '19.40',
@@ -94,23 +83,10 @@ const customerOrderDetails = {
 const orderToBeCreated = {
   deliveryAddress: 'Rua teste',
   deliveryNumber: '51',
-  products: [
-    {
-      id: 1,
-      name: 'Skol Lata 250ml',
-      price: '2.20',
-      SaleProduct: { quantity: 2 },
-    },
-    {
-      id: 2,
-      name: 'Heineken 600ml',
-      price: '7.50',
-      SaleProduct: { quantity: 3 },
-    },
-  ],
+  products,
   sellerId: 2,
   totalPrice: 19.4,
-}
+};
 
 export default {
   customerOrderDetails,
