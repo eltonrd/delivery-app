@@ -197,7 +197,7 @@ export async function getSellerOrders(token) {
   const sellerOrders = await axios.get(
     'http://localhost:3001/seller/orders',
     { headers: { authorization: token } },
-  ).then((result) => result.data).catch((err) => console.error(err));
+  ).then((result) => result.data).catch((err) => console.log(err));
 
   return sellerOrders;
 }
