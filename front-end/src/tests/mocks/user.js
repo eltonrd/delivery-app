@@ -29,8 +29,24 @@ const administrator = {
   token: TOKEN,
 };
 
+const adminManage = [
+  {
+    email: 'fulana@deliveryapp.com',
+    id: 2,
+    name: 'Fulana Pereira',
+    role: 'seller',
+  },
+  {
+    email: 'zebirita@email.com',
+    id: 3,
+    name: 'Cliente Zé Birita',
+    role: 'customer',
+  },
+];
+
 module.exports = {
   customer,
   seller,
   administrator,
+  adminManage,
 };
