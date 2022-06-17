@@ -44,7 +44,7 @@ const adminManage = [
   },
 ];
 
-module.exports = {
+export default {
   customer,
   seller,
   administrator,

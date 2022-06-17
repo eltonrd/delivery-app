@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as service from '../utils/api/service';
 
 import user from './mocks/user';
+import orders from './mocks/orders';
 
 describe('service functions', () => {
   afterEach(() => { jest.resetAllMocks(); });
@@ -302,6 +303,108 @@ describe('service functions', () => {
       
       it('should call axios.delete', () => {  
         expect(axios.delete).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
+
+  describe('customerOrders', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.get.mockImplementation(() => {
+          return Promise.resolve({ data: orders.customerOrders });
+        });
+  
+        result = await service.customerOrders(user.customer.token);
+      });
+  
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.get with proper parameters', () => {  
+        expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/customer/orders', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return orders array', () => {
+        expect(result).toStrictEqual(orders.customerOrders);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.get.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.customerOrders('invalid_token');
+      });
+      
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
+
+  describe('getCustomerOrderById', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.get.mockImplementation(() => {
+          return Promise.resolve({ data: orders.customerOrderDetails });
+        });
+  
+        result = await service.getCustomerOrderById(user.customer.token, 4);
+      });
+  
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.get with proper parameters', () => {  
+        expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/customer/orders/4', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return order', () => {
+        expect(result).toStrictEqual(orders.customerOrderDetails);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.get.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.getCustomerOrderById(1000, 'invalid_token');
+      });
+      
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
       });
       
       it('should call console.log', () => {  

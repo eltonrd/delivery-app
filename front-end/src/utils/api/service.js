@@ -97,18 +97,9 @@ export async function customerOrders(token) {
     {
       headers,
     },
-  ).then((result) => result.data).catch((err) => console.error(err));
+  ).then((result) => result.data).catch((err) => console.log(err));
 
   return customerOrder;
-}
-
-export async function customerOrdersById(id, token) {
-  const customerOrderById = await axios.get(
-    `http://localhost:3001/customer/orders/${id}`,
-    { headers: { authorization: token } },
-  ).then((result) => result).catch((err) => console.error(err));
-
-  return customerOrderById;
 }
 
 export async function getSellers() {
@@ -144,7 +135,7 @@ export async function getCustomerOrderById(token, id) {
     authorization: token,
   };
 
-  const allSales = await axios.get(
+  const sale = await axios.get(
     `http://localhost:3001/customer/orders/${id}`,
     {
       headers,
@@ -153,7 +144,7 @@ export async function getCustomerOrderById(token, id) {
     .then((result) => (result.data))
     .catch((error) => console.log(error));
 
-  return allSales;
+  return sale;
 }
 
 export async function markAsDelivered(token, id) {
