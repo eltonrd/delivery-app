@@ -262,4 +262,55 @@ describe('service functions', () => {
       });
     });
   });
+
+  describe('deleteById', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.delete.mockImplementation(() => {
+          return Promise.resolve({});
+        });
+  
+        result = await service.deleteById(2, user.administrator.token);
+      });
+  
+      it('should call axios.delete', () => {  
+        expect(axios.delete).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.delete with proper parameters', () => {  
+        expect(axios.delete).toHaveBeenCalledWith('http://localhost:3001/admin/manage/2', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.delete.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.deleteById('invalid_token');
+      });
+      
+      it('should call axios.delete', () => {  
+        expect(axios.delete).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
 });
