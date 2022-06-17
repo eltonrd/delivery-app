@@ -363,4 +363,63 @@ describe('Admin page', () => {
       expect(usersName[0].innerHTML).toBe(USER_NAME);
     });
   });
+
+  describe('deleting user', () => {
+    beforeEach(async () => {
+      localStorage.setItem('user', JSON.stringify(localStorageAdmin));
+      service.getAllUsers.mockImplementation(() => Promise.resolve(userMock.adminManage));
+      await act(async () => {
+        renderWithRouter(<AdminManage />);
+      });
+    });
+
+    afterEach(() => {
+      localStorage.removeItem('user');
+    });
+
+    it('should call service.deleteById', async () => {
+      const deleteButtons = screen.getAllByRole('button', { name: /excluir/i });
+
+      expect(deleteButtons).toHaveLength(2);
+
+      await act(async () => {
+        userEvent.click(deleteButtons[0]);
+      });
+
+      expect(service.deleteById).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call service.deleteById with user id and admin token', async () => {
+      const deleteButtons = screen.getAllByRole('button', { name: /excluir/i });
+
+      expect(deleteButtons).toHaveLength(2);
+
+      await act(async () => {
+        userEvent.click(deleteButtons[0]);
+      });
+
+      expect(service.deleteById)
+      .toHaveBeenCalledWith(userMock.adminManage[0].id, localStorageAdmin.token);
+    });
+
+    it('should remove deleted user from screen', async () => {
+      let usersName = screen.getAllByTestId(/admin_manage__element-user-table-name/i);
+      const deleteButtons = screen.getAllByRole('button', { name: /excluir/i });
+      
+      expect(usersName).toHaveLength(2);
+      expect(usersName[0].innerHTML).toBe(userMock.adminManage[0].name);
+      expect(deleteButtons).toHaveLength(2);
+
+      service.getAllUsers.mockImplementationOnce(() => Promise.resolve([userMock.adminManage[1]]));
+
+      await act(async () => {
+        userEvent.click(deleteButtons[0]);
+      });
+
+      usersName = screen.getAllByTestId(/admin_manage__element-user-table-name/i);
+
+      expect(usersName).toHaveLength(1);
+      expect(usersName[0].innerHTML).not.toBe(userMock.adminManage[0].name);
+    });
+  });
 });
