@@ -518,4 +518,121 @@ describe('service functions', () => {
       });
     });
   });
+
+  describe('markAsDelivered', () => {
+    describe('successful request', () => {
+      beforeEach(async () => {
+        axios.patch.mockImplementation(() => {
+          return Promise.resolve();
+        });
+
+        await service.markAsDelivered(user.customer.token, 2);
+      });
+  
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.patch with proper parameters', () => {  
+        expect(axios.patch).toHaveBeenCalledWith('http://localhost:3001/seller/orders/delivered/2', {}, { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.patch.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        await service.markAsDelivered('invalid_token', 1000);
+      });
+      
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('markAsDispatched', () => {
+    describe('successful request', () => {
+      beforeEach(async () => {
+        axios.patch.mockImplementation(() => {
+          return Promise.resolve();
+        });
+
+        await service.markAsDispatched(user.seller.token, 2);
+      });
+  
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.patch with proper parameters', () => {  
+        expect(axios.patch).toHaveBeenCalledWith('http://localhost:3001/seller/orders/leave/2', {}, { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.patch.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        await service.markAsDelivered('invalid_token', 1000);
+      });
+      
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('markAsPreparing', () => {
+    describe('successful request', () => {
+      beforeEach(async () => {
+        axios.patch.mockImplementation(() => {
+          return Promise.resolve();
+        });
+
+        await service.markAsPreparing(user.seller.token, 2);
+      });
+  
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.patch with proper parameters', () => {  
+        expect(axios.patch).toHaveBeenCalledWith('http://localhost:3001/seller/orders/start/2', {}, { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.patch.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        await service.markAsPreparing('invalid_token', 1000);
+      });
+      
+      it('should call axios.patch', () => {  
+        expect(axios.patch).toHaveBeenCalledTimes(1);
+      });
+
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
 });
