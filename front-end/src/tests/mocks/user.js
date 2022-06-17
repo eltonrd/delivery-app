@@ -44,9 +44,17 @@ const adminManage = [
   },
 ];
 
+const sellers = [
+  {
+    id: 2,
+    name: 'Fulana Pereira',
+  },
+];
+
 export default {
   customer,
   seller,
   administrator,
   adminManage,
+  sellers,
 };

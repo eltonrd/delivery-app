@@ -416,4 +416,55 @@ describe('service functions', () => {
       });
     });
   });
+
+  describe('getSellers', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.get.mockImplementation(() => {
+          return Promise.resolve({ data: user.sellers });
+        });
+  
+        result = await service.getSellers();
+      });
+  
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.get with proper parameters', () => {  
+        expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/seller');
+      });
+
+      it('should return array of sellers', () => {
+        expect(result).toStrictEqual(user.sellers);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.get.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.getSellers();
+      });
+      
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
 });
