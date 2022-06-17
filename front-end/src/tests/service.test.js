@@ -584,7 +584,7 @@ describe('service functions', () => {
           return Promise.reject(new Error('error'));
         });
         
-        await service.markAsDelivered('invalid_token', 1000);
+        await service.markAsDispatched('invalid_token', 1000);
       });
       
       it('should call axios.patch', () => {  
