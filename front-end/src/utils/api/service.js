@@ -126,6 +126,7 @@ export async function createSale(sale, token) {
     .then((result) => result.data)
     .catch((error) => console.log(error));
 
+  if (!createdSale) return undefined;
   return createdSale.id;
 }
 

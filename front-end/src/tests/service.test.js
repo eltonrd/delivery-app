@@ -467,4 +467,55 @@ describe('service functions', () => {
       });
     });
   });
+
+  describe('createSale', () => {
+    describe('successful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        axios.post.mockImplementation(() => {
+          return Promise.resolve({ data: { id: 5 } });
+        });
+  
+        result = await service.createSale(orders.orderToBeCreated, user.customer.token);
+      });
+  
+      it('should call axios.post', () => {  
+        expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+  
+      it('should call axios.post with proper parameters', () => {  
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/sales', orders.orderToBeCreated, { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
+
+      it('should return info about created sale', () => {
+        expect(result).toBe(5);
+      });
+    });
+
+    describe('unsuccessful request', () => {
+      let result;
+
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.post.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
+        
+        result = await service.createSale();
+      });
+      
+      it('should call axios.post', () => {  
+        expect(axios.post).toHaveBeenCalledTimes(1);
+      });
+      
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
+
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
 });

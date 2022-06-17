@@ -89,6 +89,27 @@ const customerOrderDetails = {
   status: 'Pendente',
   totalPrice: '19.40',
   userId: 7,
+};
+
+const orderToBeCreated = {
+  deliveryAddress: 'Rua teste',
+  deliveryNumber: '51',
+  products: [
+    {
+      id: 1,
+      name: 'Skol Lata 250ml',
+      price: '2.20',
+      SaleProduct: { quantity: 2 },
+    },
+    {
+      id: 2,
+      name: 'Heineken 600ml',
+      price: '7.50',
+      SaleProduct: { quantity: 3 },
+    },
+  ],
+  sellerId: 2,
+  totalPrice: 19.4,
 }
 
 export default {
@@ -96,4 +117,5 @@ export default {
   sellerOrderDetails,
   sellerOrders,
   customerOrders,
+  orderToBeCreated,
 };
