@@ -8,7 +8,7 @@ import SellerOrderDetail from '../pages/SellerOrderDetail';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
-import { sellerOrderDetails } from './mocks/orders';
+import orders from './mocks/orders';
 
 const { user, token } = userMock.seller;
 const localStorageSeller = { ...user, token };
@@ -73,7 +73,7 @@ describe('Seller Orders page', () => {
 
   describe('order details', () => {
     beforeEach(async () => {
-      service.getSellerOrderById.mockImplementation(() => Promise.resolve(sellerOrderDetails));
+      service.getSellerOrderById.mockImplementation(() => Promise.resolve(orders.sellerOrderDetails));
       localStorage.setItem('user', JSON.stringify(localStorageSeller));
       await act(async () => {
         renderWithRouter(<SellerOrderDetail />);
@@ -170,7 +170,7 @@ describe('Seller Orders page', () => {
     
     describe('when order is pending', () => {
       beforeEach(async () => {
-        service.getSellerOrderById.mockImplementation(() => Promise.resolve(sellerOrderDetails));
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve(orders.sellerOrderDetails));
         await act(async () => {
           renderWithRouter(<SellerOrderDetail />);
         });
@@ -205,7 +205,7 @@ describe('Seller Orders page', () => {
 
         const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Preparando' }));
 
         await act(async () => {
           userEvent.click(preparingButton);
@@ -217,7 +217,7 @@ describe('Seller Orders page', () => {
       it('clicking on prepare button should disable it', async () => {
         const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Preparando' }));
 
         await act(async () => {
           userEvent.click(preparingButton);
@@ -233,7 +233,7 @@ describe('Seller Orders page', () => {
 
         expect(dispatchedButton).toBeDisabled();
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Preparando' }));
 
         await act(async () => {
           userEvent.click(preparingButton);
@@ -245,7 +245,7 @@ describe('Seller Orders page', () => {
 
     describe('when order is being prepared', () => {
       beforeEach(async () => {
-        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...sellerOrderDetails, status: 'Preparando' }));
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Preparando' }));
         await act(async () => {
           renderWithRouter(<SellerOrderDetail />);
         });
@@ -280,7 +280,7 @@ describe('Seller Orders page', () => {
 
         const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Em Trânsito' }));
 
         await act(async () => {
           userEvent.click(dispatchedButton);
@@ -292,7 +292,7 @@ describe('Seller Orders page', () => {
       it('clicking on dispatch button should disable it', async () => {
         const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Em Trânsito' }));
 
         await act(async () => {
           userEvent.click(dispatchedButton);
@@ -308,7 +308,7 @@ describe('Seller Orders page', () => {
 
         expect(preparingButton).toBeDisabled();
 
-        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+        service.getSellerOrderById.mockImplementationOnce(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Em Trânsito' }));
 
         await act(async () => {
           userEvent.click(dispatchedButton);
@@ -320,7 +320,7 @@ describe('Seller Orders page', () => {
 
     describe('when order is already dispatched', () => {
       beforeEach(async () => {
-        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...sellerOrderDetails, status: 'Em Trânsito' }));
+        service.getSellerOrderById.mockImplementation(() => Promise.resolve({ ...orders.sellerOrderDetails, status: 'Em Trânsito' }));
         await act(async () => {
           renderWithRouter(<SellerOrderDetail />);
         });

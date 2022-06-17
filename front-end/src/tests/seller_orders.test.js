@@ -8,7 +8,7 @@ import SellerOrders from '../pages/SellerOrders';
 import renderWithRouter from './renderWithRouter';
 import * as service from '../utils/api/service';
 import userMock from './mocks/user';
-import { sellerOrders } from './mocks/orders';
+import orders from './mocks/orders';
 
 const { user, token } = userMock.seller;
 const localStorageSeller = { ...user, token };
@@ -76,7 +76,7 @@ describe('Seller Orders page', () => {
       let history;
       
       beforeEach(async () => {
-        service.getSellerOrders.mockImplementation(() => Promise.resolve(sellerOrders));
+        service.getSellerOrders.mockImplementation(() => Promise.resolve(orders.sellerOrders));
         localStorage.setItem('user', JSON.stringify(localStorageSeller));
         await act(async () => {
           history = renderWithRouter(<SellerOrders />).history;
@@ -131,7 +131,7 @@ describe('Seller Orders page', () => {
 
         expect(history.push).toBeCalledWith({
           hash: '',
-          pathname: `/seller/orders/${sellerOrders[0].id}`,
+          pathname: `/seller/orders/${orders.sellerOrders[0].id}`,
           search: '',
         }, undefined);
       });
