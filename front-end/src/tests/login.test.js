@@ -1,7 +1,7 @@
 jest.mock('../utils/api/service');
 
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Login from '../pages/Login';
@@ -218,6 +218,31 @@ describe('Test login page with navigation', () => {
             search: '',
           }, undefined);
         });
+      });
+    });
+
+    describe('with invalid user email or password', () => {
+      it('should show error message', async () => {
+        service.login.mockImplementation(() => Promise.resolve(undefined));
+        renderWithRouter(<Login />);
+      
+        const emailInput = screen.getByRole('textbox', { name: /login/i });
+        const passwordInput = screen.getByLabelText(/senha/i);
+        const loginButton = screen.getByRole('button', { name: /login/i });
+        let errorElement = screen.queryByText(/email ou senha invalidos!/i);
+    
+        userEvent.type(emailInput, 'wrong@email.com');
+        userEvent.type(passwordInput, 'wrong_password');
+    
+        expect(errorElement).not.toBeInTheDocument();
+    
+        await act(async () => {
+          userEvent.click(loginButton);
+        });
+    
+        errorElement = screen.queryByText(/email ou senha invalidos!/i);
+    
+        expect(errorElement).toBeInTheDocument();
       });
     });
   });

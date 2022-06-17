@@ -1,7 +1,7 @@
 jest.mock('../utils/api/service');
 
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Register from '../pages/Register';
@@ -130,5 +130,32 @@ describe('Test Register page with navigation', () => {
         }, undefined);
       });
     });
+  });
+});
+
+describe('registering already registered user', () => {
+  it('should show error message', async () => {
+    service.register.mockImplementation(() => Promise.resolve(undefined));
+    renderWithRouter(<Register />);
+  
+    const nameInput = screen.getByRole('textbox', { name: /nome/i });
+    const emailInput = screen.getByRole('textbox', { name: /email/i });
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const registerButton = screen.getByRole('button', { name: /cadastrar/i });
+    let errorElement = screen.queryByText(/usuário já cadastrado!/i);
+  
+    userEvent.type(nameInput, 'already_registered_name');
+    userEvent.type(emailInput, 'already_registered@email.com');
+    userEvent.type(passwordInput, USER_PASSWORD);
+
+    expect(errorElement).not.toBeInTheDocument();
+
+    await act(async () => {
+      userEvent.click(registerButton);
+    });
+
+    errorElement = screen.queryByText(/usuário já cadastrado!/i);
+
+    expect(errorElement).toBeInTheDocument();
   });
 });
