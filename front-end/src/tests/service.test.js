@@ -687,54 +687,54 @@ describe('service functions', () => {
     });
   });
 
-  // describe('getCustomerOrderById', () => {
-  //   describe('successful request', () => {
-  //     let result;
+  describe('getSellerOrderById', () => {
+    describe('successful request', () => {
+      let result;
 
-  //     beforeEach(async () => {
-  //       axios.get.mockImplementation(() => {
-  //         return Promise.resolve({ data: orders.customerOrderDetails });
-  //       });
+      beforeEach(async () => {
+        axios.get.mockImplementation(() => {
+          return Promise.resolve({ data: orders.sellerOrderDetails });
+        });
   
-  //       result = await service.getCustomerOrderById(user.customer.token, 4);
-  //     });
+        result = await service.getSellerOrderById(user.seller.token, 4);
+      });
   
-  //     it('should call axios.get', () => {  
-  //       expect(axios.get).toHaveBeenCalledTimes(1);
-  //     });
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
   
-  //     it('should call axios.get with proper parameters', () => {  
-  //       expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/customer/orders/4', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
-  //     });
+      it('should call axios.get with proper parameters', () => {  
+        expect(axios.get).toHaveBeenCalledWith('http://localhost:3001/seller/orders/4', { headers: { 'Content-Type': 'application/json', authorization: 'valid_token' } });
+      });
 
-  //     it('should return order', () => {
-  //       expect(result).toStrictEqual(orders.customerOrderDetails);
-  //     });
-  //   });
+      it('should return order', () => {
+        expect(result).toStrictEqual(orders.sellerOrderDetails);
+      });
+    });
 
-  //   describe('unsuccessful request', () => {
-  //     let result;
+    describe('unsuccessful request', () => {
+      let result;
 
-  //     beforeEach(async () => {
-  //       global.console.log = jest.fn();
-  //       axios.get.mockImplementation(() => {
-  //         return Promise.reject(new Error('error'));
-  //       });
+      beforeEach(async () => {
+        global.console.log = jest.fn();
+        axios.get.mockImplementation(() => {
+          return Promise.reject(new Error('error'));
+        });
         
-  //       result = await service.getCustomerOrderById(1000, 'invalid_token');
-  //     });
+        result = await service.getSellerOrderById(1000, 'invalid_token');
+      });
       
-  //     it('should call axios.get', () => {  
-  //       expect(axios.get).toHaveBeenCalledTimes(1);
-  //     });
+      it('should call axios.get', () => {  
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      });
       
-  //     it('should call console.log', () => {  
-  //       expect(console.log).toHaveBeenCalledTimes(1);
-  //     });
+      it('should call console.log', () => {  
+        expect(console.log).toHaveBeenCalledTimes(1);
+      });
 
-  //     it('should return undefined', () => {
-  //       expect(result).toBe(undefined);
-  //     });
-  //   });
-  // });
+      it('should return undefined', () => {
+        expect(result).toBe(undefined);
+      });
+    });
+  });
 });
