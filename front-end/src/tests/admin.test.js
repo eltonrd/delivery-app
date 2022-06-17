@@ -284,6 +284,82 @@ describe('Admin page', () => {
     });
   });
 
+  describe('registering already registered user', () => {
+    beforeEach(async () => {
+      service.adminRegister.mockImplementation(() => Promise.resolve(true));
+      service.getAllUsers.mockImplementation(() => Promise.resolve(userMock.adminManage));
+      localStorage.setItem('user', JSON.stringify(localStorageAdmin));
+      await act(async () => {
+        renderWithRouter(<AdminManage />);
+      });
+
+      const nameInput = screen.getByRole('textbox', { name: /nome/i });
+      const emailInput = screen.getByRole('textbox', { name: /email/i });
+      const passwordInput = screen.getByRole('textbox', {  name: /senha:/i});
+
+      userEvent.type(nameInput, userMock.adminManage[0].name);
+      userEvent.type(emailInput, userMock.adminManage[0].email);
+      userEvent.type(passwordInput, USER_PASSWORD);
+    });
+    
+    afterEach(() => {
+      localStorage.removeItem('user');
+    });
+
+    it('should call service.adminRegister', async () => {
+      const registerButton = screen.getByRole('button', { name: /cadastrar/i });
+  
+      await act(async () => {
+        userEvent.click(registerButton);
+      });
+
+      expect(service.adminRegister).toHaveBeenCalledTimes(1);
+    });
+  
+    it('should call service.adminRegister with user name, email, password, role and admin token', async () => {
+      const registerButton = screen.getByRole('button', { name: /cadastrar/i });
+
+      await act(async () => {
+        userEvent.click(registerButton);
+      });
+
+      expect(service.adminRegister)
+      .toHaveBeenCalledWith({ name: userMock.adminManage[0].name, email: userMock.adminManage[0].email, password: USER_PASSWORD, role: 'customer' }, token);
+    });
+
+    it('should not update user list', async () => {
+      let usersName = screen.queryAllByTestId(/admin_manage__element-user-table-name/i);
+
+      expect(usersName).toHaveLength(2);
+
+      const registerButton = screen.getByRole('button', { name: /cadastrar/i });
+
+      await act(async () => {
+        userEvent.click(registerButton);
+      });
+
+      usersName = screen.queryAllByTestId(/admin_manage__element-user-table-name/i);
+
+      expect(usersName).toHaveLength(2);
+    });
+
+    it('should show error message', async () => {
+      let errorElement = screen.queryByText(/usuário já cadastrado!/i);
+
+      expect(errorElement).not.toBeInTheDocument();
+
+      const registerButton = screen.getByRole('button', { name: /cadastrar/i });
+
+      await act(async () => {
+        userEvent.click(registerButton);
+      });
+
+      errorElement = screen.queryByText(/usuário já cadastrado!/i);
+
+      expect(errorElement).toBeInTheDocument();
+    });
+  });
+
   describe('registering new valid user', () => {
     beforeEach(async () => {
       service.adminRegister.mockImplementation(() => Promise.resolve(false));
