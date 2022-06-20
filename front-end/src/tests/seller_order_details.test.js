@@ -301,7 +301,7 @@ describe('Seller Orders page', () => {
         expect(dispatchedButton).toBeDisabled();
       });
 
-      it('clicking on dispatch button should not disable prepare button', async () => {
+      it('clicking on dispatch button should not enable prepare button', async () => {
         const preparingButton = screen.getByRole('button', {  name: /preparar pedido/i});
 
         const dispatchedButton = screen.getByRole('button', {  name: /saiu para entrega/i});

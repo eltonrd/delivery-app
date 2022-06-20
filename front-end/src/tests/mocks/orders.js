@@ -76,7 +76,7 @@ const customerOrderDetails = {
   seller: { name: 'Fulana Pereira' },
   sellerId: 2,
   status: 'Pendente',
-  totalPrice: '19.40',
+  totalPrice: '26.90',
   userId: 7,
 };
 

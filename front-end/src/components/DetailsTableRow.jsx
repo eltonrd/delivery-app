@@ -25,12 +25,12 @@ export default function DetailsTableRow({ product, index }) {
         { quantity }
       </td>
       <td
-        data-testid={ `customer_order_details__element-order-table-sub-total-${index}` }
+        data-testid={ `customer_order_details__element-order-table-unit-price-${index}` }
       >
         { priceToReal(unitPrice, true) }
       </td>
       <td
-        data-testid={ `customer_order_details__element-order-total-price-${index}` }
+        data-testid={ `customer_order_details__element-order-table-sub-total-${index}` }
       >
         { priceToReal(totalPrice, true) }
       </td>
