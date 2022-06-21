@@ -4,6 +4,7 @@ const sinon = require('sinon');
 
 const { Sale, User } = require('../../database/models');
 const app = require('../../api/app');
+const { validUser, validSeller } = require('../users/mocks/loginMocks');
 const {
   orders,
   userToken,
@@ -30,8 +31,10 @@ describe('Test GET /customer/orders endpoint', () => {
     });
 
     it('Should http status 200 and an array', async () => {
+      const { body: { token } } = await chai.request(app).post('/login')
+        .send(validUser);
       res = await chai.request(app)
-        .get('/customer/orders').set({ authorization: userToken });
+        .get('/customer/orders').set({ authorization: token });
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an('array').to.have.length(3);
       expect(res.body[0]).to.include.all.keys([
@@ -59,8 +62,10 @@ describe('Test GET /customer/orders endpoint', () => {
     });
 
     it('Should return hhtp status 200 and an object', async () => {
+      const { body: { token } } = await chai.request(app).post('/login')
+        .send(validUser);
       res = await chai.request(app).get('/customer/orders/1')
-        .set({ authorization: userToken });
+        .set({ authorization: token });
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an('object').to.have.own.property('status');
     });
@@ -68,7 +73,7 @@ describe('Test GET /customer/orders endpoint', () => {
 
   describe('Test role conflict case', () => {
     before(async () => {
-      sinon.stub(User, 'findOne').resolves(userDbResponse);
+      sinon.stub(User, 'findOne').resolves(sellerDbResponse);
       sinon.stub(Sale, 'findOne').resolves(userIdConflictOrder);
     });
 
@@ -78,7 +83,10 @@ describe('Test GET /customer/orders endpoint', () => {
     });
 
     it('Should return http status 403', async () => {
-      res = await chai.request(app).get('/customer/orders/1').set({ authorization: userToken });
+      const { body: { token } } = await chai.request(app).post('/login')
+        .send(validSeller);
+
+      res = await chai.request(app).get('/customer/orders/1').set({ authorization: token });
       expect(res.status).to.be.equal(403);
       expect(res.body).to.be.an('object').to.have.own.property('message');
       expect(res.body.message).to.be.equal('Access denied');
@@ -130,7 +138,6 @@ describe('Test GET /seller/orders endpoint', () => {
     it('Should return http status 200 and an object', async () => {
       res = await chai.request(app).get('/seller/orders/2')
         .set({ authorization: sellerToken });
-      console.log(res.error);
       expect(res.status).to.be.equal(200);
       expect(res.body).to.be.an('object').to.have.own.property('status');
     });

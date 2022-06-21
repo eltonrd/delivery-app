@@ -1,32 +1,32 @@
-const { useState } = require('react');
+import { useState } from 'react';
 
-function localStorageUser() {
+export function localStorageUser() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   return user;
 }
 
-function setLocalStorageUser(user) {
+export function setLocalStorageUser(user) {
   localStorage.setItem('user', JSON.stringify(user));
 }
 
-function localStorageCart() {
+export function localStorageCart() {
   const cart = JSON.parse(localStorage.getItem('carrinho'));
 
   return cart;
 }
 
-function setLocalStorageCart(cart) {
+export function setLocalStorageCart(cart) {
   localStorage.setItem('carrinho', JSON.stringify(cart));
 }
 
-function removeFromLocalStorage(key) {
+export function removeFromLocalStorage(key) {
   localStorage.removeItem(key);
 }
 
 // useLocalStorage hook explanation: https://usehooks.com/useLocalStorage/
 
-function useLocalStorage(key, initialValue) {
+export function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === 'undefined') {
       return initialValue;
@@ -57,12 +57,3 @@ function useLocalStorage(key, initialValue) {
 
   return [storedValue, setValue];
 }
-
-module.exports = {
-  localStorageUser,
-  setLocalStorageUser,
-  localStorageCart,
-  setLocalStorageCart,
-  removeFromLocalStorage,
-  useLocalStorage,
-};
