@@ -11,7 +11,9 @@ export default function CustomerOrders() {
     const getOrders = async () => {
       const userToken = localStorageUser().token;
       const orders = await customerOrders(userToken);
-      setUserOrders(orders);
+      if (Array.isArray(orders)) {
+        setUserOrders(orders);
+      }
     };
     getOrders();
   }, []);

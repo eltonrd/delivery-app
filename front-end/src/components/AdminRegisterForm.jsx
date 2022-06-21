@@ -32,7 +32,9 @@ export default function AdminRegisterForm({ update }) {
     const user = { name, email, password, role };
     const response = await adminRegister(user, t);
     setIsRegisterWrong(response);
-    update();
+    if (!response) {
+      update();
+    }
   };
 
   return (

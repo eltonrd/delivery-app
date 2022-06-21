@@ -1,14 +1,10 @@
 import axios from 'axios';
 
-const API = axios.create({
-  baseURL: 'http://localhost:3001',
-});
-
 const CONTENT_TYPE = 'application/json';
 
 export async function login(email, password) {
-  const user = await API.post(
-    '/login',
+  const user = await axios.post(
+    'http://localhost:3001/login',
     {
       email,
       password,
@@ -21,8 +17,8 @@ export async function login(email, password) {
 }
 
 export async function register(name, email, password) {
-  const user = await API.post(
-    '/register',
+  const user = await axios.post(
+    'http://localhost:3001/register',
     {
       name,
       email,
@@ -36,8 +32,8 @@ export async function register(name, email, password) {
 }
 
 export async function getProducts() {
-  const fetchProducts = await API.get(
-    '/customer/products',
+  const fetchProducts = await axios.get(
+    'http://localhost:3001/customer/products',
   ).then((result) => result.data).catch((error) => console.log(error));
 
   return fetchProducts;
@@ -48,8 +44,8 @@ export async function adminRegister(user, token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const isCreated = await API.post(
-    '/admin/manage',
+  const isCreated = await axios.post(
+    'http://localhost:3001/admin/manage',
     user,
     {
       headers,
@@ -65,8 +61,8 @@ export async function getAllUsers(token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const allUsers = await API.get(
-    '/admin/manage',
+  const allUsers = await axios.get(
+    'http://localhost:3001/admin/manage',
     {
       headers,
     },
@@ -81,8 +77,8 @@ export async function deleteById(id, token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  await API.delete(
-    `/admin/manage/${id}`,
+  await axios.delete(
+    `http://localhost:3001/admin/manage/${id}`,
     {
       headers,
     },
@@ -96,28 +92,19 @@ export async function customerOrders(token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const customerOrder = await API.get(
-    '/customer/orders',
+  const customerOrder = await axios.get(
+    'http://localhost:3001/customer/orders',
     {
       headers,
     },
-  ).then((result) => result.data).catch((err) => console.error(err));
+  ).then((result) => result.data).catch((err) => console.log(err));
 
   return customerOrder;
 }
 
-export async function customerOrdersById(id, token) {
-  const customerOrderById = await API.get(
-    `/customer/orders/${id}`,
-    { headers: { authorization: token } },
-  ).then((result) => result).catch((err) => console.error(err));
-
-  return customerOrderById;
-}
-
 export async function getSellers() {
-  const sellers = await API.get(
-    '/seller',
+  const sellers = await axios.get(
+    'http://localhost:3001/seller',
   )
     .then((result) => result.data)
     .catch((error) => console.log(error));
@@ -129,8 +116,8 @@ export async function createSale(sale, token) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  const createdSale = await API.post(
-    '/sales',
+  const createdSale = await axios.post(
+    'http://localhost:3001/sales',
     sale,
     {
       headers,
@@ -139,6 +126,7 @@ export async function createSale(sale, token) {
     .then((result) => result.data)
     .catch((error) => console.log(error));
 
+  if (!createdSale) return undefined;
   return createdSale.id;
 }
 
@@ -148,8 +136,8 @@ export async function getCustomerOrderById(token, id) {
     authorization: token,
   };
 
-  const allSales = await API.get(
-    `/customer/orders/${id}`,
+  const sale = await axios.get(
+    `http://localhost:3001/customer/orders/${id}`,
     {
       headers,
     },
@@ -157,7 +145,7 @@ export async function getCustomerOrderById(token, id) {
     .then((result) => (result.data))
     .catch((error) => console.log(error));
 
-  return allSales;
+  return sale;
 }
 
 export async function markAsDelivered(token, id) {
@@ -165,8 +153,8 @@ export async function markAsDelivered(token, id) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  await API.patch(
-    `/seller/orders/delivered/${id}`,
+  await axios.patch(
+    `http://localhost:3001/seller/orders/delivered/${id}`,
     {},
     {
       headers,
@@ -180,8 +168,8 @@ export async function markAsDispatched(token, id) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  await API.patch(
-    `/seller/orders/leave/${id}`,
+  await axios.patch(
+    `http://localhost:3001/seller/orders/leave/${id}`,
     {},
     {
       headers,
@@ -195,8 +183,8 @@ export async function markAsPreparing(token, id) {
     'Content-Type': CONTENT_TYPE,
     authorization: token,
   };
-  await API.patch(
-    `/seller/orders/start/${id}`,
+  await axios.patch(
+    `http://localhost:3001/seller/orders/start/${id}`,
     {},
     {
       headers,
@@ -206,10 +194,10 @@ export async function markAsPreparing(token, id) {
 }
 
 export async function getSellerOrders(token) {
-  const sellerOrders = await API.get(
-    '/seller/orders',
+  const sellerOrders = await axios.get(
+    'http://localhost:3001/seller/orders',
     { headers: { authorization: token } },
-  ).then((result) => result.data).catch((err) => console.error(err));
+  ).then((result) => result.data).catch((err) => console.log(err));
 
   return sellerOrders;
 }
@@ -220,8 +208,8 @@ export async function getSellerOrderById(token, id) {
     authorization: token,
   };
 
-  const allSales = await API.get(
-    `/seller/orders/${id}`,
+  const allSales = await axios.get(
+    `http://localhost:3001/seller/orders/${id}`,
     {
       headers,
     },
