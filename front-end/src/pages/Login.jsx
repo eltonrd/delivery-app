@@ -7,11 +7,14 @@ import {
   localStorageUser,
 } from '../utils/localStorage/localStorage';
 
+import '../styles/login.css';
+
 export default function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoginWrong, setIsLoginWrong] = useState(false);
+  const [reveal, setReveal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,11 +54,11 @@ export default function Login() {
 
   if (!localStorageUser()) {
     return (
-      <div>
-        <img alt="logo app delivery" src={ RockGlass } width="100px" />
+      <div className="login-container">
+        <img alt="logo app delivery" src={ RockGlass } width="100px" id="logo" />
         <h1>Delivery App</h1>
-        <form>
-          <label htmlFor="login-input">
+        <form className="form-container">
+          <label htmlFor="login-input" className="login-label">
             Login
             <input
               data-testid="common_login__input-email"
@@ -63,19 +66,32 @@ export default function Login() {
               name="login"
               onChange={ ({ target }) => setEmail(target.value) }
               type="text"
+              placeholder="customer@deliveryapp.com"
             />
           </label>
-          <label htmlFor="password-input">
+          <label htmlFor="password-input" className="password-label">
             Senha
             <input
               data-testid="common_login__input-password"
               id="password-input"
               name="password"
               onChange={ ({ target }) => setPassword(target.value) }
-              type="password"
+              type={ reveal ? 'text' : 'password' }
+              placeholder="********"
             />
+            <button
+              type="button"
+              className="password-handler"
+              onClick={ () => setReveal(!reveal) }
+            >
+              {
+                reveal ? <img src="https://img.icons8.com/ios/50/000000/visible--v1.png" alt="revelar senha" />
+                  : <img src="https://img.icons8.com/ios/50/000000/hide.png" alt="ocultar senha" />
+              }
+            </button>
           </label>
           <button
+            className={ isDisabled ? 'login-button-disabled' : 'login-button' }
             type="button"
             data-testid="common_login__button-login"
             disabled={ isDisabled }
@@ -84,6 +100,7 @@ export default function Login() {
             Login
           </button>
           <button
+            className="sign-up"
             type="button"
             data-testid="common_login__button-register"
             onClick={ () => navigate('/register') }
