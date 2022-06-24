@@ -1,6 +1,6 @@
 :root {
 
-  --button-color: #036B52;
+  --button-color: #036b52;
 
   --generic-border: #333;
 
@@ -8,9 +8,10 @@
 
   --sign-up-button-transition: #a5f4fa;
 
-}
+  --font-family: @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap') ;
+  --form-container-background: #eee;
+}
 
 .login-container {
   display: flex;
@@ -27,9 +28,9 @@
 }
 
 .form-container {
-  background: #eee;
+  background: var(--form-container-background);
   border-radius: 4px;
-  box-shadow: 1px 1px 15px 8px var(--generic-border);
+  box-shadow: 0.25px 0.25px 10px 0.25px var(--generic-border);
   display: flex;
   flex-direction: column;
   height: 250px;
@@ -44,7 +45,7 @@
   color: black;
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto' sans-serif;
+  font-family: var(--font-family) sans-serif;
   font-size: 20px;
   font-weight: 600;
   text-align: center;
@@ -64,7 +65,7 @@
   color: black;
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto' sans-serif;
+  font-family: var(--font-family) sans-serif;
   font-size: 20px;
   font-weight: 600;
   text-align: center;
@@ -98,10 +99,11 @@
 
 .login-button-disabled {
   align-self: center;
+  background-color: var(--form-container-background);
   border: solid 1px var(--generic-border);
   border-radius: 8px;
   color: black;
-  font-family: 'Roboto' sans-serif;
+  font-family: var(--font-family) sans-serif;
   font-size: 15px;
   font-weight: 600;
   height: 30px;
@@ -121,7 +123,7 @@
   border: solid 1px var(--generic-border);
   border-radius: 8px;
   color: white;
-  font-family: 'Roboto' sans-serif;
+  font-family: var(--font-family) sans-serif;
   font-size: 15px;
   font-weight: 600;
   height: 30px;
@@ -136,7 +138,7 @@
 }
 
 .password-handler {
-  background-color: white;
+  background-color: var(--form-container-background);
   border: none;
   height: 20px;
   width: 25px;
@@ -144,11 +146,11 @@
 
 .sign-up {
   align-self: center;
-  background-color: #eee;
+  background-color: var(--form-container-background);
   border: solid 1px var(--generic-border);
   border-radius: 8px;
   color: var(--sign-up-button);
-  font-family: 'Roboto';
+  font-family: var(--font-family);
   font-size: 15px;
   font-weight: 400;
   height: 30px;
