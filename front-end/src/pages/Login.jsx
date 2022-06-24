@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { login } from '../utils/api/service';
 import RockGlass from '../images/rockGlass.svg';
 import {
@@ -13,7 +15,6 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isLoginWrong, setIsLoginWrong] = useState(false);
   const [reveal, setReveal] = useState(false);
 
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Login() {
   useEffect(() => {
     const validateInputs = () => {
       const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+\.?[a-z]+$/;
-      const minPasswordLength = 6;
+      const minPasswordLength = 8;
 
       setIsDisabled(password.length < minPasswordLength || !regex.test(email));
     };
@@ -44,12 +45,12 @@ export default function Login() {
     const userInfo = await login(email, password);
 
     if (!userInfo) {
-      setIsLoginWrong(true);
-    } else {
-      const { user, token } = userInfo;
-      setLocalStorageUser({ ...user, token });
-      handleRole(user.role);
+      return toast.error('Email ou senha inválidos!');
     }
+
+    const { user, token } = userInfo;
+    setLocalStorageUser({ ...user, token });
+    handleRole(user.role);
   };
 
   if (!localStorageUser()) {
@@ -108,14 +109,6 @@ export default function Login() {
             Não tenho conta
           </button>
         </form>
-        {
-          isLoginWrong
-          && (
-            <div data-testid="common_login__element-invalid-email">
-              Email ou senha invalidos!
-            </div>
-          )
-        }
       </div>
     );
   }
