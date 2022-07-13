@@ -8,6 +8,7 @@ import {
   setLocalStorageUser,
   localStorageUser,
 } from '../utils/localStorage/localStorage';
+import * as S from '../styles/login';
 
 import '../styles/login.css';
 
@@ -55,10 +56,10 @@ export default function Login() {
 
   if (!localStorageUser()) {
     return (
-      <div className="login-container">
+      <S.Container className="login-container">
         <img alt="logo app delivery" src={ RockGlass } width="100px" id="logo" />
         <h1>Delivery App</h1>
-        <form className="form-container">
+        <S.Form className="form-container">
           <label htmlFor="login-input" className="login-label">
             Login
             <input
@@ -108,8 +109,8 @@ export default function Login() {
           >
             Não tenho conta
           </button>
-        </form>
-      </div>
+        </S.Form>
+      </S.Container>
     );
   }
 
