@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 import { login } from '../utils/api/service';
 import {
@@ -12,7 +13,7 @@ import * as S from '../styles/login';
 export default function Login() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  // const [reveal, setReveal] = useState(false);
+  const [reveal, setReveal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,20 +64,17 @@ export default function Login() {
                 id="password-input"
                 name="password"
                 onChange={ ({ target }) => setPassword(target.value) }
-                // type={ reveal ? 'text' : 'password' }
-                type="password"
+                type={ reveal ? 'text' : 'password' }
                 placeholder="********"
-                // endAdorment={}
               />
-              {/* <button
+              <S.RevealPassword
                 type="button"
                 onClick={ () => setReveal(!reveal) }
               >
                 {
-                reveal ? <img src="https://img.icons8.com/ios/50/000000/visible--v1.png" alt="revelar senha" />
-                  : <img src="https://img.icons8.com/ios/50/000000/hide.png" alt="ocultar senha" />
-              }
-              </button> */}
+                  reveal ? <IoEyeOffOutline /> : <IoEyeOutline />
+                }
+              </S.RevealPassword>
             </S.Label>
             <S.LoginButton
               type="button"

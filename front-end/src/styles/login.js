@@ -73,3 +73,15 @@ export const SignupButton = styled.button`
     width: 200px;
   }
 `;
+
+export const RevealPassword = styled.button`
+  align-self: flex-end;
+  background: none;
+  border: none;
+  margin-right: 5px;
+  margin-top: -22.5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
