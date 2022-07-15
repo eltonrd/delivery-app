@@ -24,6 +24,10 @@ export const Footer = styled.footer`
     a {
       font-size: 0.7rem;
     }
+
+    img {
+      display: none;
+    }
   }
 
   @media(min-width: 441px) and (max-width: 540px) {
