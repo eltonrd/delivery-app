@@ -41,7 +41,7 @@ export const LoginButton = styled.button`
   font-size: 15px;
   font-weight: bold;
   height: 30px;
-  margin: 8px 0;
+  margin-top: 15px;
   width: 150px;
 
   &:hover {
@@ -63,6 +63,7 @@ export const SignupButton = styled.button`
   font-size: 15px;
   font-weight: bold;
   height: 30px;
+  margin-top: 20px;
   width: 150px;
 
   &:hover {
@@ -78,7 +79,7 @@ export const RevealPassword = styled.button`
   align-self: flex-end;
   background: none;
   border: none;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-top: -22.5px;
 
   &:hover {
