@@ -10,7 +10,7 @@ import {
 } from '../utils/localStorage/localStorage';
 import * as S from '../styles/login';
 import * as H from '../styles/loginHeader';
-import Footer from '../styles/loginFooter';
+import * as F from '../styles/loginFooter';
 import githubLink from '../utils/social';
 
 export default function Login() {
@@ -51,7 +51,7 @@ export default function Login() {
             Até as 17h Delivery App
           </H.Title>
           <H.Theme htmlFor="theme">
-            <input type="checkbox" role="switch" name="theme-hanlder" id="theme" />
+            <input type="checkbox" role="switch" name="theme-handler" id="theme" />
             <span />
           </H.Theme>
         </H.Container>
@@ -103,16 +103,19 @@ export default function Login() {
             </S.SignupButton>
           </S.Form>
         </S.Container>
-        <Footer>
-          <span>Concluído antes das 17h pelo grupo</span>
+        <F.Footer>
+          <F.LeftSide>
+            <span>Feito antes das 17h pelo grupo</span>
+          </F.LeftSide>
           {
-            githubLink.map(({ src, name }, i) => (
-              <a target="_blank" href={ src } key={ i } rel="noreferrer">
-                { name }
+            githubLink.map(({ href, name, src }, i) => (
+              <a target="_blank" href={ href } key={ i } rel="noreferrer">
+                <img src={ src } alt="teste" />
+                <span>{ name }</span>
               </a>
             ))
           }
-        </Footer>
+        </F.Footer>
       </>
     );
   }
