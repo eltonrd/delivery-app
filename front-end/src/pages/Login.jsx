@@ -9,9 +9,8 @@ import {
   localStorageUser,
 } from '../utils/localStorage/localStorage';
 import * as S from '../styles/login';
-import * as H from '../styles/loginHeader';
-import * as F from '../styles/loginFooter';
-import githubLink from '../utils/social';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -46,15 +45,7 @@ export default function Login() {
   if (!localStorageUser()) {
     return (
       <>
-        <H.Container>
-          <H.Title>
-            Até as 17h Delivery App
-          </H.Title>
-          <H.Theme htmlFor="theme">
-            <input type="checkbox" role="switch" name="theme-handler" id="theme" />
-            <span />
-          </H.Theme>
-        </H.Container>
+        <Header />
         <S.Container>
           <S.Form>
             <S.Label htmlFor="login-input">
@@ -103,19 +94,7 @@ export default function Login() {
             </S.SignupButton>
           </S.Form>
         </S.Container>
-        <F.Footer>
-          <F.LeftSide>
-            <span>Feito antes das 17h pelo grupo</span>
-          </F.LeftSide>
-          {
-            githubLink.map(({ href, name, src }, i) => (
-              <a target="_blank" href={ href } key={ i } rel="noreferrer">
-                <img src={ src } alt="teste" />
-                <span>{ name }</span>
-              </a>
-            ))
-          }
-        </F.Footer>
+        <Footer />
       </>
     );
   }
