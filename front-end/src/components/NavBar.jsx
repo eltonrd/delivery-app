@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { localStorageUser } from '../utils/localStorage/localStorage';
+import * as S from '../styles/productNavBar';
 
 export default function BasicNavBar({ links, dataTestIds }) {
   const navigate = useNavigate();
@@ -12,9 +13,9 @@ export default function BasicNavBar({ links, dataTestIds }) {
   };
 
   return (
-    <header>
-      <nav>
-        <ul>
+    <S.Container>
+      <S.Nav>
+        <S.List>
           { links.map(({ testid, text, path }) => (
             <Link
               to={ path }
@@ -24,23 +25,23 @@ export default function BasicNavBar({ links, dataTestIds }) {
               { text }
             </Link>
           )) }
-        </ul>
-      </nav>
-      <div>
-        <h1
+        </S.List>
+      </S.Nav>
+      <S.RightSide>
+        <S.Title
           data-testid={ dataTestIds.name }
         >
           { localStorageUser().name }
-        </h1>
-        <button
+        </S.Title>
+        <S.Logout
           data-testid={ dataTestIds.button }
           onClick={ logout }
           type="button"
         >
           Sair
-        </button>
-      </div>
-    </header>
+        </S.Logout>
+      </S.RightSide>
+    </S.Container>
   );
 }
 
