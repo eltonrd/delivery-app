@@ -9,6 +9,7 @@ import {
   localStorageUser,
 } from '../utils/localStorage/localStorage';
 import * as S from '../styles/login';
+import * as H from '../styles/loginHeader';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -43,7 +44,15 @@ export default function Login() {
   if (!localStorageUser()) {
     return (
       <>
-        <header>Eu sou o header</header>
+        <H.Container>
+          <H.Title>
+            Até as 17h Delivery App
+          </H.Title>
+          <H.Theme htmlFor="theme">
+            <input type="checkbox" role="switch" name="theme-hanlder" id="theme" />
+            <span />
+          </H.Theme>
+        </H.Container>
         <S.Container>
           <S.Form>
             <S.Label htmlFor="login-input">
