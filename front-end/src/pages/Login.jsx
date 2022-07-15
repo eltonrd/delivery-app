@@ -34,7 +34,8 @@ export default function Login() {
     const userInfo = await login(email, password);
 
     if (!userInfo) {
-      return toast.error('Email ou senha inválidos!');
+      return toast.error('Email ou senha inválidos!',
+        { theme: 'dark', position: 'top-center' });
     }
 
     const { user, token } = userInfo;
@@ -74,7 +75,7 @@ export default function Login() {
                 onClick={ () => setReveal(!reveal) }
               >
                 {
-                  reveal ? <IoEyeOffOutline /> : <IoEyeOutline />
+                  reveal ? <IoEyeOutline /> : <IoEyeOffOutline />
                 }
               </S.RevealPassword>
             </S.Label>
