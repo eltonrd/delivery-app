@@ -10,6 +10,8 @@ import {
 } from '../utils/localStorage/localStorage';
 import * as S from '../styles/login';
 import * as H from '../styles/loginHeader';
+import Footer from '../styles/loginFooter';
+import githubLink from '../utils/social';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -101,7 +103,16 @@ export default function Login() {
             </S.SignupButton>
           </S.Form>
         </S.Container>
-        <footer>Eu sou o footer</footer>
+        <Footer>
+          <span>Concluído antes das 17h pelo grupo</span>
+          {
+            githubLink.map(({ src, name }, i) => (
+              <a target="_blank" href={ src } key={ i } rel="noreferrer">
+                { name }
+              </a>
+            ))
+          }
+        </Footer>
       </>
     );
   }
