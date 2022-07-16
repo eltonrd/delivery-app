@@ -114,6 +114,7 @@ export const Currency = styled.p`
 
 export const CartButtonContainer = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 export const CartButtonLeft = styled.button`
@@ -232,6 +233,5 @@ export const ProductSection = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  /* height: 110vh; */
   width: 100%;
 `;

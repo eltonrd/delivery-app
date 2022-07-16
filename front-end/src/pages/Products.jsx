@@ -3,7 +3,7 @@ import { getProducts } from '../utils/api/service';
 import CartButton from '../components/CartButton';
 import ProductCard from '../components/ProductCard';
 import CustomerNavBar from '../components/CustomerNavBar';
-import { ProductSection } from '../styles/productCard';
+import { ProductSection, CartButtonContainer } from '../styles/productCard';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -27,7 +27,9 @@ export default function Products() {
           <ProductCard product={ product } key={ `${product.name}-${product.id}` } />
         )) }
       </ProductSection>
-      <CartButton />
+      <CartButtonContainer>
+        <CartButton />
+      </CartButtonContainer>
     </div>
   );
 }
