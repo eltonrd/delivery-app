@@ -5,6 +5,7 @@ import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import CheckoutTable from '../components/CheckoutTable';
 import CustomerNavBar from '../components/CustomerNavBar';
+import * as S from '../styles/checkout';
 
 export default function Checkout() {
   const { cart } = useContext(CustomerContext);
@@ -15,21 +16,21 @@ export default function Checkout() {
   };
 
   return (
-    <div>
+    <>
       <CustomerNavBar />
-      <section>
-        <h1>Finalizar Pedido</h1>
+      <S.Container>
+        <S.OrderTitle>Finalizar Pedido</S.OrderTitle>
         <CheckoutTable />
-        <h1>
+        <S.OrderTotal>
           Total: R$
           <span
             data-testid="customer_checkout__element-order-total-price"
           >
             { getTotalPrice() }
           </span>
-        </h1>
-      </section>
+        </S.OrderTotal>
+      </S.Container>
       <AddressForm />
-    </div>
+    </>
   );
 }
