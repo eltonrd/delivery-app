@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   align-items: center;
-  border: solid 2px red;
   display: flex;
   flex-direction: column;
   height: 220px;
@@ -81,7 +80,6 @@ export const ProductQuantity = styled.input`
 
 export const ProductSection = styled.section`
   align-items: center;
-  border: solid 2px green;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;

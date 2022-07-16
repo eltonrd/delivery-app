@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
+  border-bottom: solid 1px black;
   display: flex;
   justify-content: space-evenly;
   height: 70px;
@@ -29,7 +30,7 @@ export const RightSide = styled.div`
 export const Title = styled.h1`
   font-size: 25px;
   font-weight: bold;
-  margin-right: 15px;
+  margin-right: 30px;
 `;
 
 export const Logout = styled.button`
@@ -39,7 +40,7 @@ export const Logout = styled.button`
   color: #fff;
   font-size: 20px;
   height: 30px;
-  margin-left: 15px;
+  margin-left: 30px;
   width: 150px;
 
   &:hover {

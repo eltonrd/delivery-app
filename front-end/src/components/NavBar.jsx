@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import * as S from '../styles/productNavBar';
+import Switch from './Switch';
 
 export default function BasicNavBar({ links, dataTestIds }) {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export default function BasicNavBar({ links, dataTestIds }) {
           Sair
         </S.Logout>
       </S.RightSide>
+      <Switch />
     </S.Container>
   );
 }
