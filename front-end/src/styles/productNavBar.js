@@ -5,6 +5,7 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-evenly;
   height: 70px;
+  margin-bottom: 20px;
 `;
 
 export const Nav = styled.nav`

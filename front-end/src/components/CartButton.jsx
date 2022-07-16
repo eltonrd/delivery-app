@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerContext from '../context/CustomerContext';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
+import Button from '../styles/cartButton';
 
 export default function CartButton() {
   const { cart } = useContext(CustomerContext);
@@ -20,7 +21,7 @@ export default function CartButton() {
   }, [cart]);
 
   return (
-    <button
+    <Button
       data-testid="customer_products__button-cart"
       disabled={ cart.length === 0 }
       onClick={ () => navigate('/customer/checkout') }
@@ -32,6 +33,6 @@ export default function CartButton() {
       >
         { total }
       </span>
-    </button>
+    </Button>
   );
 }

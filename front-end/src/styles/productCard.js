@@ -85,6 +85,6 @@ export const ProductSection = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  height: 120vh;
+  height: 110vh;
   width: 100%;
 `;
