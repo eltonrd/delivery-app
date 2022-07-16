@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import CustomerContext from '../context/CustomerContext';
 import priceToReal from '../utils/helpers/priceToReal';
+import * as S from '../styles/productCard';
 
 export default function ProductCard({ product }) {
   const { id, name, urlImage, price } = product;
@@ -59,48 +60,50 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div>
-      <img
+    <S.Container>
+      <S.Img
         alt={ name }
         data-testid={ `customer_products__img-card-bg-image-${id}` }
         src={ urlImage }
         width={ 50 }
       />
-      <span
+      <S.Description
         data-testid={ `customer_products__element-card-title-${id}` }
       >
         { name }
-      </span>
-      <p>
+      </S.Description>
+      <S.Currency>
         R$
         <span
           data-testid={ `customer_products__element-card-price-${id}` }
         >
           { priceToReal(price) }
         </span>
-      </p>
-      <button
-        data-testid={ `customer_products__button-card-rm-item-${id}` }
-        type="button"
-        onClick={ removeFromCart }
-      >
-        -
-      </button>
-      <input
+      </S.Currency>
+      <S.ProductQuantity
         data-testid={ `customer_products__input-card-quantity-${id}` }
         onChange={ handleQuantity }
         placeholder="0"
         type="number"
         value={ quantity }
       />
-      <button
-        data-testid={ `customer_products__button-card-add-item-${id}` }
-        type="button"
-        onClick={ addToCart }
-      >
-        +
-      </button>
-    </div>
+      <S.CartButtonContainer>
+        <S.CartButtonLeft
+          data-testid={ `customer_products__button-card-rm-item-${id}` }
+          type="button"
+          onClick={ removeFromCart }
+        >
+          -
+        </S.CartButtonLeft>
+        <S.CartButtonRight
+          data-testid={ `customer_products__button-card-add-item-${id}` }
+          type="button"
+          onClick={ addToCart }
+        >
+          +
+        </S.CartButtonRight>
+      </S.CartButtonContainer>
+    </S.Container>
   );
 }
 
