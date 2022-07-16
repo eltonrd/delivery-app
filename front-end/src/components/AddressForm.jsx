@@ -4,6 +4,7 @@ import CustomerContext from '../context/CustomerContext';
 import { createSale, getSellers } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import totalPrice from '../utils/helpers/totalPrice';
+import * as S from '../styles/addressForm';
 
 export default function AddressForm() {
   const [address, setAddress] = useState('');
@@ -26,7 +27,7 @@ export default function AddressForm() {
       }
     }
     fetchData();
-  }, []);
+  }, [selectValue]);
 
   useEffect(() => {
     const validateInputs = () => {
@@ -51,50 +52,52 @@ export default function AddressForm() {
   };
 
   return (
-    <section>
-      <form>
-        <label htmlFor="seller-input">
-          P.Vendedora Responsável:
-          <select
+    <>
+      <S.Container>
+        <S.Label htmlFor="seller-input">
+          P.Vendedora Responsável
+          <S.Select
             data-testid="customer_checkout__select-seller"
             id="seller-input"
             onChange={ ({ target: { value } }) => setSelectValue(value) }
           >
             {sellers.map(({ name, id }) => (
-              <option value={ id } key={ name }>{ name }</option>
+              <option value={ id } key={ name }>{name}</option>
             ))}
-          </select>
-        </label>
-        <label htmlFor="address-input">
-          Endereço:
-          <input
+          </S.Select>
+        </S.Label>
+        <S.Label htmlFor="address-input">
+          Endereço
+          <S.Input
             data-testid="customer_checkout__input-address"
             id="address-input"
             onChange={ ({ target: { value } }) => setAddress(value) }
-            placeholder="Travessa Terceira da Castanheira, Bairro Muruci"
+            placeholder="Rua abc, engenho novo"
             type="text"
             value={ address }
           />
-        </label>
-        <label htmlFor="number-input">
+        </S.Label>
+        <S.Label htmlFor="number-input">
           Número
-          <input
+          <S.Input
             data-testid="customer_checkout__input-addressNumber"
             id="number-input"
             onChange={ ({ target: { value } }) => setAddressNumber(value) }
             placeholder="198"
             type="text"
           />
-        </label>
-      </form>
-      <button
-        data-testid="customer_checkout__button-submit-order"
-        disabled={ isDisabled }
-        onClick={ handleClick }
-        type="button"
-      >
-        Finalizar Pedido
-      </button>
-    </section>
+        </S.Label>
+      </S.Container>
+      <S.FinishOrderContainer>
+        <S.FinishOrderButton
+          data-testid="customer_checkout__button-submit-order"
+          disabled={ isDisabled }
+          onClick={ handleClick }
+          type="button"
+        >
+          Finalizar Pedido
+        </S.FinishOrderButton>
+      </S.FinishOrderContainer>
+    </>
   );
 }

@@ -16,7 +16,7 @@ export const OrderTitle = styled.h1`
 
 export const OrderTotal = styled.h1`
   align-self: center;
-  background: #ada8b6;
+  background: #ddd;
   border-radius: 4px;
   color: #000;
   font-weight: 400;
