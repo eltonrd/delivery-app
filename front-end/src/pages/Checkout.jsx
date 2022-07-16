@@ -20,15 +20,17 @@ export default function Checkout() {
       <CustomerNavBar />
       <S.Container>
         <S.OrderTitle>Finalizar Pedido</S.OrderTitle>
-        <CheckoutTable />
-        <S.OrderTotal>
-          Total: R$
-          <span
-            data-testid="customer_checkout__element-order-total-price"
-          >
-            { getTotalPrice() }
-          </span>
-        </S.OrderTotal>
+        <S.TableContainer>
+          <CheckoutTable />
+          <S.OrderTotal>
+            Total: R$
+            <span
+              data-testid="customer_checkout__element-order-total-price"
+            >
+              { getTotalPrice() }
+            </span>
+          </S.OrderTotal>
+        </S.TableContainer>
       </S.Container>
       <AddressForm />
     </>

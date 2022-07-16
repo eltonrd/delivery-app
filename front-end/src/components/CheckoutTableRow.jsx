@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import priceToReal from '../utils/helpers/priceToReal';
 import CustomerContext from '../context/CustomerContext';
+import { RemoveButton } from '../styles/checkout';
 
 export default function CheckoutTableRow({ product, index }) {
   const { cart, setCart } = useContext(CustomerContext);
@@ -45,9 +46,9 @@ export default function CheckoutTableRow({ product, index }) {
       <td
         data-testid={ `customer_checkout__element-order-table-remove-${index}` }
       >
-        <button type="button" onClick={ removeItem }>
+        <RemoveButton type="button" onClick={ removeItem }>
           Remover
-        </button>
+        </RemoveButton>
       </td>
     </tr>
   );

@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { TableHead } from '../styles/checkout';
+
 export default function CheckoutTableHead() {
   return (
-    <thead>
+    <TableHead>
       <tr>
         <th>Item</th>
         <th>Descrição</th>
@@ -11,6 +13,6 @@ export default function CheckoutTableHead() {
         <th>Sub-total</th>
         <th>Remover Item</th>
       </tr>
-    </thead>
+    </TableHead>
   );
 }
