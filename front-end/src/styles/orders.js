@@ -12,7 +12,6 @@ export const Link = styled.a`
   box-shadow: 1px 1px 5px 2px #777;
   color: black;
   display: flex;
-  /* flex-direction: column; */
   font-size: 2rem;
   font-weight: bold;
   height: 5rem;
