@@ -12,7 +12,7 @@ export default function AddressForm() {
   const [selectValue, setSelectValue] = useState();
   const [isDisabled, setIsDisabled] = useState(true);
   const [sellers, setSellers] = useState([]);
-  const { cart } = useContext(CustomerContext);
+  const { cart, setCart } = useContext(CustomerContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function AddressForm() {
     };
     const { token } = localStorageUser();
     const saleId = await createSale(sale, token);
+    setCart([]);
 
     navigate(`/customer/orders/${saleId}`);
   };
