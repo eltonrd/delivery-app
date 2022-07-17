@@ -3,6 +3,7 @@ import OrderCard from '../components/OrderCard';
 import { customerOrders } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
 import CustomerNavBar from '../components/CustomerNavBar';
+import { Container } from '../styles/orders';
 
 export default function CustomerOrders() {
   const [userOrders, setUserOrders] = useState([]);
@@ -21,11 +22,11 @@ export default function CustomerOrders() {
   return (
     <>
       <CustomerNavBar />
-      <div>
+      <Container>
         {
           userOrders.map((order, index) => <OrderCard key={ index } order={ order } />)
         }
-      </div>
+      </Container>
     </>
   );
 }
