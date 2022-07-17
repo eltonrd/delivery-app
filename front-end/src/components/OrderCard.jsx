@@ -20,7 +20,7 @@ export default function OrderCard({ order }) {
       >
         { order.status }
       </p>
-      <div>
+      <S.OrderInfo>
         <p
           data-testid={ `customer_orders__element-order-date-${order.id}` }
         >
@@ -31,7 +31,7 @@ export default function OrderCard({ order }) {
         >
           { priceToReal(order.totalPrice, true) }
         </p>
-      </div>
+      </S.OrderInfo>
     </S.Link>
   );
 }
