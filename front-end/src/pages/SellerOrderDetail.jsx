@@ -11,6 +11,7 @@ import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import SellerNavBar from '../components/SellerNavBar';
 import SellerDetailsTable from '../components/SellerDetailsTable';
+import * as S from '../styles/sellerOrderDetails';
 
 export default function SellerOrderDetail() {
   const [order, setOrder] = useState({});
@@ -57,47 +58,49 @@ export default function SellerOrderDetail() {
   return (
     <>
       <SellerNavBar />
+      <S.Details>Detalhe do Pedido</S.Details>
       <section>
-        <h1>Detalhe do Pedido</h1>
         {
           showTable
           && (
-            <div>
-              <div data-testid={ `${TEST_ID_PREFIX}order-id` }>
-                { order.id }
-              </div>
-              <div data-testid={ `${TEST_ID_PREFIX}order-date` }>
-                { format(new Date(order.saleDate), 'dd/MM/yyyy') }
-              </div>
-              <div data-testid={ `${TEST_ID_PREFIX}delivery-status` }>
-                { order.status }
-              </div>
-              <button
-                data-testid="seller_order_details__button-preparing-check"
-                disabled={ order.status !== 'Pendente' }
-                onClick={ preparing }
-                type="button"
-              >
-                PREPARAR PEDIDO
-              </button>
-              <button
-                data-testid="seller_order_details__button-dispatch-check"
-                disabled={ order.status !== 'Preparando' }
-                onClick={ dispatch }
-                type="button"
-              >
-                SAIU PARA ENTREGA
-              </button>
+            <S.OrderContainer>
+              <S.LeftSide>
+                <span data-testid={ `${TEST_ID_PREFIX}order-id` }>
+                  { `Id: ${order.id}` }
+                </span>
+                <span data-testid={ `${TEST_ID_PREFIX}order-date` }>
+                  { format(new Date(order.saleDate), 'dd/MM/yyyy') }
+                </span>
+                <span data-testid={ `${TEST_ID_PREFIX}delivery-status` }>
+                  { order.status }
+                </span>
+                <S.Button
+                  data-testid="seller_order_details__button-preparing-check"
+                  disabled={ order.status !== 'Pendente' }
+                  onClick={ preparing }
+                  type="button"
+                >
+                  PREPARAR PEDIDO
+                </S.Button>
+                <S.Button
+                  data-testid="seller_order_details__button-dispatch-check"
+                  disabled={ order.status !== 'Preparando' }
+                  onClick={ dispatch }
+                  type="button"
+                >
+                  SAIU PARA ENTREGA
+                </S.Button>
+              </S.LeftSide>
               <SellerDetailsTable cart={ order.products } />
-              <h1>
+              <S.Price>
                 Total: R$
                 <span
                   data-testid="seller_order_details__element-order-total-price"
                 >
                   { getTotalPrice() }
                 </span>
-              </h1>
-            </div>
+              </S.Price>
+            </S.OrderContainer>
           )
         }
       </section>

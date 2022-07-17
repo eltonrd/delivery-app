@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DetailsTableHead from './DetailsTableHead';
 import SellerDetailsTableRow from './SellerDetailsTableRow';
+import { Table } from '../styles/sellerOrderDetails';
 
 export default function DetailsTable({ cart }) {
   return (
-    <table>
+    <Table>
       <DetailsTableHead />
       <tbody>
         { cart.map((product, index) => (
@@ -16,7 +17,7 @@ export default function DetailsTable({ cart }) {
           />
         )) }
       </tbody>
-    </table>
+    </Table>
   );
 }
 
