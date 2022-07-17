@@ -3,6 +3,7 @@ import { localStorageUser } from '../utils/localStorage/localStorage';
 import { getSellerOrders } from '../utils/api/service';
 import SellerNavBar from '../components/SellerNavBar';
 import SellerOrderCard from '../components/SellerOrderCard';
+import { Container } from '../styles/sellerOrders';
 
 export default function SellerOrders() {
   const [orders, setOrders] = useState([]);
@@ -23,13 +24,13 @@ export default function SellerOrders() {
   return (
     <>
       <SellerNavBar />
-      <section>
+      <Container>
         {
           orders.map((order, index) => (
             <SellerOrderCard key={ index } order={ order } />
           ))
         }
-      </section>
+      </Container>
     </>
   );
 }
