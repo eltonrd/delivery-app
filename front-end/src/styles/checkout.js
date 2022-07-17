@@ -90,7 +90,6 @@ export const TableContainer = styled.div`
 `;
 
 export const Table = styled.table`
-  align-self: center;
   margin-top: 0.5rem;
   width: 100%;
 `;

@@ -7,6 +7,7 @@ import { getCustomerOrderById, markAsDelivered } from '../utils/api/service';
 import priceToReal from '../utils/helpers/priceToReal';
 import totalPrice from '../utils/helpers/totalPrice';
 import CustomerNavBar from '../components/CustomerNavBar';
+import * as S from '../styles/customerOrderDetails';
 
 export default function CustomerOrderDetail() {
   const [order, setOrder] = useState({});
@@ -48,42 +49,44 @@ export default function CustomerOrderDetail() {
   return (
     <>
       <CustomerNavBar />
+      <S.Details>Detalhe do Pedido</S.Details>
       <section>
-        <h1>Detalhe do Pedido</h1>
         {
           showTable
           && (
-            <div>
-              <div data-testid={ `${data}order-id` }>
-                { order.id }
-              </div>
-              <div data-testid={ `${data}seller-name` }>
-                { order.seller.name }
-              </div>
-              <div data-testid={ `${data}order-date` }>
-                { format(new Date(order.saleDate), 'dd/MM/yyyy') }
-              </div>
-              <div data-testid={ `${data}delivery-status` }>
-                { order.status }
-              </div>
-              <button
-                data-testid="customer_order_details__button-delivery-check"
-                disabled={ order.status !== 'Em Trânsito' }
-                onClick={ delivered }
-                type="button"
-              >
-                Marcar como entregue
-              </button>
+            <S.OrderContainer>
+              <S.CompanyInfo>
+                <S.OrderId data-testid={ `${data}order-id` }>
+                  { `Pedido ${order.id}` }
+                </S.OrderId>
+                <div data-testid={ `${data}seller-name` }>
+                  { order.seller.name }
+                </div>
+                <div data-testid={ `${data}order-date` }>
+                  { format(new Date(order.saleDate), 'dd/MM/yyyy') }
+                </div>
+                <div data-testid={ `${data}delivery-status` }>
+                  { order.status }
+                </div>
+                <S.DeliveryButton
+                  data-testid="customer_order_details__button-delivery-check"
+                  disabled={ order.status !== 'Em Trânsito' }
+                  onClick={ delivered }
+                  type="button"
+                >
+                  Marcar como entregue
+                </S.DeliveryButton>
+              </S.CompanyInfo>
               <DetailsTable cart={ order.products } />
-              <h1>
+              <S.Price>
                 Total: R$
                 <span
                   data-testid="customer_order_details__element-order-total-price"
                 >
                   { getTotalPrice() }
                 </span>
-              </h1>
-            </div>
+              </S.Price>
+            </S.OrderContainer>
           )
         }
       </section>
