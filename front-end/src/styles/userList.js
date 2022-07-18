@@ -46,7 +46,7 @@ export const DeleteUserButton = styled.button`
   color: #fff;
   font-size: 1.25rem;
   height: 1.5rem;
-  width: 5.5rem;
+  width: 6.5rem;
 
   @media(max-width: 440px) {
     font-size: 0.6rem;
