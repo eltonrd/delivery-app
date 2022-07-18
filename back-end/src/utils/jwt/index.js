@@ -1,8 +1,9 @@
-const { readFileSync } = require('fs');
+require('dotenv/config');
+
 const jwt = require('jsonwebtoken');
 
-const SECRET = readFileSync('jwt.evaluation.key', 'utf-8');
-const CONFIG = { expiresIn: '2440h', algorithm: 'HS256' };
+const SECRET = process.env.JWT_SECRET;
+const CONFIG = { algorithm: 'HS256' };
 
 const generateToken = ({ name, email, role }) => jwt.sign({ name, email, role }, SECRET, CONFIG);
 
