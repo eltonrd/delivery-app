@@ -4,7 +4,6 @@ const { verifyToken } = require('../utils/jwt');
 
 const emailMiddleware = (req, res, next) => {
   const { email } = req.body;
-  console.log(req.body);
   const { error } = emailSchema.validate({ email });
   if (error) {
     const [status, message] = error.message.split('/');
