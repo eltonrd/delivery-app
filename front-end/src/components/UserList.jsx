@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { deleteById } from '../utils/api/service';
 import { localStorageUser } from '../utils/localStorage/localStorage';
+import * as S from '../styles/userList';
 
 export default function UserList({ update, users }) {
   const deleteUser = async (id) => {
@@ -11,45 +12,49 @@ export default function UserList({ update, users }) {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Nome</th>
-          <th>E-mail</th>
-          <th>Tipo</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          users.map((user, index) => (
-            <tr key={ user.id }>
-              <td data-testid={ `admin_manage__element-user-table-item-number-${index}` }>
-                { index + 1 }
-              </td>
-              <td data-testid={ `admin_manage__element-user-table-name-${index}` }>
-                { user.name }
-              </td>
-              <td data-testid={ `admin_manage__element-user-table-email-${index}` }>
-                { user.email }
-              </td>
-              <td data-testid={ `admin_manage__element-user-table-role-${index}` }>
-                { user.role }
-              </td>
-              <td data-testid={ `admin_manage__element-user-table-remove-${index}` }>
-                <button
-                  onClick={ () => deleteUser(user.id) }
-                  type="button"
+    <S.Container>
+      <S.Table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            users.map((user, index) => (
+              <tr key={ user.id }>
+                <td
+                  data-testid={ `admin_manage__element-user-table-item-number-${index}` }
                 >
-                  EXCLUIR
-                </button>
-              </td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+                  { index + 1 }
+                </td>
+                <td data-testid={ `admin_manage__element-user-table-name-${index}` }>
+                  { user.name }
+                </td>
+                <td data-testid={ `admin_manage__element-user-table-email-${index}` }>
+                  { user.email }
+                </td>
+                <td data-testid={ `admin_manage__element-user-table-role-${index}` }>
+                  { user.role }
+                </td>
+                <td data-testid={ `admin_manage__element-user-table-remove-${index}` }>
+                  <S.DeleteUserButton
+                    onClick={ () => deleteUser(user.id) }
+                    type="button"
+                  >
+                    EXCLUIR
+                  </S.DeleteUserButton>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </S.Table>
+    </S.Container>
   );
 }
 
